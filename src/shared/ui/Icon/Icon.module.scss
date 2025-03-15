@@ -1,0 +1,16 @@
+.icon {
+	height: fit-content;
+	fill: var(--text);
+
+	&.isonL {
+		width: 20px;
+	}
+
+	&.isonM {
+		width: 14px;
+	}
+
+	&.isonS {
+		width: 12px;
+	}
+}

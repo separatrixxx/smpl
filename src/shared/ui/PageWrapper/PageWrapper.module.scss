@@ -1,0 +1,6 @@
+$padding: 10px;
+
+.pageWrapper {
+	width: calc(100% - #{$padding * 2});
+	padding: $padding;
+}

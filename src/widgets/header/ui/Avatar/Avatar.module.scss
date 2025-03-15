@@ -1,0 +1,22 @@
+@use '../../../../app/shared';
+
+$avatar-size: 32px;
+
+.avatar {
+	overflow: hidden;
+
+	width: $avatar-size;
+	height: $avatar-size;
+
+	cursor: pointer;
+
+	border-radius: $avatar-size;
+	object-fit: cover;
+
+	@include shared.transition(filter);
+	@include shared.brightness();
+
+	img {
+		user-select: none;
+	}
+}

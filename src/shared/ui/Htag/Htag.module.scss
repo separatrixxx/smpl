@@ -1,0 +1,22 @@
+$m-size: 14px;
+$m-weight: 600;
+
+@mixin common-htag {
+	width: fit-content;
+	margin: 0;
+
+	color: var(--text);
+
+	font-family: 'Roboto', sans-serif;
+	font-style: normal;
+}
+
+.m {
+	@include common-htag;
+}
+
+.m {
+	font-size: $m-size;
+	font-weight: $m-weight;
+	line-height: $m-size + 6px;
+}
