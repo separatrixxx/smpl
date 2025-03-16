@@ -1,0 +1,19 @@
+$gap: 8px;
+
+.calendarBadge {
+    display: grid;
+    gap: $gap;
+    align-items: center;
+    width: fit-content;
+    grid-template-columns: auto 1fr;
+    justify-items: left;
+
+    div {
+        display: grid;
+        justify-items: left;
+
+        h2 {
+            line-height: 14px;
+        }
+    }
+}

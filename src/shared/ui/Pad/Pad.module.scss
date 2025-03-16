@@ -1,0 +1,25 @@
+$padding-x: 18px;
+$padding-y: 16px;
+$radius: 12px;
+$gap: 4px;
+
+.pad {
+	display: grid;
+	width: calc(100% - #{$padding-x * 2});
+	padding: $padding-y $padding-x;
+	gap: $gap;
+    border-radius: $radius;
+    background: var(--second-bg);
+    position: relative;
+    overflow: hidden;
+}
+
+.padLogo {
+    width: 210px;
+    fill: var(--primary) !important;
+    opacity: 0.1;
+    position: absolute;
+    bottom: -56px;
+    right: -24px;
+}
+

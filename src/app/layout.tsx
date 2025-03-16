@@ -19,6 +19,15 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   title: ".smpl",
   description: ".smpl",
+  icons: {
+    icon: '/icons/favicon.svg',
+    shortcut: '/icon-192x192.png',
+    apple: '/icon-192x192.png',
+    other: {
+      rel: 'icon',
+      url: '/icon-512x512.png',
+    },
+  },
 };
 
 export default function RootLayout({

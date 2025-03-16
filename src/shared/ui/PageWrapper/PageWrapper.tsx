@@ -5,8 +5,8 @@ import { ReactElement } from "react";
 
 export const PageWrapper = ({ children }: PageWrapperProps): ReactElement => {
     return (
-        <div className={styles.pageWrapper}>
+        <main className={styles.pageWrapper}>
             {children}
-        </div>
+        </main>
     );
 }
