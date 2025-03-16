@@ -1,11 +1,9 @@
 $l-size: 20px;
 $l-weight: 500;
 $l-height: 4px;
-
 $m-size: 14px;
 $m-weight: 600;
 $m-height: 6px;
-
 $s-size: 10px;
 $s-weight: 500;
 $s-height: 2px;
@@ -13,18 +11,16 @@ $s-height: 2px;
 @mixin common-htag {
 	width: fit-content;
 	margin: 0;
-
 	color: var(--text);
-
 	font-style: normal;
 }
 
 @mixin roboto-htag {
-	font-family: 'Roboto', sans-serif;
+	font-family: Roboto, sans-serif;
 }
 
 @mixin montserrat-htag {
-	font-family: 'Montserrat', sans-serif;
+	font-family: Montserrat, sans-serif;
 }
 
 .l,
@@ -37,6 +33,7 @@ $s-height: 2px;
 	font-size: $l-size;
 	font-weight: $l-weight;
 	line-height: $l-size + $l-height;
+
 	@include montserrat-htag;
 }
 
@@ -44,13 +41,15 @@ $s-height: 2px;
 	font-size: $m-size;
 	font-weight: $m-weight;
 	line-height: $m-size + $m-height;
+
 	@include roboto-htag;
 }
 
 .s {
+	color: var(--hint);
 	font-size: $s-size;
 	font-weight: $s-weight;
 	line-height: $s-size + $s-height;
-	color: var(--hint);
+
 	@include roboto-htag;
 }

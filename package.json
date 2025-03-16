@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "check": "next lint && next build"
+    "stylelint": "stylelint \"**/*.scss\" --fix",
+    "check": "stylelint \"**/*.scss\" --fix && next lint && next build"
   },
   "dependencies": {
     "next": "15.1.7",
@@ -25,7 +26,13 @@
     "date-fns": "^4.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "postcss": "^8.5.3",
+    "postcss-scss": "^4.0.9",
     "sass": "^1.85.1",
+    "stylelint": "^16.16.0",
+    "stylelint-config-standard-scss": "^14.0.0",
+    "stylelint-order": "^6.0.4",
+    "stylelint-scss": "^6.11.1",
     "typescript": "^5"
   }
 }

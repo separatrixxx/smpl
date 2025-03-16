@@ -2,23 +2,16 @@ html,
 body {
 	margin: 0;
 	padding: 0;
-
-	-webkit-user-select: auto;
-	-moz-user-select: auto;
-	-ms-user-select: auto;
 	user-select: auto;
-
 	background: var(--bg);
-
-	font-family: 'Roboto', sans-serif;
-	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	font-family: Roboto, sans-serif;
+	-webkit-tap-highlight-color: rgb(255 255 255 / 0%);
 	-webkit-tap-highlight-color: transparent;
 }
 
 ::-moz-focus-outer,
 ::-moz-focus-inner {
 	padding: 0;
-
 	border: 0;
 }
 
@@ -40,7 +33,7 @@ a {
 	text-decoration: none;
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
 	::-webkit-scrollbar {
 		width: 5px;
 		height: 5px;

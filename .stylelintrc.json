@@ -1,0 +1,41 @@
+{
+	"extends": "stylelint-config-standard-scss",
+	"plugins": [
+		"stylelint-scss",
+		"stylelint-order"
+	],
+	"rules": {
+		"selector-class-pattern": "^[a-z][a-zA-Z0-9]*$",
+		"declaration-block-no-redundant-longhand-properties": [
+			true,
+			{
+				"ignoreShorthands": [
+					"/grid/"
+				]
+			}
+		],
+		"order/order": [
+			"custom-properties",
+			"dollar-variables",
+			"declarations",
+			"rules",
+			"at-rules"
+		],
+		"order/properties-order": [
+			"position",
+			"top",
+			"right",
+			"bottom",
+			"left",
+			"display",
+			"width",
+			"height",
+			"margin",
+			"padding",
+			"color",
+			"background",
+			"font-size",
+			"border"
+		]
+	}
+}

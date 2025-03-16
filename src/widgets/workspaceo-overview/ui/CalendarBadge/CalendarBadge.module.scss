@@ -3,10 +3,9 @@ $gap: 8px;
 .calendarBadge {
     display: grid;
     gap: $gap;
-    align-items: center;
+    place-items: center left;
     width: fit-content;
     grid-template-columns: auto 1fr;
-    justify-items: left;
 
     div {
         display: grid;
