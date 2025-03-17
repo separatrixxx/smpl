@@ -5,10 +5,10 @@ import { Avatar } from '../Avatar/Avatar';
 import { SwitchWorkspace } from '../SwitchWorkspace/SwitchWorkspace';
 
 
-export const Header = ({ isAvatar }: HeaderProps): ReactElement => {
+export const Header = ({ currWorkspaceId, isAvatar }: HeaderProps): ReactElement => { 
     return (
         <header className={styles.header}>
-            <SwitchWorkspace />
+            <SwitchWorkspace currWorkspaceId={currWorkspaceId} />
             {
                 isAvatar ? 
                     <Avatar />

@@ -1,20 +1,21 @@
-import { useEffect } from "react";
-import { useSetup } from "@/shared/hooks/useSetup";
-import { getFromStorage } from "@/shared/utils/storage/storage";
+import { useEffect } from 'react';
+import { useSetup } from '@/shared/hooks/useSetup';
+import { getFromStorage } from '@/shared/utils/storage/storage';
 
 
 export const useWorkspaceRedirect = () => {
   const { router } = useSetup();
 
-  const WORKSPACE_KEY = "currentWorkspace";
+  const WORKSPACE_KEY = 'currentWorkspace';
 
   useEffect(() => {
     const workspace = getFromStorage(WORKSPACE_KEY);
+    console.log(workspace)
 
     if (workspace) {
-      
+      router.push('/workspace/' + workspace);
     } else {
-      router.push("/my-workspace");
+      router.push('/my-workspace');
     }
   }, [router]);
 };

@@ -3,10 +3,10 @@ import { Icon } from "../../Icon/Icon";
 import { Pad } from "../Pad";
 
 
-export const withLogoPad = (Component: React.ComponentType) => {
-    const WithLogoPad = () => (
+export const withLogoPad = <P extends object>(Component: React.ComponentType<P>) => {
+    const WithLogoPad = (props: P) => (
         <Pad>
-            <Component />
+            <Component {...props} />
             <Icon type='logo' className={styles.padLogo} />
         </Pad>
     );

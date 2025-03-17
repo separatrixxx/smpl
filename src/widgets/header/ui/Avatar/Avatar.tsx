@@ -5,23 +5,28 @@ import Image from 'next/image';
 import { useSetup } from '@/shared/hooks/useSetup';
 import { avatarPlaceholder } from '@/shared/utils/placeholder/placeholder';
 import Link from 'next/link';
+import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 
 
 export const Avatar = (): ReactElement => {
     const { tgUser } = useSetup();
 
     const avatarImage = tgUser?.photo_url || avatarPlaceholder;
+    const isAvatarReady = Boolean(tgUser?.photo_url);
+    const ariaLabel = 'profile link';
 
     return (
-        <Link href='/profile' className={styles.avatar} aria-label='profile link'>
-            <Image draggable='false'
-                loader={() => avatarImage}
-                src={avatarImage}
-                alt='avatar image'
-                width={32}
-                height={32}
-                unoptimized={true}
-            />
-        </Link>
+        <Skeleton width={32} height={32} isReady={isAvatarReady} isRound={true}
+            ariaLabel={ariaLabel}>
+            <Link href='/profile' className={styles.avatar} aria-label={ariaLabel}>
+                <Image draggable='false'
+                    src={avatarImage}
+                    alt='avatar image'
+                    width={32}
+                    height={32}
+                    unoptimized={true}
+                />
+            </Link>
+        </Skeleton>
     );
 }

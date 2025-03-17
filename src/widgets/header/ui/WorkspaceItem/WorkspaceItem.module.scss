@@ -1,0 +1,20 @@
+$padding: 12px;
+
+.workspaceItem {
+    overflow: hidden;
+    width: 100%;
+    cursor: pointer;
+
+    h2 {
+		overflow: hidden;
+		max-width: 100%;
+		user-select: none;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+    }
+
+    &:not(:last-child) {
+        border-bottom: 2px solid var(--second-bg);
+        padding-bottom: $padding;
+    }
+}

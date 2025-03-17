@@ -3,18 +3,29 @@
 $outline-width: 2px;
 
 .switchWorkspace {
-	display: grid;
-	place-items: center left;
-	width: 40%;
-	height: 40px;
-	padding: 0 24px;
-	cursor: pointer;
-	border-radius: 40px;
-	outline: $outline-width solid var(--second-bg);
-	outline-offset: -$outline-width;
-	background: var(--section);
-	grid-template-columns: auto 1fr;
-	gap: 12px;
+	position: relative;
+	width: 60%;
+	z-index: 2;
+
+	.currentWorkspace {
+		position: relative;
+		z-index: 11;
+		display: grid;
+		place-items: center left;
+		width: calc(100% - 48px);
+		height: 40px;
+		padding: 0 24px;
+		cursor: pointer;
+		border-radius: 40px;
+		outline: $outline-width solid var(--second-bg);
+		outline-offset: -$outline-width;
+		background: var(--section);
+		grid-template-columns: auto 1fr;
+		gap: 12px;
+
+		@include shared.transition(filter);
+		@include shared.brightness;
+	}
 
 	h2 {
 		overflow: hidden;
@@ -24,6 +35,11 @@ $outline-width: 2px;
 		text-overflow: ellipsis;
 	}
 
-	@include shared.transition(filter);
-	@include shared.brightness;
+	.chevronIcon {
+		@include shared.transition(transform);
+	}
+
+	.rotateChevron {
+		transform: rotate(180deg);
+	}
 }

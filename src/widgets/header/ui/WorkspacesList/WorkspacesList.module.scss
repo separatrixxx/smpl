@@ -1,0 +1,16 @@
+$gap: 12px;
+
+.workspacesList {
+    position: absolute;
+    top: calc(100% - 16px);
+    display: grid;
+    width: calc(100% - 48px);
+    padding: 28px 24px;
+    background: var(--section);
+    gap: $gap;
+    border-radius: 20px;
+    justify-items: left;
+    z-index: 10;
+    overflow-y: scroll;
+    max-height: 200px;
+}

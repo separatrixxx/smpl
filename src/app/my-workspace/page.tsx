@@ -9,8 +9,8 @@ export default function MyWorkspace() {
 
     return (
         <PageWrapper>
-            <Header isAvatar={true} />
-            <WorkspaceOverviewWithPad />
+            <Header currWorkspaceId={0} isAvatar={true} />
+            <WorkspaceOverviewWithPad completed={3} total={10} />            
         </PageWrapper>
     );
 }

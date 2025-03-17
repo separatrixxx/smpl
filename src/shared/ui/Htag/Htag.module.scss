@@ -1,5 +1,8 @@
-$l-size: 20px;
-$l-weight: 500;
+$xl-size: 20px;
+$xl-weight: 500;
+$xl-height: 4px;
+$l-size: 18px;
+$l-weight: 400;
 $l-height: 4px;
 $m-size: 14px;
 $m-weight: 600;
@@ -23,10 +26,19 @@ $s-height: 2px;
 	font-family: Montserrat, sans-serif;
 }
 
+.xl,
 .l,
 .m,
 .s {
 	@include common-htag;
+}
+
+.xl {
+	font-size: $xl-size;
+	font-weight: $xl-weight;
+	line-height: $xl-size + $xl-height;
+
+	@include montserrat-htag;
 }
 
 .l {
@@ -34,7 +46,7 @@ $s-height: 2px;
 	font-weight: $l-weight;
 	line-height: $l-size + $l-height;
 
-	@include montserrat-htag;
+	@include roboto-htag;
 }
 
 .m {

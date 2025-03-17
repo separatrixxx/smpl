@@ -1,0 +1,26 @@
+$radius: 8px;
+
+.skeleton {
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	border-radius: $radius;
+	background: color-mix(in srgb, var(--second-bg), black 30%);
+
+	&.sizeS {
+		border-radius: $radius - 2px;
+	}
+
+	&.skeletonRound {
+		border-radius: 50%;
+	}
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 0.5;
+	}
+
+	50% {
+		opacity: 0.3;
+	}
+}

@@ -1,10 +1,10 @@
 import { Pad } from "../Pad";
 
 
-export const withPad = (Component: React.ComponentType) => {
-    const WithPad = () => (
+export const withPad = <P extends object>(Component: React.ComponentType<P>) => {
+    const WithPad = (props: P) => (
         <Pad>
-            <Component />
+            <Component {...props} />
         </Pad>
     );
 
