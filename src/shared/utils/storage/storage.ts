@@ -1,20 +1,18 @@
-const storage = localStorage;
-
 export const saveToStorage = (key: string, value: string) => {
     if (typeof window !== "undefined") {
-        storage.setItem(key, value);
+        localStorage.setItem(key, value);
     }
 };
 
 export const removeFromStorage = (key: string) => {
     if (typeof window !== "undefined") {
-        storage.removeItem(key);
+        localStorage.removeItem(key);
     }
 };
 
 export const getFromStorage = (key: string): string | null => {
     if (typeof window !== "undefined") {
-        return storage.getItem(key);
+        return localStorage.getItem(key);
     }
     
     return null;
