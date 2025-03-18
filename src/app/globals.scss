@@ -33,7 +33,7 @@ a {
 	text-decoration: none;
 }
 
-@media (width <= 480px) {
+@media (width <=480px) {
 	::-webkit-scrollbar {
 		width: 5px;
 		height: 5px;
@@ -41,7 +41,7 @@ a {
 }
 
 $fallback-bg: #FFF;
-$fallback-second-bg: #F8F8F8;
+$fallback-second-bg: #F4F4F5;
 $fallback-section: #FFF;
 $fallback-text: #000;
 $fallback-hint: #696969;
@@ -49,7 +49,7 @@ $fallback-hint: #696969;
 :root {
 	--primary: #FF5834;
 	--bg: var(--tg-theme-bg-color, #{$fallback-bg});
-	--second-bg: var(--tg-theme-secondary-bg-color, #{$fallback-second-bg});
+	--second-bg: color-mix(in srgb, var(--tg-theme-secondary-bg-color, #{$fallback-second-bg}), var(--bg) 35%);
 	--section: var(--tg-theme-section-bg-color, #{$fallback-section});
 	--text: var(--tg-theme-text-color, #{$fallback-text});
 	--hint: var(--tg-theme-hint-color, #{$fallback-hint});
