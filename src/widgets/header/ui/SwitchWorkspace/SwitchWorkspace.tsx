@@ -73,7 +73,7 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
                         [styles.rotateChevron]: isListVisible,
                     })}
                 />
-                <Skeleton width={100} height={20} isReady={!isWorkspacesLoading} ariaLabel='current workspace title'>
+                <Skeleton width={100} height={20} isReady={!isWorkspacesLoading}>
                     <Htag tag='m'>
                         {currWorkspace?.isMyWorkspace
                             ? getLocaleText(tgUser?.language_code, 'my_workspace')

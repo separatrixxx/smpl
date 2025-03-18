@@ -9,15 +9,13 @@ import { avatarPlaceholder } from '@/shared/utils/placeholder/placeholder';
 
 export const AddTeammates = ({ visibleTeammates, isTeammatesLoading }: AddTeammatesProps): ReactElement => {
     return (
-        <Skeleton width={92} height={32} isReady={!isTeammatesLoading} isRound={true}
-            ariaLabel='add teammates button'>
+        <Skeleton width={92} height={32} isReady={!isTeammatesLoading} isRound={true}>
             <div className={styles.addTeammates}>
                 <div className={styles.addTemmateButton}>
                     <Icon type='plus' size='m' color='bg' />
                 </div>
                 {visibleTeammates.map((vt, i) => (
-                    <Skeleton key={i} width={32} height={32} isReady={Boolean(vt.photo_url)} isRound={true}
-                        ariaLabel={`${vt.first_name} teammate image`}>
+                    <Skeleton key={i} width={32} height={32} isReady={Boolean(vt.photo_url)} isRound={true}>
                         <Image className={styles.teammateImage} draggable='false'
                             src={vt.photo_url || avatarPlaceholder}
                             alt={`${vt.first_name} teammate image`}

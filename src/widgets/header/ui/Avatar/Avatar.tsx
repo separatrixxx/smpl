@@ -17,7 +17,7 @@ export const Avatar = (): ReactElement => {
 
     return (
         <Skeleton width={32} height={32} isReady={isAvatarReady} isRound={true}
-            ariaLabel={ariaLabel}>
+            ariaLabel={ariaLabel} role='link'>
             <Link href='/profile' className={styles.avatar} aria-label={ariaLabel}>
                 <Image draggable='false'
                     src={avatarImage}

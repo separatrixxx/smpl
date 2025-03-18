@@ -29,8 +29,7 @@ export const Icon = ({ type, size, color, className, onClick }: IconProps): Reac
             <>
                 {
                     type !== 'logo'
-                        ? <Skeleton width={20} height={20} isReady={Boolean(IconComponent)} 
-                            ariaLabel={`${type} icon`} />
+                        ? <Skeleton width={20} height={20} isReady={Boolean(IconComponent)}  />
                         : null
                 }
             </>

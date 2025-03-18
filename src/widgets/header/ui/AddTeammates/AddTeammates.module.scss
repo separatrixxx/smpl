@@ -5,13 +5,11 @@ $outline-width: 5px;
 $margin-left: 12px;
 
 .addTeammates {
+    position: relative;
     display: grid;
     align-items: center;
-    position: relative;
     grid-template-columns: repeat(4, auto);
     cursor: pointer;
-    @include shared.transition(filter);
-	@include shared.brightness;
 
     .addTemmateButton,
     .teammateImage {
@@ -22,10 +20,9 @@ $margin-left: 12px;
     }
 
     .addTemmateButton {
-        background: var(--text);
         display: grid;
-        justify-items: center;
-        align-items: center;
+        background: var(--text);
+        place-items: center center;
         z-index: 4;
     }
 
@@ -34,4 +31,7 @@ $margin-left: 12px;
         object-fit: cover;
         margin-left: -$margin-left;
     }
+
+    @include shared.transition(filter);
+	@include shared.brightness;
 }
