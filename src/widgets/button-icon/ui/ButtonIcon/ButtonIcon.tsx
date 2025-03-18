@@ -11,7 +11,7 @@ export const ButtonIcon = ({ type, text, onClick }: ButtonIconProps): ReactEleme
     return (
         <Pad className={styles.buttonIconPad} onClick={onClick}>
             <div className={styles.buttonIcon}>
-                <Icon type={type} size='l' isPrimary={true} />
+                <Icon type={type} size='l' color='primary' />
                 <Htag tag='s'>
                     {text}
                 </Htag>

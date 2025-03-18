@@ -15,7 +15,7 @@ export interface UserWorkspacesInterface {
 }
 
 export interface UserStateInterface {
-    user: UserInterface | null;
-    setUser: (user: UserInterface) => void;
-    clearUser: () => void;
+    user: UserInterface | null,
+    setUser: (user: UserInterface) => void,
+    clearUser: () => void,
 }

@@ -10,6 +10,6 @@ export interface WorkspaceInterface {
 }
 
 export interface WorkspaceStateInterface {
-    workspace: number;
-    setWorkspace: (workspace: number) => void;
+    workspace: number,
+    setWorkspace: (workspace: number) => void,
 }

@@ -20,7 +20,7 @@ export const WorkspaceItem = ({ workspaceId, title, isMyWorkspace }: WorkspacesI
     
     return (
         <Link href={link} className={styles.workspaceItem} aria-label={`${title} link`}
-            onClick={handleLinkClick}>
+            onClick={handleLinkClick} prefetch>
             <Htag tag='l'>
                 {title}
             </Htag>

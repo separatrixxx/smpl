@@ -1,9 +1,13 @@
 import { WorkspaceInterface } from "../interfaces/workspace.interface";
 
 
-export const fetchWorkspaceMock = async (id: number): Promise<WorkspaceInterface> => {
-    if (id !== 1 && id !== 2) {
+export const fetchWorkspaceMock = async (workspaceId: number, userId: number): Promise<WorkspaceInterface> => {
+    if (workspaceId !== 1 && workspaceId !== 2) {
         throw new Error("Workspace not found");
+    }
+
+    if (userId !== 1) {
+        throw new Error("User not found");
     }
 
     const workspace1MockData: WorkspaceInterface = {
@@ -30,7 +34,7 @@ export const fetchWorkspaceMock = async (id: number): Promise<WorkspaceInterface
 
     return new Promise((resolve) => {
         setTimeout(() => {
-            resolve([workspace1MockData, workspace2MockData][id - 1]);
-        }, 1000);
+            resolve([workspace1MockData, workspace2MockData][workspaceId - 1]);
+        }, 300);
     });
 };

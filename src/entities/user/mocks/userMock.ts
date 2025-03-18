@@ -13,6 +13,6 @@ export const fetchUserMock = async (id: number): Promise<UserInterface> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(userMockData);
-        }, 1000);
+        }, 300);
     });
 };

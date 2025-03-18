@@ -6,7 +6,7 @@ import { Skeleton } from '../Skeleton/Skeleton';
 import cn from 'classnames';
 
 
-export const Icon = ({ type, size, isPrimary, className, onClick }: IconProps): ReactNode => {
+export const Icon = ({ type, size, color, className, onClick }: IconProps): ReactNode => {
     const [IconComponent, setIconComponent] = useState<React.ComponentType<any> | null>(null);
 
     useEffect(() => {
@@ -42,8 +42,7 @@ export const Icon = ({ type, size, isPrimary, className, onClick }: IconProps): 
             [styles.iconL]: size === 'l',
             [styles.iconM]: size === 'm',
             [styles.iconS]: size === 's',
-            [styles.iconPrimary]: isPrimary,
-        })} onClick={onClick} />
+        })} style={ color && { fill: `var(--${color})` }} onClick={onClick} />
 
     );
 };

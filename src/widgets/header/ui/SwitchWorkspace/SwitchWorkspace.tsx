@@ -15,7 +15,7 @@ import cn from 'classnames';
 
 
 export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): ReactElement => {
-    const { tgUser, setWorkspace } = useSetup();
+    const { tgUser, workspace, setWorkspace } = useSetup();
     const [isListVisible, setIsListVisible] = useState<boolean>(false);
     const switchWorkspaceRef = useRef<HTMLDivElement>(null);
 
@@ -54,7 +54,7 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
         fetchUserWorkspacesMock,
         'Failed to fetch user workspaces',
         `/user/workspaces/${1}`,
-        1
+        1,
     );
 
     const currWorkspace = workspacesData?.workspaces.find(w => w.id === currWorkspaceId);
@@ -81,7 +81,11 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
                     </Htag>
                 </Skeleton>
             </div>
-            {isListVisible && !isWorkspacesLoading && <WorkspacesList />}
+            {
+                isListVisible && !isWorkspacesLoading && 
+                    <WorkspacesList currWorkspaceId={workspace}
+                        workspaces={workspacesData?.workspaces || []} />
+            }
         </div>
     );
 };

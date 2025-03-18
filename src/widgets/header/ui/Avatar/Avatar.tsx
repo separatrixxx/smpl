@@ -24,7 +24,7 @@ export const Avatar = (): ReactElement => {
                     alt='avatar image'
                     width={32}
                     height={32}
-                    unoptimized={true}
+                    loading='lazy'
                 />
             </Link>
         </Skeleton>

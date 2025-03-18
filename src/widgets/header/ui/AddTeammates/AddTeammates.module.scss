@@ -1,0 +1,37 @@
+@use '../../../../app/shared';
+
+$image-size: 32px;
+$outline-width: 5px;
+$margin-left: 12px;
+
+.addTeammates {
+    display: grid;
+    align-items: center;
+    position: relative;
+    grid-template-columns: repeat(4, auto);
+    cursor: pointer;
+    @include shared.transition(filter);
+	@include shared.brightness;
+
+    .addTemmateButton,
+    .teammateImage {
+        width: $image-size;
+        height: $image-size;
+        border-radius: $image-size;
+        outline: $outline-width solid var(--bg);
+    }
+
+    .addTemmateButton {
+        background: var(--text);
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        z-index: 4;
+    }
+
+    .teammateImage {
+        overflow: hidden;
+        object-fit: cover;
+        margin-left: -$margin-left;
+    }
+}

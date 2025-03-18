@@ -41,6 +41,6 @@ export const fetchUserWorkspacesMock = async (id: number): Promise<UserWorkspace
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(userWorkspacesMockData);
-        }, 1000);
+        }, 300);
     });
 };

@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: WorkspacePageInterface): Prom
     const id = resolvedParams.id;
 
     try {
-        const workspaceData: WorkspaceInterface = await fetchWorkspaceMock(+id);
+        const workspaceData: WorkspaceInterface = await fetchWorkspaceMock(+id, 1);
 
         return {
             title: '.smpl - ' + workspaceData.title,
@@ -31,7 +31,7 @@ export default async function Workspace({ params }: WorkspacePageInterface) {
     const resolvedParams = await params;
     const id = resolvedParams.id;
 
-    const workspaceData: WorkspaceInterface = await fetchWorkspaceMock(+id);
+    const workspaceData: WorkspaceInterface = await fetchWorkspaceMock(+id, 1);
     
     const WorkspaceOverviewWithPad = withLogoPad(WorkspaceOverview);
 
