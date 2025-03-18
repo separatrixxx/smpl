@@ -1,0 +1,8 @@
+$gap: 10px;
+
+.buttonsBar {
+    display: grid;
+    width: calc(100% - $gap);
+    grid-template-columns: 50% 50%;
+    gap: $gap;
+}

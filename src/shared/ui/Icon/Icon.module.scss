@@ -2,15 +2,19 @@
 	height: fit-content;
 	fill: var(--text);
 
-	&.isonL {
+	&.iconL {
 		width: 20px;
 	}
 
-	&.isonM {
+	&.iconM {
 		width: 14px;
 	}
 
-	&.isonS {
+	&.iconS {
 		width: 12px;
+	}
+
+	&.iconPrimary {
+		fill: var(--primary);
 	}
 }

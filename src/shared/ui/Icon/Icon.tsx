@@ -1,46 +1,49 @@
+'use client'
 import { IconProps } from './Icon.props';
 import styles from './Icon.module.scss';
-import { ReactNode } from 'react';
-import LogoIcon from './icons/logo.svg';
-import ChevronDownIcon from './icons/chevron_down.svg';
-import ChevronUpIcon from './icons/chevron_up.svg';
-import ChevronLeftIcon from './icons/chevron_left.svg';
-import ChevronRightIcon from './icons/chevron_right.svg';
-import CalendarIcon from './icons/calendar.svg';
+import { ReactNode, useEffect, useState } from 'react';
+import { Skeleton } from '../Skeleton/Skeleton';
 import cn from 'classnames';
 
 
-export const Icon = ({ type, size, className, onClick }: IconProps): ReactNode => {
-    let IconComponent = null;
+export const Icon = ({ type, size, isPrimary, className, onClick }: IconProps): ReactNode => {
+    const [IconComponent, setIconComponent] = useState<React.ComponentType<any> | null>(null);
 
-    switch (type) {
-        case 'logo':
-            IconComponent = LogoIcon;
-            break;
-        case 'chevron_down':
-            IconComponent = ChevronDownIcon;
-            break;
-        case 'chevron_up':
-            IconComponent = ChevronUpIcon;
-            break;
-        case 'chevron_left':
-            IconComponent = ChevronLeftIcon;
-            break;
-        case 'chevron_right':
-            IconComponent = ChevronRightIcon;
-            break;
-        case 'calendar':
-            IconComponent = CalendarIcon;
-            break;
-        default:
-            return null;
+    useEffect(() => {
+        const importIcon = async () => {
+            try {
+                const icon = await import(`./icons/${type}.svg`);
+
+                setIconComponent(icon.default);
+            } catch (err) {
+                console.error(`${err}: Icon with type "${type}" not found!`);
+                setIconComponent(null);
+            }
+        };
+
+        importIcon();
+    }, [type]);
+
+    if (!IconComponent) {
+        return (
+            <>
+                {
+                    type !== 'logo'
+                        ? <Skeleton width={20} height={20} isReady={Boolean(IconComponent)} 
+                            ariaLabel={`${type} icon`} />
+                        : null
+                }
+            </>
+        );
     }
 
     return (
         <IconComponent className={cn(styles.icon, className, {
-            [styles.isonL]: size === 'l',
-            [styles.isonM]: size === 'm',
-            [styles.isonS]: size === 's',
+            [styles.iconL]: size === 'l',
+            [styles.iconM]: size === 'm',
+            [styles.iconS]: size === 's',
+            [styles.iconPrimary]: isPrimary,
         })} onClick={onClick} />
+
     );
 };

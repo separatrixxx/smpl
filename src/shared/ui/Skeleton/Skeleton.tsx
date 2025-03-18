@@ -13,11 +13,13 @@ export const Skeleton = ({ width, height, isReady, isRound, ariaLabel, children 
             })} style={{ width: width, height: height }}
                 aria-label={ariaLabel} />
         );
-    } else {
+    } else if (children) {
         return (
             <>
                 {children}
             </>
         );
+    } else {
+        return <></>;
     }
 };

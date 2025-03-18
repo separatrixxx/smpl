@@ -7,5 +7,5 @@ export interface SkeletonProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivE
     isReady: boolean,
     isRound?: boolean,
     ariaLabel: string,
-	children: ReactNode,
+	children?: ReactNode,
 }

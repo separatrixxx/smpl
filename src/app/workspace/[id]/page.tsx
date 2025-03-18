@@ -6,6 +6,7 @@ import { PageWrapper } from "@/shared/ui/PageWrapper/PageWrapper";
 import { Header } from "@/widgets/header";
 import { withLogoPad } from "@/shared/ui/Pad/hocs/withLogoPad";
 import { WorkspaceOverview } from "@/widgets/workspaceo-overview/ui/WorkspaceOverview/WorkspaceOverview";
+import { ButtonsBar } from "./ui/ButtonsBar/ButtonsBar";
 
 
 export async function generateMetadata({ params }: WorkspacePageInterface): Promise<Metadata> {
@@ -40,6 +41,7 @@ export default async function Workspace({ params }: WorkspacePageInterface) {
          <PageWrapper>
              <Header currWorkspaceId={workspaceData.id} isAvatar={false} />
              <WorkspaceOverviewWithPad completed={completed} total={total} />
+             <ButtonsBar />
          </PageWrapper>
     );
 }
