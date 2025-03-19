@@ -4,6 +4,7 @@ import styles from './Icon.module.scss';
 import { ReactNode, useEffect, useState } from 'react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import cn from 'classnames';
+import { loggerError } from '@/shared/utils/logger/logger';
 
 
 export const Icon = ({ type, size, color, className, onClick }: IconProps): ReactNode => {
@@ -16,7 +17,8 @@ export const Icon = ({ type, size, color, className, onClick }: IconProps): Reac
 
                 setIconComponent(icon.default);
             } catch (err) {
-                console.error(`${err}: Icon with type "${type}" not found!`);
+                loggerError(`${err}: Icon with type "${type}" not found!`);
+                
                 setIconComponent(null);
             }
         };

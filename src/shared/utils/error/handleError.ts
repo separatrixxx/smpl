@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { loggerError } from '../logger/logger';
 
 
 export const handleError = (error: unknown, errorMessage: string): void => {
@@ -6,9 +7,8 @@ export const handleError = (error: unknown, errorMessage: string): void => {
     
     if (error instanceof AxiosError) {
         message = error.response?.data?.message || error.message;
-
-        console.error(errorMessage, message);
+       
     }
 
-    console.error(`${errorMessage}:`, message);
+    loggerError(`${errorMessage}: ${message}`);
 };
