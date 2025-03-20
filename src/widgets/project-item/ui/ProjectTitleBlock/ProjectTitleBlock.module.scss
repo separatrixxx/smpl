@@ -1,0 +1,28 @@
+@use '../../../../app/shared';
+
+$gap: 8px;
+
+.projectTitleBlock {
+    display: grid;
+    gap: $gap;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+
+    h2 {
+        @include shared.line-clamp;
+        @include shared.ellipsis;
+    }
+
+    div {
+        display: grid;
+        gap: inherit;
+        grid-template-columns: auto auto;
+    }
+
+    .icon {
+        cursor: pointer;
+
+        @include shared.transition(filter);
+		@include shared.brightness;
+    }
+}

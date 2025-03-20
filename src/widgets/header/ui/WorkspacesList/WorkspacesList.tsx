@@ -10,12 +10,12 @@ return (
             {workspaces
                 .filter(w => w.id !== currWorkspaceId)
                 .sort((a, b) => {
-                    if (a.isMyWorkspace === b.isMyWorkspace) return 0;
-                    return a.isMyWorkspace ? 1 : -1;
+                    if (a.is_my_workspace === b.is_my_workspace) return 0;
+                    return a.is_my_workspace ? 1 : -1;
                 })
                 .map(w => (
                     <WorkspaceItem key={w.id} workspaceId={w.id} title={w.title}
-                        isMyWorkspace={w.isMyWorkspace} />
+                        isMyWorkspace={w.is_my_workspace} />
                 ))}
         </div>
     );

@@ -1,3 +1,5 @@
+@use '../../../../app/shared';
+
 $padding: 12px;
 
 .workspaceItem {
@@ -6,11 +8,11 @@ $padding: 12px;
     cursor: pointer;
 
     h2 {
-		overflow: hidden;
-		max-width: 100%;
-		user-select: none;
-		white-space: nowrap;
-		text-overflow: ellipsis;
+        max-width: 100%;
+        user-select: none;
+        white-space: nowrap;
+
+        @include shared.ellipsis;
     }
 
     &:not(:last-child) {

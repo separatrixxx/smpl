@@ -7,8 +7,19 @@ $brightness: 0.95;
 }
 
 @mixin brightness($brightness: $brightness) {
-	&:focus,
 	&:active {
 		filter: brightness($brightness);
 	}
+}
+
+@mixin ellipsis() {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+@mixin line-clamp() {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }

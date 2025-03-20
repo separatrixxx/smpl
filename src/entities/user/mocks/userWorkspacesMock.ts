@@ -13,7 +13,7 @@ export const fetchUserWorkspacesMock = async (id: number): Promise<UserWorkspace
                     completed: 3,
                     total: 10,
                 },
-                isMyWorkspace: true,
+                is_my_workspace: true,
             },
             {
                 id: 1,
@@ -23,7 +23,7 @@ export const fetchUserWorkspacesMock = async (id: number): Promise<UserWorkspace
                     completed: 5,
                     total: 7,
                 },
-                isMyWorkspace: false,
+                is_my_workspace: false,
             },
             {
                 id: 2,
@@ -33,7 +33,7 @@ export const fetchUserWorkspacesMock = async (id: number): Promise<UserWorkspace
                     completed: 4,
                     total: 23,
                 },
-                isMyWorkspace: false,
+                is_my_workspace: false,
             },
         ],
     };

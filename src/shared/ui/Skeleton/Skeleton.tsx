@@ -18,7 +18,7 @@ export const Skeleton = ({ width, height, isReady, isRound, ariaLabel, role, chi
 
         return (
             <div className={cn(styles.skeleton, {
-                [styles.sizeS]: height <= 20,
+                [styles.sizeS]: +height <= 20,
                 [styles.skeletonRound]: isRound,
             })} style={{ width: width, height: height }}
                 {...attributes} />

@@ -75,7 +75,7 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
                 />
                 <Skeleton width={100} height={20} isReady={!isWorkspacesLoading}>
                     <Htag tag='m'>
-                        {currWorkspace?.isMyWorkspace
+                        {currWorkspace?.is_my_workspace
                             ? getLocaleText(tgUser?.language_code, 'my_workspace')
                             : currWorkspace?.title}
                     </Htag>

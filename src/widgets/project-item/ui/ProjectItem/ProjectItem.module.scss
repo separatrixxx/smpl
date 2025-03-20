@@ -1,0 +1,15 @@
+@use '../../../../app/shared';
+
+$gap: 8px;
+
+.projectItemWrapper {
+    cursor: pointer;
+
+    @include shared.transition(filter);
+    @include shared.brightness;
+}
+
+.projectItem {
+    display: grid;
+    gap: $gap;
+}

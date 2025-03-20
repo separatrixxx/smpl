@@ -28,11 +28,11 @@ $outline-width: 2px;
 	}
 
 	h2 {
-		overflow: hidden;
 		max-width: 100%;
 		user-select: none;
 		white-space: nowrap;
-		text-overflow: ellipsis;
+
+		@include shared.ellipsis;
 	}
 
 	.chevronIcon {

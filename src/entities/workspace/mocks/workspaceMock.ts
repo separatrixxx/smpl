@@ -18,7 +18,7 @@ export const fetchWorkspaceMock = async (workspaceId: number, userId: number): P
             completed: 5,
             total: 7,
         },
-        isMyWorkspace: false,
+        is_my_workspace: false,
     };
 
     const workspace2MockData: WorkspaceInterface = {
@@ -29,7 +29,7 @@ export const fetchWorkspaceMock = async (workspaceId: number, userId: number): P
             completed: 4,
             total: 23,
         },
-        isMyWorkspace: false,
+        is_my_workspace: false,
     };
 
     return new Promise((resolve) => {

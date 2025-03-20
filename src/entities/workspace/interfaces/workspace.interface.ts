@@ -6,7 +6,7 @@ export interface WorkspaceInterface {
         completed: number,
         total: number,
     },
-    isMyWorkspace: boolean,
+    is_my_workspace: boolean,
 }
 
 export interface WorkspaceStateInterface {

@@ -7,4 +7,8 @@ export const ru = {
     add_task: "Add task",
     call: "Call",
     reminder: "Reminder",
+    tasks_to_do_1: "задачи, которые нужно сделать",
+    tasks_to_do_2: "задач, которые нужно сделать",
+    task_to_do: "задача, которую нужно сделать",
+    no_tasks_to_do: "Нет задач для выполнения",
 }
