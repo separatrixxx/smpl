@@ -23,7 +23,7 @@ export const fetchProjectsListMock = async (workspaceId: number, userId: number)
     const project2MockData: ProjectInterface = {
         id: 2,
         workspace_id: workspaceId,
-        title: 'Мобильное приложение Йоу-мойоу ультра супер',
+        title: 'Мобильное приложение Йоу ультра супер',
         description: null,
         is_starred: false,
         tasks_count: 0,
