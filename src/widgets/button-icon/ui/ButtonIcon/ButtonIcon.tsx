@@ -9,7 +9,7 @@ import { Htag } from '@/shared/ui/Htag/Htag';
 
 export const ButtonIcon = ({ type, text, onClick }: ButtonIconProps): ReactElement => {
     return (
-        <Pad className={styles.buttonIconPad} onClick={onClick}>
+        <Pad isSmall={true} className={styles.buttonIconPad} onClick={onClick}>
             <div className={styles.buttonIcon}>
                 <Icon type={type} size='l' color='primary' />
                 <Htag tag='s'>

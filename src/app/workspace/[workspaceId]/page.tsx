@@ -12,10 +12,10 @@ import { ProjectsListWrapper } from "@/widgets/projects-list";
 
 export async function generateMetadata({ params }: WorkspacePageInterface): Promise<Metadata> {
     const resolvedParams = await params;
-    const id = resolvedParams.id;
+    const workspaceId = resolvedParams.workspaceId;
 
     try {
-        const workspaceData: WorkspaceInterface = await fetchWorkspaceMock(+id, 1);
+        const workspaceData: WorkspaceInterface = await fetchWorkspaceMock(+workspaceId, 1);
 
         return {
             title: '.smpl - ' + workspaceData.title,
@@ -30,9 +30,9 @@ export async function generateMetadata({ params }: WorkspacePageInterface): Prom
 
 export default async function Workspace({ params }: WorkspacePageInterface) {
     const resolvedParams = await params;
-    const id = resolvedParams.id;
+    const workspaceId = resolvedParams.workspaceId;
 
-    const workspaceData: WorkspaceInterface = await fetchWorkspaceMock(+id, 1);
+    const workspaceData: WorkspaceInterface = await fetchWorkspaceMock(+workspaceId, 1);
     
     const WorkspaceOverviewWithPad = withLogoPad(WorkspaceOverview);
 

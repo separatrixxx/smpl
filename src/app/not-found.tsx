@@ -1,9 +1,11 @@
-'use client'
-import { useBackButton } from "@/features/backButton/hooks/useBackButton";
+import { BackButton } from "@/shared/ui/BackButton/BackButton";
 
 
 export default function NotFound() {
-    useBackButton('/');
-
-    return <div>Not found</div>;
+    return (
+        <>
+            <BackButton redirectPath='/' />
+            <div>Not found</div>;
+        </>
+    );
 }

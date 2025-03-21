@@ -1,13 +1,11 @@
-'use client'
-import { useBackButton } from "@/features/backButton/hooks/useBackButton";
+import { BackButton } from "@/shared/ui/BackButton/BackButton";
 
 
 export default function Profile() {
-    useBackButton('/my-workspace');
-
     return (
         <>
             Profile
+            <BackButton redirectPath='/my-workspace' />
         </>
     );
 }

@@ -7,10 +7,14 @@
     .buttonIcon {
         display: grid;
         justify-items: center;
-        gap: 6px;
+        grid-template-rows: auto 1fr;
+        gap: 7px;
 
-        &h3 {
-            font-weight: 500;
+        h3 {
+            text-align: center;
+
+            @include shared.ellipsis;
+            @include shared.line-clamp(1);
         }
     }
 

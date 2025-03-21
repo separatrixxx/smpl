@@ -1,6 +1,7 @@
 $transition-duration: 300ms;
 $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 $brightness: 0.95;
+$lines: 2;
 
 @mixin transition($properties: all, $duration: $transition-duration, $timing: $transition-timing) {
 	transition: $properties $duration $timing;
@@ -15,11 +16,12 @@ $brightness: 0.95;
 @mixin ellipsis() {
 	overflow: hidden;
 	text-overflow: ellipsis;
+	word-break: break-all;
 }
 
-@mixin line-clamp() {
+@mixin line-clamp($lines: $lines) {
 	display: -webkit-box;
-	-webkit-line-clamp: 2;
+	-webkit-line-clamp: $lines;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }

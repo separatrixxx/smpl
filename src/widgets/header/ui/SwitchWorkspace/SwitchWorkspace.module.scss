@@ -4,7 +4,7 @@ $outline-width: 2px;
 
 .switchWorkspace {
 	position: relative;
-	width: 60%;
+	width: 50vw;
 	z-index: 2;
 
 	.currentWorkspace {
@@ -12,9 +12,9 @@ $outline-width: 2px;
 		z-index: 11;
 		display: grid;
 		place-items: center left;
-		width: calc(100% - 48px);
+		width: calc(100% - 40px);
 		height: 40px;
-		padding: 0 24px;
+		padding: 0 20px;
 		cursor: pointer;
 		border-radius: 40px;
 		outline: $outline-width solid var(--second-bg);
@@ -42,4 +42,8 @@ $outline-width: 2px;
 	.rotateChevron {
 		transform: rotate(180deg);
 	}
+
+	@media (width <= 350px) {
+        width: 80%;
+    }
 }

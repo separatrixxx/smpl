@@ -4,9 +4,11 @@ import { ReactElement } from "react";
 import cn from 'classnames';
 
 
-export const Pad = ({ children, className, onClick }: PadProps): ReactElement => {
+export const Pad = ({ isSmall, children, className, onClick }: PadProps): ReactElement => {
     return (
-        <section className={cn(styles.pad, className)} onClick={onClick}>
+        <section className={cn(styles.pad, className, {
+            [styles.smallPad]: isSmall,
+        })} onClick={onClick}>
             {children}
         </section>
     );

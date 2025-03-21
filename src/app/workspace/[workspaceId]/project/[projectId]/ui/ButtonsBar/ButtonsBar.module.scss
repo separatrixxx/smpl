@@ -1,0 +1,12 @@
+$gap: 8px;
+
+.buttonsBar {
+    display: grid;
+    width: calc(100% - 2 * $gap);
+    grid-template-columns: 50% 25% 25%;
+    gap: $gap;
+
+    @media (width <= 350px) {
+        grid-template-columns: 33% 33% 33%;
+    }
+}

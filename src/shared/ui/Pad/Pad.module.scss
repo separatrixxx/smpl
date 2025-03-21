@@ -1,4 +1,5 @@
 $padding-x: 18px;
+$padding-x-small: 8px;
 $padding-y: 16px;
 $radius: 12px;
 $gap: 4px;
@@ -12,6 +13,11 @@ $gap: 4px;
 	gap: $gap;
     border-radius: $radius;
     overflow: hidden;
+}
+
+.smallPad {
+    width: calc(100% - #{$padding-x-small * 2});
+    padding: $padding-y $padding-x-small;
 }
 
 .padLogo {
