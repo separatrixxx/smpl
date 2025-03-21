@@ -6,7 +6,7 @@ export const fetchProjectMock = async (projectId: number, workspaceId: number, u
         throw new Error("Project not found");
     }
 
-    if (workspaceId !== 1 && workspaceId !== 2) {
+    if (workspaceId !== 0 && workspaceId !== 1 && workspaceId !== 2) {
         throw new Error("Workspace not found");
     }
 

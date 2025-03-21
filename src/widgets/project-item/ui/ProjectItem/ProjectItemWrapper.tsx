@@ -9,8 +9,12 @@ import { withPad } from '@/shared/ui/Pad/hocs/withPad';
 export const ProjectItemWrapper = ({ workspaceId, projectId, ...rest }: ProjectItemWrapperProps): ReactElement => {
     const ProjectItemWithPad = withPad(ProjectItem);
 
+    const projectLink = workspaceId
+        ? `/workspace/${workspaceId}/project/${projectId}`
+        : `/my-workspace/project/${projectId}`
+
     return (
-        <Link href={`/workspace/${workspaceId}/project/${projectId}`} className={styles.projectItemWrapper}>
+        <Link href={projectLink} className={styles.projectItemWrapper}>
             <ProjectItemWithPad {...rest} />
         </Link>
     );

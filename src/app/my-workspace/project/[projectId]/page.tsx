@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { PageWrapper } from "@/shared/ui/PageWrapper/PageWrapper";
 import { Header } from "@/widgets/header";
-import { ProjectPageInterface } from "./interfaces/project-page.interface";
+import { MyProjectPageInterface } from "./interfaces/project-page.interface";
 import { fetchProjectMock } from "@/entities/projects/mocks/projectMock";
 import { ProjectInterface } from "@/entities/projects/interfaces/projects.interface";
 import { BackButton } from "@/shared/ui/BackButton/BackButton";
@@ -10,13 +10,12 @@ import { ProjectItem } from "@/widgets/project-item";
 import { ButtonsBar } from "./ui/ButtonsBar/ButtonsBar";
 
 
-export async function generateMetadata({ params }: ProjectPageInterface): Promise<Metadata> {
+export async function generateMetadata({ params }: MyProjectPageInterface): Promise<Metadata> {
     const resolvedParams = await params;
     const projectId = resolvedParams.projectId;
-    const workspaceId = resolvedParams.workspaceId;
 
     try {
-        const projectData: ProjectInterface = await fetchProjectMock(+projectId, +workspaceId, 1);
+        const projectData: ProjectInterface = await fetchProjectMock(+projectId, 0, 1);
 
         return {
             title: '.smpl - ' + projectData.title,
@@ -29,18 +28,17 @@ export async function generateMetadata({ params }: ProjectPageInterface): Promis
     }
 }
 
-export default async function Project({ params }: ProjectPageInterface) {
+export default async function MyProject({ params }: MyProjectPageInterface) {
     const resolvedParams = await params;
     const projectId = resolvedParams.projectId;
-    const workspaceId = resolvedParams.workspaceId;
 
-    const projectData: ProjectInterface = await fetchProjectMock(+projectId, +workspaceId, 1);
+    const projectData: ProjectInterface = await fetchProjectMock(+projectId, 0, 1);
 
     const ProjectItemWithPad = withPad(ProjectItem);
 
     return (
         <PageWrapper>
-            <BackButton redirectPath='/' />
+            <BackButton redirectPath='/my-workspace' />
             <Header currWorkspaceId={projectData.workspace_id} isAvatar={false} />
             <ProjectItemWithPad title={projectData.title} isStarred={projectData.is_starred}
                 tasksCount={projectData.tasks_count} progress={projectData.progress} />

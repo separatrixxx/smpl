@@ -13,7 +13,7 @@ export const ProjectsListWrapper = () => {
         fetchProjectsListMock,
         'Failed to fetch projects list',
         `/projects?workspace=${workspace}&userId=${1}`,
-        (workspace || 1), 1
+        workspace, 1
     );
 
     return <ProjectsList projectsList={projectsListData || []} isProjectsListLoading={isProjectsListLoading} />;

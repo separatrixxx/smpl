@@ -11,7 +11,7 @@ export const useWorkspaceRedirect = () => {
   useEffect(() => {
     const workspace = getFromStorage(WORKSPACE_KEY);
 
-    if (workspace) {
+    if (workspace !== '0') {
       router.push('/workspace/' + workspace);
     } else {
       router.push('/my-workspace');

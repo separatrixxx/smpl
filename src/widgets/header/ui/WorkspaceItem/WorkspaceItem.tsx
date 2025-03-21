@@ -4,7 +4,7 @@ import styles from './WorkspaceItem.module.scss';
 import { ReactElement } from "react";
 import { Htag } from '@/shared/ui/Htag/Htag';
 import Link from 'next/link';
-import { saveToStorage, removeFromStorage } from '@/shared/utils/storage/storage';
+import { saveToStorage } from '@/shared/utils/storage/storage';
 
 
 export const WorkspaceItem = ({ workspaceId, title, isMyWorkspace }: WorkspacesItemProps): ReactElement => {
@@ -12,7 +12,7 @@ export const WorkspaceItem = ({ workspaceId, title, isMyWorkspace }: WorkspacesI
 
     const handleLinkClick = () => {
         if (isMyWorkspace) {
-            removeFromStorage('currentWorkspace');
+            saveToStorage('currentWorkspace', '0');
         } else {
             saveToStorage('currentWorkspace', String(workspaceId));
         }
