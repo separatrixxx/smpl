@@ -62,6 +62,7 @@ export const useModal = (isOpen: boolean, onClose: () => void) => {
         if (!isOpen) {
             setDragY(0);
             setIsDragging(false);
+            
             startY.current = null;
         }
     }, [isOpen]);
