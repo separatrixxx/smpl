@@ -40,7 +40,7 @@ export default async function Workspace({ params }: WorkspacePageInterface) {
 
     return (
          <PageWrapper>
-             <Header currWorkspaceId={workspaceData.id} isAvatar={false} />
+             <Header currWorkspaceId={workspaceData.id} />
              <WorkspaceOverviewWithPad completed={completed} total={total} />
              <ButtonsBar />
              <ProjectsListWrapper />

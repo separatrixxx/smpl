@@ -13,7 +13,7 @@
         h3 {
             text-align: center;
 
-            @include shared.ellipsis;
+            @include shared.ellipsis(true);
             @include shared.line-clamp(1);
         }
     }

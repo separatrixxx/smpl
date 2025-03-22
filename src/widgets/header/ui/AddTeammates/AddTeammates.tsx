@@ -25,7 +25,7 @@ export const AddTeammates = ({ visibleTeammates, isTeammatesLoading }: AddTeamma
                         visibleTeammates={visibleTeammates} />
                 </div>
             </Skeleton>
-            <Modal title='Добавить тиммейтов' isOpen={isSheetOpen} onClose={handleCloseSheet}>
+            <Modal title='Добавить и/или удалить тиммейтов и не только, а ещё можно чай попить' isOpen={isSheetOpen} onClose={handleCloseSheet}>
                 <div>
                     <p>Контент для выбора/добавления тиммейтов.</p>
                 </div>

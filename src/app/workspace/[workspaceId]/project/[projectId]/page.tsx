@@ -41,7 +41,7 @@ export default async function Project({ params }: ProjectPageInterface) {
     return (
         <PageWrapper>
             <BackButton redirectPath='/' />
-            <Header currWorkspaceId={projectData.workspace_id} isAvatar={false} />
+            <Header currWorkspaceId={projectData.workspace_id} />
             <ProjectItemWithPad title={projectData.title} isStarred={projectData.is_starred}
                 tasksCount={projectData.tasks_count} progress={projectData.progress} />
             <ButtonsBar />
