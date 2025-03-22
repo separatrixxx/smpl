@@ -55,5 +55,6 @@ $fallback-hint: #696969;
 	--text: var(--tg-theme-text-color, #{$fallback-text});
 	--hint: var(--tg-theme-hint-color, #{$fallback-hint});
 	--error: #FF1500;
-	--font-family: 'Roboto', sans-serif;
+	--font-family-roboto: 'Roboto', sans-serif;
+	--font-family-montserrat: 'Montserrat', sans-serif;
 }

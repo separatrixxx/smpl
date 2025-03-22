@@ -1,4 +1,4 @@
-$radius: 8px;
+$radius: 12px;
 
 .skeleton {
 	animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -6,7 +6,7 @@ $radius: 8px;
 	background: color-mix(in srgb, var(--second-bg), black 30%);
 
 	&.sizeS {
-		border-radius: $radius - 2px;
+		border-radius: $radius - 4px;
 	}
 
 	&.skeletonRound {

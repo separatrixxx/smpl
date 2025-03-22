@@ -6,3 +6,7 @@ export interface HtagProps extends DetailedHTMLProps<HTMLAttributes<HTMLHeadingE
 	children: ReactNode,
 	onClick?: (e: MouseEvent<HTMLHeadingElement>) => void,
 }
+
+export interface ClientHtagProps extends Omit<HtagProps, 'children'> {
+	text: string,
+}

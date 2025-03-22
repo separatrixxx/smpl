@@ -1,11 +1,14 @@
 import { PageWrapperProps } from './PageWrapper.props';
 import styles from './PageWrapper.module.scss';
-import { ReactElement } from "react";
+import { ReactElement } from 'react';
+import cn from 'classnames';
 
 
-export const PageWrapper = ({ children }: PageWrapperProps): ReactElement => {
+export const PageWrapper = ({ isMoreGap, children }: PageWrapperProps): ReactElement => {
     return (
-        <main className={styles.pageWrapper}>
+        <main className={cn(styles.pageWrapper, {
+            [styles.moreGap]: isMoreGap,
+        })}>
             {children}
         </main>
     );

@@ -1,0 +1,34 @@
+@use '../../../app/shared';
+
+$font-size: 16px;
+$font-weight: 600;
+$font-height: 6px;
+
+.input {
+	width: calc(100% - 32px);
+	height: fit-content;
+	padding: 14px 16px;
+	color: var(--text);
+	background: var(--second-bg);
+	font-size: $font-size;
+	border: none;
+	cursor: text;
+	border-radius: 100px;
+	outline: 2px solid transparent;
+	outline-offset: -2px;
+	font-weight: $font-weight;
+    line-height: $font-height;
+    font-family: var(--font-family-montserrat);
+
+    &::placeholder {
+        color: var(--hint);
+        font-weight: $font-weight - 100;
+    }
+
+    &.error {
+        outline-color: var(--error);
+    }
+
+    @include shared.transition(filter);
+	@include shared.brightness;
+}

@@ -19,11 +19,11 @@ $s-height: 2px;
 }
 
 @mixin roboto-htag {
-	font-family: Roboto, sans-serif;
+	font-family: var(--font-family-roboto);
 }
 
 @mixin montserrat-htag {
-	font-family: Montserrat, sans-serif;
+	font-family: var(--font-family-montserrat);
 }
 
 .xl,

@@ -1,9 +1,14 @@
 $padding: 10px;
 $gap: 8px;
+$more-gap: $gap + 10px;
 
 .pageWrapper {
 	display: grid;
 	width: calc(100% - #{$padding * 2});
 	padding: $padding;
 	gap: $gap;
+
+	&.moreGap {
+		gap: $more-gap;
+	}
 }

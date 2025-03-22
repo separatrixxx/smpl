@@ -1,0 +1,7 @@
+.profileInfo {
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 12px;
+}

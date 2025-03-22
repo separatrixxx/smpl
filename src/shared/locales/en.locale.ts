@@ -11,4 +11,7 @@ export const en = {
     tasks_to_do_2: "tasks to do",
     task_to_do: "task to do",
     no_tasks_to_do: "No tasks to do",
+    my_profile: "My profile",
+    my_name: "My name",
+    my_specialty: "My specialty",
 }

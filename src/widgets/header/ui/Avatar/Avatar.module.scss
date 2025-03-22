@@ -8,7 +8,6 @@ $avatar-size: 32px;
 	height: $avatar-size;
 	cursor: pointer;
 	border-radius: $avatar-size;
-	object-fit: cover;
 
 	img {
 		user-select: none;
