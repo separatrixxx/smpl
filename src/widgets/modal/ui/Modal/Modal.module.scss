@@ -1,0 +1,62 @@
+@use '../../../../app/shared';
+
+$backdrop-blur: 6px;
+$radius: 16px;
+$animation-duration: 0.15s;
+
+@mixin fade-in-animation {
+    @keyframes fade-in {
+        from {
+            background: rgb(0 0 0 / 0%);
+            backdrop-filter: blur(0);
+        }
+    
+        to {
+            background: rgb(0 0 0 / 1%);
+            backdrop-filter: blur($backdrop-blur);
+        }
+    }
+}
+
+@mixin slide-in-up-animation {
+    @keyframes slide-in-up {
+        from {
+            transform: translateY(100%);
+        }
+
+        to {
+            transform: translateY(0);
+        }
+    }
+}
+
+.backdrop {
+    position: fixed;
+    display: grid;
+    width: 100%;
+    background: rgb(0 0 0 / 1%);
+    inset: 0;
+    backdrop-filter: blur($backdrop-blur);
+    align-items: end;
+    z-index: 20;
+    animation: fade-in $animation-duration ease-in-out;
+
+    @include fade-in-animation;
+}
+
+.modal {
+    display: grid;
+    width: calc(100% - 2 * $radius);
+    padding: $radius;
+    background: var(--section);
+    border-top-left-radius: $radius;
+    border-top-right-radius: $radius;
+    gap: $radius;
+    touch-action: none;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: slide-in-up $animation-duration ease-out;
+
+    @include shared.transition(transform);
+    @include slide-in-up-animation;
+}

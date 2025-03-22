@@ -1,27 +1,35 @@
+'use client'
 import { AddTeammatesProps } from './AddTeammates.props';
 import styles from './AddTeammates.module.scss';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 import { Icon } from '@/shared/ui/Icon/Icon';
-import { avatarPlaceholder } from '@/shared/utils/placeholder/placeholder';
-import { MyImage } from '@/shared/ui/MyImage/MyImage';
+import { Modal } from '@/widgets/modal/ui/Modal/Modal';
+import { TeammatesList } from '../TeammatesList/TeammatesList';
 
 
 export const AddTeammates = ({ visibleTeammates, isTeammatesLoading }: AddTeammatesProps): ReactElement => {
+    const [isSheetOpen, setSheetOpen] = useState<boolean>(false);
+
+    const handleOpenSheet = () => setSheetOpen(true);
+    const handleCloseSheet = () => setSheetOpen(false);
+
     return (
-        <Skeleton width={92} height={32} isReady={!isTeammatesLoading} isRound={true}>
-            <div className={styles.addTeammates}>
-                <div className={styles.addTemmateButton}>
-                    <Icon type='plus' size='m' color='bg' />
+        <>
+            <Skeleton width={92} height={32} isReady={!isTeammatesLoading} isRound={true}>
+                <div className={styles.addTeammates} onClick={handleOpenSheet}>
+                    <div className={styles.addTemmateButton}>
+                        <Icon type='plus' size='m' color='bg' />
+                    </div>
+                    <TeammatesList className={styles.teammateImage}
+                        visibleTeammates={visibleTeammates} />
                 </div>
-                {visibleTeammates.map((vt, i) => (
-                    <Skeleton key={i} width={32} height={32} isReady={Boolean(vt.photo_url)} isRound={true}>
-                        <MyImage className={styles.teammateImage} src={vt.photo_url || avatarPlaceholder}
-                            alt={`${vt.first_name} teammate image`} width={32} height={32}
-                            style={{ zIndex: 3 - i }} />
-                    </Skeleton>
-                ))}
-            </div>
-        </Skeleton>
+            </Skeleton>
+            <Modal title='Добавить тиммейтов' isOpen={isSheetOpen} onClose={handleCloseSheet}>
+                <div>
+                    <p>Контент для выбора/добавления тиммейтов.</p>
+                </div>
+            </Modal>
+        </>
     );
 }

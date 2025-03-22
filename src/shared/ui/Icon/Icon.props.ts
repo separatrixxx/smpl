@@ -2,7 +2,7 @@ import { DetailedHTMLProps, HTMLAttributes, MouseEvent  } from 'react';
 
 
 type IconType = 'logo' | 'chevron_down' | 'chevron_up' | 'chevron_left' | 'chevron_right' 
-	| 'calendar' | 'folder' | 'pencil' | 'people' | 'bell' | 'plus' | 'archive' | 'star';
+	| 'calendar' | 'folder' | 'pencil' | 'people' | 'bell' | 'plus' | 'archive' | 'star' | 'cross';
 
 export interface IconProps extends DetailedHTMLProps<HTMLAttributes<HTMLOrSVGElement>, HTMLOrSVGElement> {
 	type: IconType,

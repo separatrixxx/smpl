@@ -1,0 +1,42 @@
+@use '../../../../app/shared';
+
+$drag-height: 4px;
+$gap: 16px;
+$button-size: 28px;
+
+.modalHeader {
+    position: relative;
+    display: grid;
+    width: 100%;
+    gap: $gap;
+    justify-items: center;
+
+    .dragHandle {
+        width: $drag-height * 9;
+        height: $drag-height;
+        background-color: var(--second-bg);
+        border-radius: $drag-height;
+        cursor: grab;
+    }
+    
+    .modalTitle {
+        font-family: var(--font-family-montserrat);
+        font-weight: 600;
+    }
+
+    .closeModalButton {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: grid;
+        width: $button-size;
+        height: $button-size;
+        background: var(--second-bg);
+        cursor: pointer;
+        border-radius: $button-size;
+        place-items: center center;
+
+        @include shared.transition(filter);
+	    @include shared.brightness;
+    }
+}

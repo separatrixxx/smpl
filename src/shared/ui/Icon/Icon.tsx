@@ -3,8 +3,8 @@ import { IconProps } from './Icon.props';
 import styles from './Icon.module.scss';
 import { ReactNode, useEffect, useState } from 'react';
 import { Skeleton } from '../Skeleton/Skeleton';
-import cn from 'classnames';
 import { loggerError } from '@/shared/utils/logger/logger';
+import cn from 'classnames';
 
 
 export const Icon = ({ type, size, color, className, onClick }: IconProps): ReactNode => {
