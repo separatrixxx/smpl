@@ -17,6 +17,13 @@ $button-size: 28px;
         background-color: var(--second-bg);
         border-radius: $drag-height;
         cursor: grab;
+
+        &:active {
+            cursor: grabbing;
+        }
+
+        @include shared.transition(filter);
+	    @include shared.brightness;
     }
     
     .modalTitle {
