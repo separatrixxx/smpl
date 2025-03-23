@@ -14,6 +14,8 @@ export const fetchTasksListMock = async (workspaceId: number, userId: number, pr
         throw new Error("Project not found");
     }
 
+    const currentDate = new Date();
+
     const tasks1MockData: TaskInterface = {
         id: 1,
         workspace_id: workspaceId,
@@ -21,7 +23,7 @@ export const fetchTasksListMock = async (workspaceId: number, userId: number, pr
         title: 'Сверстать сайт-портфолио',
         is_starred: true,
         priority: 1,
-        date: '2025-02-14T12:00:00Z',
+        date: currentDate.toISOString(),
         type: 'todo',
     };
 

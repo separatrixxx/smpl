@@ -8,6 +8,7 @@ import { BackButton } from "@/shared/ui/BackButton/BackButton";
 import { withPad } from "@/shared/ui/Pad/hocs/withPad";
 import { ProjectItem } from "@/widgets/project-item";
 import { ButtonsBar } from "./ui/ButtonsBar/ButtonsBar";
+import { TasksListWrapper } from "@/widgets/tasks-list";
 
 
 export async function generateMetadata({ params }: MyProjectPageInterface): Promise<Metadata> {
@@ -43,6 +44,7 @@ export default async function MyProject({ params }: MyProjectPageInterface) {
             <ProjectItemWithPad title={projectData.title} isStarred={projectData.is_starred}
                 tasksCount={projectData.tasks_count} progress={projectData.progress} />
             <ButtonsBar />
+            <TasksListWrapper projectId={+projectId} />
         </PageWrapper>
     );
 }

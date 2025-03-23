@@ -2,12 +2,13 @@
 
 $checkbox-size: 20px;
 $radius: 6px;
-$outline: 3px;
+$outline: 2px;
 
 .checkboxWrapper {
     position: relative;
     width: $checkbox-size;
 	height: $checkbox-size;
+    overflow: hidden;
 }
 
 .checkbox {
@@ -31,7 +32,7 @@ $outline: 3px;
 		outline-color: var(--primary);
 	}
 
-    @include shared.transition(outline-color);
+    @include shared.transition;
 }
 
 .checkMark {
