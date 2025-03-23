@@ -1,0 +1,19 @@
+$priority-size: 6px;
+
+.priorityBlock {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: $priority-size;
+    align-items: center;
+
+    .prioritySpan {
+        width: $priority-size;
+        height: $priority-size;
+        border-radius: $priority-size;
+        background: var(--light-hint);
+    }
+
+    .blackSpan {
+        background: var(--text);
+    }
+}

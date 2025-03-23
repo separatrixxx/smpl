@@ -8,7 +8,7 @@ export const withLogoPad = <P extends object>(Component: React.ComponentType<P>,
     const WithLogoPad = (props: P) => (
         <Pad onClick={onClick}>
             <Component {...props} />
-            <Icon type='logo' className={styles.padLogo} />
+            <Icon type='logo' color='primary' className={styles.padLogo} />
         </Pad>
     );
 

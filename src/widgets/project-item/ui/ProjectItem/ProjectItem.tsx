@@ -2,8 +2,8 @@ import { ProjectItemProps } from './ProjectItem.props';
 import styles from './ProjectItem.module.scss';
 import { ReactElement } from "react";
 import { ProgressBar } from '../ProgressBar/ProgressBar';
-import { ProjectTitleBlock } from '../ProjectTitleBlock/ProjectTitleBlock';
 import { ProjectTaskToDoText } from '../ProjectTaskToDoText/ProjectTaskToDoText';
+import { ProjectTitleBlock } from '../ProjectTitleBlock/ProjectTitleBlock';
 
 
 export const ProjectItem = ({ title, isStarred, tasksCount, progress }: ProjectItemProps): ReactElement => {   

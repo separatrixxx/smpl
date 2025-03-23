@@ -4,7 +4,7 @@ body {
 	padding: 0;
 	user-select: auto;
 	background: var(--bg);
-	font-family: Roboto, sans-serif;
+	font-family: var(-font-family-roboto);
 	-webkit-tap-highlight-color: rgb(255 255 255 / 0%);
 	-webkit-tap-highlight-color: transparent;
 }
@@ -16,8 +16,8 @@ body {
 }
 
 ::-webkit-scrollbar {
-	width: 9px;
-	height: 9px;
+	width: 6px;
+	height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -35,8 +35,8 @@ a {
 
 @media (width <=480px) {
 	::-webkit-scrollbar {
-		width: 5px;
-		height: 5px;
+		width: 4px;
+		height: 4px;
 	}
 }
 
@@ -54,6 +54,7 @@ $fallback-hint: #696969;
 	--section: var(--tg-theme-section-bg-color, #{$fallback-section});
 	--text: var(--tg-theme-text-color, #{$fallback-text});
 	--hint: var(--tg-theme-hint-color, #{$fallback-hint});
+	--light-hint: color-mix(in srgb, var(--tg-theme-hint-color, #{$fallback-hint}), var(--bg) 34%);
 	--error: #FF1500;
 	--font-family-roboto: 'Roboto', sans-serif;
 	--font-family-montserrat: 'Montserrat', sans-serif;

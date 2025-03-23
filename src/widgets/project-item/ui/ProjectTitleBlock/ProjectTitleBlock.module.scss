@@ -14,18 +14,4 @@ $gap: 12px;
         @include shared.line-clamp;
         @include shared.ellipsis;
     }
-
-    div {
-        display: grid;
-        gap: inherit;
-        grid-template-columns: auto auto;
-        justify-items: end;
-    }
-
-    .icon {
-        cursor: pointer;
-
-        @include shared.transition(filter);
-		@include shared.brightness;
-    }
 }

@@ -1,0 +1,23 @@
+@use '../../../../app/shared';
+
+$gap: 24px;
+
+.taskInfoBlock {
+    display: grid;
+    gap: $gap;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+
+    .priorityBlock {
+        display: grid;
+        justify-items: left;
+        gap: 6px;
+
+        h2 {
+            max-width: 90%;
+
+            @include shared.line-clamp;
+            @include shared.ellipsis;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, HTMLAttributes, ReactNode, MouseEvent  } from 'react';
+import { DetailedHTMLProps, HTMLAttributes, ReactNode, MouseEvent } from 'react';
 
 
 export interface HtagProps extends DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {

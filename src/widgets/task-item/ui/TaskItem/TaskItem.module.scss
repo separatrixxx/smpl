@@ -1,0 +1,7 @@
+$gap: 24px;
+
+.taskItem {
+    display: grid;
+    gap: $gap;
+    z-index: 1;
+}

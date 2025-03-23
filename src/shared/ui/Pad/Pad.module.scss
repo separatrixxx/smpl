@@ -20,12 +20,25 @@ $gap: 4px;
     padding: $padding-y $padding-x-small;
 }
 
-.padLogo {
+.padLogo,
+.padBurn {
     position: absolute;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.padLogo {
     right: -24px;
     bottom: -56px;
     width: 210px;
-    fill: var(--primary) !important;
-    opacity: 0.1;
+}
+
+.padBurn {
+    top: 0;
+    right: -20px;
+    width: fit-content !important;
+    width: 210px;
+    height: 120% !important;
 }
 

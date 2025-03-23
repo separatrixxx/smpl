@@ -44,6 +44,5 @@ export const Icon = ({ type, size, color, className, onClick }: IconProps): Reac
             [styles.iconM]: size === 'm',
             [styles.iconS]: size === 's',
         })} style={ color && { fill: `var(--${color})` }} onClick={onClick} />
-
     );
 };
