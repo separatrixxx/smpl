@@ -8,6 +8,7 @@ import { loggerError } from '@/shared/utils/logger/logger';
 
 
 const DRAG_THRESHOLD_PERCENT = 0.25;
+const MAX_INITIAL_ANGLE = 10;
 
 export const useTaskDrag = (type: TaskType) => {
     const { webApp } = useSetup();
@@ -17,6 +18,8 @@ export const useTaskDrag = (type: TaskType) => {
     const [isDragging, setIsDragging] = useState<boolean>(false);
     const [isThresholdReached, setIsThresholdReached] = useState<boolean>(false);
     const startXRef = useRef(0);
+    const startYRef = useRef(0);
+    const hasValidDragStartedRef = useRef(false); 
 
     const nextType = getNextTaskType(type);
 
@@ -30,36 +33,58 @@ export const useTaskDrag = (type: TaskType) => {
         }
     }, [webApp]);
 
-    const handleStart = useCallback((clientX: number) => {
+    const isValidInitialDrag = (diffX: number, diffY: number) => {
+        if (diffX <= 0) return false;
+
+        const angle = Math.abs(Math.atan2(diffY, diffX) * (180 / Math.PI));
+
+        return angle <= MAX_INITIAL_ANGLE;
+    };
+
+    const handleStart = useCallback((clientX: number, clientY: number) => {
         if (!nextType) return;
 
         startXRef.current = clientX;
+        startYRef.current = clientY;
+        hasValidDragStartedRef.current = false;
 
         setIsDragging(true);
         setIsThresholdReached(false);
     }, [nextType]);
 
-    const handleMove = useCallback((clientX: number) => {
+    const handleMove = useCallback((clientX: number, clientY: number) => {
         if (!isDragging || !nextType) return;
 
-        const diff = clientX - startXRef.current;
+        const diffX = clientX - startXRef.current;
+        const diffY = clientY - startYRef.current;
 
-        setPosition(Math.max(0, diff));
+        if (!hasValidDragStartedRef.current) {
+            if (!isValidInitialDrag(diffX, diffY)) {
+                setIsDragging(false);
+
+                return;
+            }
+            hasValidDragStartedRef.current = true;
+        }
+
+        setPosition(Math.max(0, diffX));
 
         const threshold = screenWidth * DRAG_THRESHOLD_PERCENT;
-        const reached = diff >= threshold;
+        const reached = diffX >= threshold;
 
         if (reached && !isThresholdReached) {
             triggerLightVibration();
         }
 
-        setIsThresholdReached(diff >= threshold);
+        setIsThresholdReached(reached);
     }, [isDragging, nextType, screenWidth, isThresholdReached, triggerLightVibration]);
 
     const handleEnd = useCallback(() => {
         if (!isDragging || !nextType) return;
 
         setIsDragging(false);
+
+        hasValidDragStartedRef.current = false;
 
         const shouldTriggerAction = isThresholdReached;
 
@@ -68,12 +93,14 @@ export const useTaskDrag = (type: TaskType) => {
         return shouldTriggerAction;
     }, [isDragging, nextType, isThresholdReached]);
 
-    const onMouseDown = useCallback((e: React.MouseEvent) => handleStart(e.clientX), [handleStart]);
+    const onMouseDown = useCallback((e: React.MouseEvent) => 
+        handleStart(e.clientX, e.clientY), 
+    [handleStart]);
 
     useEffect(() => {
         if (!isDragging) return;
 
-        const onMouseMove = (e: MouseEvent) => handleMove(e.clientX);
+        const onMouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY);
         const onMouseUp = () => {
             const result = handleEnd();
 
@@ -91,8 +118,14 @@ export const useTaskDrag = (type: TaskType) => {
         };
     }, [isDragging, handleMove, handleEnd, nextType]);
 
-    const onTouchStart = useCallback((e: React.TouchEvent) => handleStart(e.touches[0].clientX), [handleStart]);
-    const onTouchMove = useCallback((e: React.TouchEvent) => handleMove(e.touches[0].clientX), [handleMove]);
+    const onTouchStart = useCallback((e: React.TouchEvent) => 
+        handleStart(e.touches[0].clientX, e.touches[0].clientY), 
+    [handleStart]);
+
+    const onTouchMove = useCallback((e: React.TouchEvent) => 
+        handleMove(e.touches[0].clientX, e.touches[0].clientY), 
+    [handleMove]);
+
     const onTouchEnd = useCallback(() => {
         const result = handleEnd();
 
