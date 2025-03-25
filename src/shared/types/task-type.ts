@@ -1,1 +1,1 @@
-export type TaskType = 'todo' | 'progress' | 'review' | 'done'
+export type TaskType = 'todo' | 'progress' | 'review' | 'done';

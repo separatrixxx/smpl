@@ -11,7 +11,7 @@ export const ClientHtag = ({ tag, text, onClick, className }: ClientHtagProps): 
 
 	return (
         <Htag className={className} tag={tag} onClick={onClick}>
-            {getLocaleText(tgUser?.language_code, text)}
+            {text && getLocaleText(tgUser?.language_code, text)}
         </Htag>
     );
 };

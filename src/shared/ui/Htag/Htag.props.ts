@@ -8,5 +8,5 @@ export interface HtagProps extends DetailedHTMLProps<HTMLAttributes<HTMLHeadingE
 }
 
 export interface ClientHtagProps extends Omit<HtagProps, 'children'> {
-	text: string,
+	text?: string,
 }

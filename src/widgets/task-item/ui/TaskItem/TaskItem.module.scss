@@ -1,7 +1,57 @@
+@use '../../../../app/shared';
+
 $gap: 24px;
+$radius: 12px;
 
 .taskItem {
     display: grid;
     gap: $gap;
     z-index: 1;
 }
+
+.taskItemWrapper {
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    background: var(--hint);
+    border-radius: $radius;
+    overflow: hidden;
+
+    &.primaryTaskItemWrapper {
+        background: var(--primary);
+    }
+
+    h3 {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        color: var(--bg);
+        font-family: var(--font-family-montserrat);
+        line-height: 24px;
+        transform: translateY(-50%);
+        z-index: 0;
+    }
+
+    .dragWrapper {
+        position: relative;
+        left: 0;
+        z-index: 1;
+
+        &.dragCursor {
+            cursor: grab;
+
+            &:active {
+                cursor: grabbing;
+            }
+        }
+        
+        @include shared.transition;
+    }
+
+    .taskItemPad {
+        border-radius: 0;
+    }
+
+    @include shared.transition;
+}
+

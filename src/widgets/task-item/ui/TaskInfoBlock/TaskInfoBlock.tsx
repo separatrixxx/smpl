@@ -7,7 +7,7 @@ import { Htag } from '@/shared/ui/Htag/Htag';
 import { Checkbox } from '@/shared/ui/Checkbox/Checkbox';
 
 
-export const TaskInfoBlock = ({ title, priority }: TaskInfoBlockProps): ReactElement => {
+export const TaskInfoBlock = ({ title, priority, type }: TaskInfoBlockProps): ReactElement => {
     const [checked, setChecked] = useState<boolean>(false);
 
     return (
@@ -18,7 +18,9 @@ export const TaskInfoBlock = ({ title, priority }: TaskInfoBlockProps): ReactEle
                     {title}
                 </Htag>
             </div>
-            <Checkbox isChecked={checked} onChange={() => setChecked(!checked)} />
+            {
+                type !== 'done' && <Checkbox isChecked={checked} onChange={() => setChecked(!checked)} />
+            }
         </div>
     );
 }

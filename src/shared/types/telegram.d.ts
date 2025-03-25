@@ -19,6 +19,15 @@ export interface IPopUpParams {
   buttons?: IPopUpButton[],
 }
 
+export type HapticImpactStyle = 'light' | 'medium' | 'heavy' | 'rigid' | 'soft';
+export type HapticNotificationType = 'error' | 'success' | 'warning';
+
+export interface HapticFeedback {
+  impactOccurred: (style: HapticImpactStyle) => void;
+  notificationOccurred: (type: HapticNotificationType) => void;
+  selectionChanged: () => void;
+}
+
 export interface IWebApp {
   initData: string,
   initDataUnsafe: {
@@ -62,10 +71,11 @@ export interface IWebApp {
     isProgressVisible: boolean,
     isActive: boolean,
     onClick: (callback: () => void) => void,
-    offClick: (callback: () => void) => void, 
+    offClick: (callback: () => void) => void,
     show: () => void,
     hide: () => void,
   },
+  HapticFeedback: HapticFeedback,
   setHeaderColor: (color: string) => void,
   onEvent: (eventType: string, eventHandler: () => void) => void,
   expand: () => void,

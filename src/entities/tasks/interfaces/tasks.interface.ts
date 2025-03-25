@@ -12,7 +12,7 @@ export interface TasksDataInterface {
 }
 
 export interface MyTasksDataInterface {
-    progress: TaskInterface[],
+    review: TaskInterface[],
 }
 
 export interface TaskInterface {

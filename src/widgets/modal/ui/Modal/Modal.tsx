@@ -4,7 +4,7 @@ import { ReactElement } from 'react';
 import { createPortal } from 'react-dom';
 import { FocusTrap } from '../FocusTrap/FocusTrap';
 import { ModalHeader } from '../ModalHeader/ModalHeader';
-import { useModal } from '@/features/modal/hooks/useModal';
+import { useModal } from '../../hooks/useModal';
 
 
 export const Modal = ({ title, isOpen, onClose, children }: ModalProps): ReactElement => {

@@ -1,5 +1,5 @@
 'use client'
-import { useFocusTrap } from '@/features/modal/hooks/useFocusTrap';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { FocusTrapProps } from './FocusTrap.props';
 import { useRef, ReactElement } from 'react';
 

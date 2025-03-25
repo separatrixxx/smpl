@@ -13,5 +13,5 @@ export const MyTasksListWrapper = () => {
         1
     );
 
-    return <TasksList tasksList={tasksListData?.progress || []} isTasksListLoading={isTasksListLoading} />
+    return <TasksList tasksList={tasksListData?.review || []} isTasksListLoading={isTasksListLoading} />
 };

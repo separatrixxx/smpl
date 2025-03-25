@@ -15,16 +15,19 @@ export const TelegramProvider = ({ children }: { children: React.ReactNode }) =>
 
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://telegram.org/js/telegram-web-app.js';
+
+    script.src = '/scripts/telegram-web-app.js';
     script.async = true;
     script.onload = () => {
       const app = (window as any).Telegram?.WebApp;
-      if (app) {
+
+      if (app) {       
         app.ready();
         setWebApp(app);
         app.expand();
       }
     };
+
     document.body.appendChild(script);
 
     return () => {

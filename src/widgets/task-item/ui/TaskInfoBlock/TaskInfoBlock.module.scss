@@ -15,6 +15,7 @@ $gap: 24px;
 
         h2 {
             max-width: 90%;
+            user-select: none;
 
             @include shared.line-clamp;
             @include shared.ellipsis;

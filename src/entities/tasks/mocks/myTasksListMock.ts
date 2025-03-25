@@ -14,7 +14,7 @@ export const fetchMyTasksListMock = async (userId: number): Promise<MyTasksDataI
         is_starred: true,
         priority: 1,
         date: currentDate.toISOString(),
-        type: 'todo',
+        type: 'review',
     };
 
     const myTask2MockData: TaskInterface = {
@@ -23,11 +23,11 @@ export const fetchMyTasksListMock = async (userId: number): Promise<MyTasksDataI
         is_starred: false,
         priority: 4,
         date: '2025-02-15T12:00:00Z',
-        type: 'todo',
+        type: 'review',
     };
 
     const tasksMockData: MyTasksDataInterface = {
-        progress: [myTask1MockData, myTask2MockData],
+        review: [myTask1MockData, myTask2MockData],
     };
 
     return new Promise((resolve) => {
