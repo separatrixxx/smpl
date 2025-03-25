@@ -1,7 +1,7 @@
-import { TaskInterface } from "../interfaces/tasks.interface";
+import { TasksDataInterface, TaskInterface } from "../interfaces/tasks.interface";
 
 
-export const fetchTasksListMock = async (workspaceId: number, userId: number, projectId?: number): Promise<TaskInterface[]> => {
+export const fetchTasksListMock = async (workspaceId: number, userId: number, projectId?: number): Promise<TasksDataInterface> => {
     if (workspaceId !== 0 && workspaceId !== 1 && workspaceId !== 2) {
         throw new Error("Workspace not found");
     }
@@ -16,10 +16,8 @@ export const fetchTasksListMock = async (workspaceId: number, userId: number, pr
 
     const currentDate = new Date();
 
-    const tasks1MockData: TaskInterface = {
+    const taskTodo1MockData: TaskInterface = {
         id: 1,
-        workspace_id: workspaceId,
-        project_id: projectId,
         title: 'Сверстать сайт-портфолио',
         is_starred: true,
         priority: 1,
@@ -27,20 +25,46 @@ export const fetchTasksListMock = async (workspaceId: number, userId: number, pr
         type: 'todo',
     };
 
-    const tasks2MockData: TaskInterface = {
+    const tasksTodo2MockData: TaskInterface = {
         id: 2,
-        workspace_id: workspaceId,
-        project_id: projectId,
         title: 'Доделать таск-менеджер',
         is_starred: false,
         priority: 4,
         date: '2025-02-15T12:00:00Z',
+        type: 'todo',
+    };
+
+    const tasksProgress1MockData: TaskInterface = {
+        id: 3,
+        title: 'Диплом',
+        is_starred: true,
+        priority: 4,
+        date: '2025-03-15T12:00:00Z',
         type: 'progress',
+    };
+
+
+    const tasksDone1MockData: TaskInterface = {
+        id: 3,
+        title: 'Прочитать статью на хабре',
+        is_starred: false,
+        priority: 2,
+        date: '2025-02-01T12:00:00Z',
+        type: 'done',
+    };
+
+    const tasksMockData: TasksDataInterface = {
+        workspace_id: workspaceId,
+        project_id: projectId,
+        todo: [taskTodo1MockData, tasksTodo2MockData],
+        progress: [tasksProgress1MockData],
+        review: [],
+        done: [tasksDone1MockData],
     };
 
     return new Promise((resolve) => {
         setTimeout(() => {
-            resolve([tasks1MockData, tasks2MockData]);
+            resolve(tasksMockData);
         }, 300);
     });
 };

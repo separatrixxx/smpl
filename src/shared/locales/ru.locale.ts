@@ -14,4 +14,8 @@ export const ru = {
     my_profile: "Мой профиль",
     my_name: "Моё имя",
     my_specialty: "Моя специальность",
+    todo: "Сделать",
+    progress: "В работе",
+    review: "Ревью",
+    done: "Выполнено",
 }

@@ -1,0 +1,27 @@
+@use '../../../../app/shared';
+
+.switchTaskTypeButton {
+    display: grid;
+    width: fit-content;
+    padding: 2px 24px;
+    color: var(--hint);
+    background: var(--second-bg);
+    font-size: 10px;
+    border: none;
+    border-radius: 30px;
+    line-height: 24px;
+    font-weight: 500;
+    font-family: var(--font-family-montserrat);
+    place-items: center center;
+    min-width: 108px;
+    outline: none;
+    cursor: pointer;
+
+    &.activeTaskType {
+        color: var(--bg);
+        background: var(--primary);
+    }
+
+    @include shared.transition;
+	@include shared.brightness;
+}

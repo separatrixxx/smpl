@@ -1,5 +1,6 @@
 import { DetailedHTMLProps, HTMLAttributes } from 'react';
 import { PriorityType } from '@/shared/types/priority';
+import { TaskType } from '@/shared/types/task-type';
 
 
 export interface TaskItemProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -7,5 +8,5 @@ export interface TaskItemProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivE
     isStarred: boolean,
     priority: PriorityType,
     date: string,
-    type: 'todo' | 'progress' | 'rewiew' | 'done',
+    type: TaskType,
 }

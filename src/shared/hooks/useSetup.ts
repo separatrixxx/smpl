@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import { useTelegram } from "@/app/providers/TelegramProvider";
 import { useUserStore } from "@/entities/user/store/userStore";
 import { useWorkspaceStore } from "@/entities/workspace/store/workspaceStore";
+import { useTaskTypeStore } from "@/entities/tasks/store/taskStore";
 
 
 export const useSetup = () => {
@@ -10,6 +11,7 @@ export const useSetup = () => {
 
     const { user, setUser, clearUser } = useUserStore();
     const { workspace, setWorkspace } = useWorkspaceStore();
+    const { taskType, setTaskType } = useTaskTypeStore();
 
     return {
         router,
@@ -20,5 +22,7 @@ export const useSetup = () => {
         clearUser,
         workspace,
         setWorkspace,
+        taskType,
+        setTaskType,
     };
 };

@@ -1,0 +1,1 @@
+export type TaskType = 'todo' | 'progress' | 'review' | 'done'

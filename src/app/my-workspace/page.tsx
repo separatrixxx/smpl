@@ -4,7 +4,8 @@ import { Header } from "@/widgets/header";
 import { WorkspaceOverview } from "@/widgets/workspaceo-overview/ui/WorkspaceOverview/WorkspaceOverview";
 import { ButtonsBar } from "./ui/ButtonsBar/ButtonsBar";
 import { ProjectsListWrapper } from "@/widgets/projects-list";
-import { TasksListWrapper } from "@/widgets/tasks-list";
+import { MyTasksListWrapper } from "@/widgets/tasks-list/ui/TasksList/MyTasksListWrapper";
+
 
 export default function MyWorkspace() {
     const WorkspaceOverviewWithPad = withLogoPad(WorkspaceOverview);
@@ -15,7 +16,7 @@ export default function MyWorkspace() {
             <WorkspaceOverviewWithPad completed={3} total={10} />
             <ButtonsBar />
             <ProjectsListWrapper />
-            <TasksListWrapper />
+            <MyTasksListWrapper />
         </PageWrapper>
     );
 }

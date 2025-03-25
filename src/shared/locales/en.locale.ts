@@ -14,4 +14,8 @@ export const en = {
     my_profile: "My profile",
     my_name: "My name",
     my_specialty: "My specialty",
+    todo: "To do",
+    progress: "In progress",
+    review: "In review",
+    done: "Done",
 }
