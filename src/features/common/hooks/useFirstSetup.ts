@@ -9,6 +9,7 @@ import { USER_ID_KEY } from '@/shared/constants';
 
 export const useFirstSetup = () => {
     console.log('qwerty 1')
+    console.log(getFromStorage(USER_ID_KEY))
     if (getFromStorage(USER_ID_KEY)) {
         return;
     }
