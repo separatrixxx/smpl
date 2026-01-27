@@ -5,17 +5,28 @@ import { TaskStatus } from "@/generated/prisma";
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
-    const userId = searchParams.get('userId');
+    const telegramId = searchParams.get('userId');
 
-    if (!userId) {
+    if (!telegramId) {
         return NextResponse.json(
-            { error: "userId is required" },
+            { error: "userId (telegramId) is required" },
             { status: 400 }
         );
     }
 
     try {
-        const workspace = await db.workspace.findMyWorkspace(Number(userId));
+        // Сначала находим пользователя по Telegram ID
+        const user = await db.user.findByTelegramId(BigInt(telegramId));
+
+        if (!user) {
+            return NextResponse.json(
+                { error: "User not found" },
+                { status: 404 }
+            );
+        }
+
+        // Затем ищем воркспейс по внутреннему ID пользователя
+        const workspace = await db.workspace.findMyWorkspace(user.id);
 
         if (!workspace) {
             return NextResponse.json(

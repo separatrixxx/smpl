@@ -29,8 +29,6 @@ export default function MyWorkspace() {
         }
     }, [workspaceData, setWorkspace]);
 
-    console.log(workspaceData)
-
     const WorkspaceOverviewWithPad = withLogoPad(WorkspaceOverview);
 
     const completed = workspaceData?.tasks_info?.completed ?? 0;

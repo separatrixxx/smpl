@@ -41,10 +41,20 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
     try {
         const { searchParams } = new URL(req.url);
-        const userId = searchParams.get('userId');
+        const telegramId = searchParams.get('userId');
 
-        if (userId) {
-            const workspaces = await db.workspace.findByUser(Number(userId));
+        if (telegramId) {
+            // Сначала находим пользователя по Telegram ID
+            const user = await db.user.findByTelegramId(BigInt(telegramId));
+
+            if (!user) {
+                return NextResponse.json(
+                    { error: "User not found" },
+                    { status: 404 }
+                );
+            }
+
+            const workspaces = await db.workspace.findByUser(user.id);
 
             const formattedWorkspaces = workspaces.map((ws) => ({
                 id: ws.id,
@@ -60,7 +70,8 @@ export async function GET(req: NextRequest) {
             }));
 
             return NextResponse.json({
-                userId: Number(userId),
+                telegramId: Number(telegramId),
+                userId: user.id,
                 workspaces: formattedWorkspaces,
             });
         }

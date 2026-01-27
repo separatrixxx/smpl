@@ -5,14 +5,17 @@ import { ReactElement } from "react";
 import { Htag } from '@/shared/ui/Htag/Htag';
 import Link from 'next/link';
 import { saveToStorage } from '@/shared/utils/storage/storage';
+import { useSetup } from '@/shared/hooks/useSetup';
 
 
 export const WorkspaceItem = ({ workspaceId, title, isMyWorkspace }: WorkspacesItemProps): ReactElement => {
+    const { tgUser } = useSetup();
+
     const link = isMyWorkspace ? '/my-workspace' :  `/workspace/${workspaceId}`;
 
     const handleLinkClick = () => {
         if (isMyWorkspace) {
-            saveToStorage('currentWorkspace', '0');
+            saveToStorage('currentWorkspace', String(tgUser?.id));
         } else {
             saveToStorage('currentWorkspace', String(workspaceId));
         }

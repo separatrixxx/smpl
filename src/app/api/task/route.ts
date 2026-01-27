@@ -47,10 +47,20 @@ export async function GET(req: NextRequest) {
         const { searchParams } = new URL(req.url);
         const workspaceId = searchParams.get('workspace');
         const projectId = searchParams.get('project');
-        const userId = searchParams.get('userId');
+        const telegramId = searchParams.get('userId');
 
-        if (projectId === 'my' && userId) {
-            const tasks = await db.task.findByUser(Number(userId), TaskStatus.review);
+        if (projectId === 'my' && telegramId) {
+            // Сначала находим пользователя по Telegram ID
+            const user = await db.user.findByTelegramId(BigInt(telegramId));
+
+            if (!user) {
+                return NextResponse.json(
+                    { error: "User not found" },
+                    { status: 404 }
+                );
+            }
+
+            const tasks = await db.task.findByUser(user.id, TaskStatus.review);
 
             const formattedTasks = tasks.map((task) => ({
                 id: task.id,
