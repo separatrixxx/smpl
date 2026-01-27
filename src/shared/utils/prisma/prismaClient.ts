@@ -8,11 +8,16 @@ export const db = {
             return prisma.user.findUnique({ where: { id } });
         },
 
+        findByTelegramId: async (telegramId: bigint) => {
+            return prisma.user.findUnique({ where: { telegram_id: telegramId } });
+        },
+
         findMany: async () => {
             return prisma.user.findMany();
         },
 
         create: async (data: {
+            telegram_id: bigint;
             first_name: string;
             last_name?: string | null;
             username?: string | null;
@@ -62,6 +67,19 @@ export const db = {
                         { owner_id: userId },
                         { teammates: { some: { user_id: userId } } },
                     ],
+                },
+                include: {
+                    tasks: true,
+                    teammates: { select: { user_id: true } },
+                },
+            });
+        },
+
+        findMyWorkspace: async (userId: number) => {
+            return prisma.workspace.findFirst({
+                where: {
+                    owner_id: userId,
+                    is_my_workspace: true,
                 },
                 include: {
                     tasks: true,

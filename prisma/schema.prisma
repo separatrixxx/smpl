@@ -16,6 +16,7 @@ enum TaskStatus {
 
 model User {
     id              Int             @id @default(autoincrement())
+    telegram_id     BigInt          @unique
     first_name      String
     last_name       String?
     username        String?

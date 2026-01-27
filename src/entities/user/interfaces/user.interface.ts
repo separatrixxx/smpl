@@ -3,6 +3,7 @@ import { WorkspaceInterface } from "@/entities/workspace/interfaces/workspace.in
 
 export interface UserInterface extends UserDataInterface {
     id: number,
+    telegram_id: string,
 }
 
 export interface UserDataInterface {
@@ -10,6 +11,10 @@ export interface UserDataInterface {
     last_name: string | null,
     username: string | null,
     photo_url: string | null,
+}
+
+export interface CreateUserDataInterface extends UserDataInterface {
+    telegram_id: number,
 }
 
 export interface UserWorkspacesInterface {

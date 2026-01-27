@@ -6,6 +6,13 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
 
+        if (!body.telegram_id) {
+            return NextResponse.json(
+                { error: "telegram_id is required" },
+                { status: 400 }
+            );
+        }
+
         if (!body.first_name || typeof body.first_name !== 'string') {
             return NextResponse.json(
                 { error: "first_name is required and must be a string" },
@@ -13,7 +20,18 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        let telegramId: bigint;
+        try {
+            telegramId = BigInt(body.telegram_id);
+        } catch {
+            return NextResponse.json(
+                { error: "Invalid telegram_id format" },
+                { status: 400 }
+            );
+        }
+
         const user = await db.user.create({
+            telegram_id: telegramId,
             first_name: body.first_name,
             last_name: body.last_name ?? null,
             username: body.username ?? null,
@@ -27,7 +45,14 @@ export async function POST(req: NextRequest) {
             owner_id: user.id,
         });
 
-        return NextResponse.json(user, { status: 201 });
+        return NextResponse.json({
+            id: user.id,
+            telegram_id: user.telegram_id.toString(),
+            first_name: user.first_name,
+            last_name: user.last_name,
+            username: user.username,
+            photo_url: user.photo_url,
+        }, { status: 201 });
     } catch (error) {
         console.error("Database error:", error);
 

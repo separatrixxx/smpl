@@ -29,7 +29,7 @@
 ### База данных (Prisma):
 
 Модели:
-- `User` - пользователь (id, first_name, last_name, username, photo_url)
+- `User` - пользователь (id, telegram_id, first_name, last_name, username, photo_url). `telegram_id` - уникальный идентификатор из Telegram (BigInt)
 - `Workspace` - воркспейс (id, title, description, is_my_workspace, owner_id)
 - `UserWorkspace` - связь пользователя и воркспейса (для teammates)
 - `Project` - проект (id, workspace_id, title, description, is_starred)
@@ -39,9 +39,11 @@
 
 ### API роуты:
 
-- `/api/user` - GET (список), POST (создание)
-- `/api/user/[id]` - GET (получение по id)
+- `/api/user` - GET (список), POST (создание, требует telegram_id)
+- `/api/user/[id]` - GET (получение по внутреннему id)
+- `/api/user/telegram/[telegramId]` - GET (получение по Telegram ID)
 - `/api/workspace` - GET (список, с `?userId` для фильтрации), POST (создание)
+- `/api/workspace/my` - GET (личный воркспейс пользователя, с `?userId`)
 - `/api/workspace/[id]` - GET, PUT, DELETE
 - `/api/project` - GET (список, с `?workspace` для фильтрации), POST (создание)
 - `/api/project/[id]` - GET, PUT, DELETE
