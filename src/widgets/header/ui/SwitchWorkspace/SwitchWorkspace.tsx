@@ -9,11 +9,9 @@ import { Icon } from '@/shared/ui/Icon/Icon';
 import { useSWRData } from '@/shared/lib/useSWRData';
 import { fetchUserWorkspaces } from '@/entities/user/api/userWorkspacesApi';
 import { UserWorkspacesInterface } from '@/entities/user/interfaces/user.interface';
-import { WorkspaceInterface } from '@/entities/workspace/interfaces/workspace.interface';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 import { WorkspacesList } from '../WorkspacesList/WorkspacesList';
 import cn from 'classnames';
-import { fetchMyWorkspace } from '@/entities/workspace/api/workspaceApi';
 
 
 export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): ReactElement => {
@@ -52,6 +50,8 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
         };
     }, []);
 
+    console.log('qwerty: ' + tgUser?.id)
+
     const { data: workspacesData, isLoading: isWorkspacesLoading } = useSWRData<UserWorkspacesInterface>(
         fetchUserWorkspaces,
         'Failed to fetch user workspaces',
@@ -59,25 +59,13 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
         tgUser?.id,
     );
 
-    const { data: myWorkspaceData, isLoading: isMyWorkspaceLoading } = useSWRData<WorkspaceInterface>(
-        fetchMyWorkspace,
-        'Failed to fetch user workspace',
-        `/api/workspace/my?userId=${tgUser?.id}`,
-        tgUser?.id,
-    );
-
-    console.log(workspacesData)
-    console.log(myWorkspaceData)
-
-    const isUserWorkspaces = workspacesData && workspacesData.workspaces.length >= 1;
-    const currWorkspace = currWorkspaceId === 0
-        ? myWorkspaceData
-        : workspacesData?.workspaces.find(w => w.id === currWorkspaceId);
+    const isUserWorkspaces = workspacesData && workspacesData.workspaces.length > 1;
+    const currWorkspace = workspacesData?.workspaces.find(w => w.id === currWorkspaceId);
 
     return (
         <div className={styles.switchWorkspace} ref={switchWorkspaceRef}>
             <div className={styles.currentWorkspace} onClick={() => {
-                if (isUserWorkspaces && !isWorkspacesLoading && !isMyWorkspaceLoading) {
+                if (isUserWorkspaces && !isWorkspacesLoading) {
                     setIsListVisible(!isListVisible);
                 }
             }}>
