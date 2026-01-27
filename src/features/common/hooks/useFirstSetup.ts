@@ -16,6 +16,16 @@ export const useFirstSetup = () => {
     console.log('[useFirstSetup] isInitialized:', isInitialized, 'isSetupComplete:', isSetupComplete);
 
     useEffect(() => {
+        // TODO: Убрать после первого успешного запуска
+        // Принудительная очистка устаревших данных
+        const forceReset = getFromStorage('force_reset_done');
+        if (!forceReset) {
+            console.log('[useFirstSetup] Force reset localStorage');
+            localStorage.removeItem(USER_ID_KEY);
+            localStorage.removeItem('currentWorkspace');
+            saveToStorage('force_reset_done', 'true');
+        }
+
         const storedUserId = getFromStorage(USER_ID_KEY);
         console.log('[useFirstSetup] storedUserId from localStorage:', storedUserId);
         if (storedUserId) {
