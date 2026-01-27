@@ -59,7 +59,8 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
         tgUser?.id,
     );
 
-    console.log('qwerty: ' + workspacesData)
+    console.log(currWorkspaceId)
+    console.log(workspacesData)
 
 
     const isUserWorkspaces = workspacesData && workspacesData.workspaces.length > 1;
