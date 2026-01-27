@@ -1,1 +1,1 @@
-export const USER_ID_KEY = 'smpl_user_id';
+export const USER_ID_KEY = 'userId';
