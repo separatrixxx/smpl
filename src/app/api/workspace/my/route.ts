@@ -15,7 +15,6 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        // Сначала находим пользователя по Telegram ID
         const user = await db.user.findByTelegramId(BigInt(telegramId));
 
         if (!user) {
@@ -25,7 +24,6 @@ export async function GET(req: NextRequest) {
             );
         }
 
-        // Затем ищем воркспейс по внутреннему ID пользователя
         const workspace = await db.workspace.findMyWorkspace(user.id);
 
         if (!workspace) {

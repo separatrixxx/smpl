@@ -50,7 +50,6 @@ export async function GET(req: NextRequest) {
         const telegramId = searchParams.get('userId');
 
         if (projectId === 'my' && telegramId) {
-            // Сначала находим пользователя по Telegram ID
             const user = await db.user.findByTelegramId(BigInt(telegramId));
 
             if (!user) {
