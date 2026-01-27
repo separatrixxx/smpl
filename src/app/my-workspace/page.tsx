@@ -11,19 +11,16 @@ import { useSWRData } from "@/shared/lib/useSWRData";
 import { fetchMyWorkspace } from "@/entities/workspace/api/workspaceApi";
 import { WorkspaceInterface } from "@/entities/workspace/interfaces/workspace.interface";
 import { useSetup } from "@/shared/hooks/useSetup";
-import { getFromStorage } from "@/shared/utils/storage/storage";
-import { USER_ID_KEY } from "@/shared/constants";
 
 
 export default function MyWorkspace() {
-    const { setWorkspace } = useSetup();
-    const userId = getFromStorage(USER_ID_KEY);
+    const { tgUser, setWorkspace } = useSetup();
 
     const { data: workspaceData } = useSWRData<WorkspaceInterface>(
         fetchMyWorkspace,
         'Failed to fetch my workspace',
-        userId ? `/api/workspace/my?userId=${userId}` : null,
-        userId ? Number(userId) : undefined
+        `/api/workspace/my?userId=${tgUser?.id}`,
+        tgUser?.id
     );
 
     useEffect(() => {

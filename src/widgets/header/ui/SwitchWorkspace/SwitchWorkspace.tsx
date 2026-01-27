@@ -53,8 +53,8 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
     const { data: workspacesData, isLoading: isWorkspacesLoading } = useSWRData<UserWorkspacesInterface>(
         fetchUserWorkspaces,
         'Failed to fetch user workspaces',
-        `/api/workspace?userId=${1}`,
-        1,
+        `/api/workspace?userId=${tgUser?.id}`,
+        tgUser?.id,
     );
 
 
