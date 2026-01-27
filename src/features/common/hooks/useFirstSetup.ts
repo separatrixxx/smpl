@@ -8,9 +8,12 @@ import { USER_ID_KEY } from '@/shared/constants';
 
 
 export const useFirstSetup = () => {
+    console.log('qwerty 1')
     if (getFromStorage(USER_ID_KEY)) {
         return;
     }
+
+    console.log('qwerty 2')
 
     const { tgUser } = useSetup();
 

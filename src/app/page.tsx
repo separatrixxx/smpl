@@ -4,8 +4,8 @@ import { useWorkspaceRedirect } from "@/features/workspace/hooks/useWorkspaceRed
 
 
 export default function Home() {
-    useWorkspaceRedirect();
     useFirstSetup();
+    useWorkspaceRedirect();
 
     return <div>Loading...</div>;
 }
