@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "prisma generate && next build --webpack",
+    "build": "prisma generate && prisma migrate deploy && next build --webpack",
     "start": "next start --webpack",
     "lint": "next lint",
     "stylelint": "stylelint \"**/*.scss\" --fix",
     "check": "stylelint \"**/*.scss\" --fix && next lint && next build",
-    "migrate": "npx prisma migrate dev && npx prisma migrate dev --name add_telegram_id --create-only && && npx prisma generate"
+    "migrate": "npx prisma migrate dev && npx prisma generate"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",
