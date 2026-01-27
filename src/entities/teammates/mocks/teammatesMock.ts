@@ -13,6 +13,7 @@ export const fetchTeammatesMock = async (workspaceId: number, userId: number): P
 
     const teammate1MockData: UserInterface = {
         id: 2,
+        telegram_id: '100000001',
         first_name: 'Teammate 1',
         last_name: null,
         username: null,
@@ -21,6 +22,7 @@ export const fetchTeammatesMock = async (workspaceId: number, userId: number): P
 
     const teammate2MockData: UserInterface = {
         id: 3,
+        telegram_id: '100000002',
         first_name: 'Teammate 2',
         last_name: null,
         username: null,
@@ -29,6 +31,7 @@ export const fetchTeammatesMock = async (workspaceId: number, userId: number): P
 
     const teammate3MockData: UserInterface = {
         id: 4,
+        telegram_id: '100000003',
         first_name: 'Teammate 3',
         last_name: null,
         username: null,
@@ -37,6 +40,7 @@ export const fetchTeammatesMock = async (workspaceId: number, userId: number): P
 
     const teammate4MockData: UserInterface = {
         id: 5,
+        telegram_id: '100000004',
         first_name: 'Teammate 4',
         last_name: null,
         username: null,
