@@ -38,26 +38,33 @@ export const useFirstSetup = () => {
     const shouldFetch = isInitialized && !isSetupComplete && telegramId !== undefined;
     console.log('[useFirstSetup] telegramId:', telegramId, 'shouldFetch:', shouldFetch);
 
-    const { data: userData, error } = useSWRData<UserInterface>(
+    const { data: userData, error, isLoading } = useSWRData<UserInterface>(
         fetchUserByTelegramId,
         'Failed to fetch user',
         shouldFetch ? `/api/user/telegram/${telegramId}` : null,
         telegramId,
     );
 
-    console.log('[useFirstSetup] userData:', userData, 'error:', error);
+    console.log('[useFirstSetup] userData:', userData, 'error:', error, 'isLoading:', isLoading);
 
     useEffect(() => {
-        console.log('[useFirstSetup] setupUser effect - isSetupComplete:', isSetupComplete, 'isInitialized:', isInitialized, 'tgUser:', !!tgUser);
+        console.log('[useFirstSetup] setupUser effect - isSetupComplete:', isSetupComplete, 'isInitialized:', isInitialized, 'tgUser:', !!tgUser, 'isLoading:', isLoading);
         
-        if (isSetupComplete || !isInitialized || !tgUser) {
+        // Ждём пока SWR завершит запрос
+        if (isSetupComplete || !isInitialized || !tgUser || !shouldFetch) {
+            return;
+        }
+
+        // Если ещё загружается или нет ни данных, ни ошибки - ждём
+        if (isLoading || (!userData && !error)) {
+            console.log('[useFirstSetup] Still loading, waiting...');
             return;
         }
 
         const setupUser = async () => {
             console.log('[useFirstSetup] setupUser - error:', error, 'userData:', userData);
             
-            if (error && error.response?.status === 404) {
+            if (error) {
                 console.log('[useFirstSetup] User not found, creating...');
                 try {
                     const newUser = await createUser({
@@ -82,5 +89,5 @@ export const useFirstSetup = () => {
         };
 
         setupUser();
-    }, [userData, error, tgUser, isSetupComplete, isInitialized]);
+    }, [userData, error, tgUser, isSetupComplete, isInitialized, isLoading, shouldFetch]);
 };
