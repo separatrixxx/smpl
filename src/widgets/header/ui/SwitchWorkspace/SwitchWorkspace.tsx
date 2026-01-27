@@ -50,12 +50,16 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
         };
     }, []);
 
+    console.log('qwerty: ' + tgUser?.id)
+
     const { data: workspacesData, isLoading: isWorkspacesLoading } = useSWRData<UserWorkspacesInterface>(
         fetchUserWorkspaces,
         'Failed to fetch user workspaces',
         `/api/workspace?userId=${tgUser?.id}`,
         tgUser?.id,
     );
+
+    console.log('qwerty: ' + workspacesData)
 
 
     const isUserWorkspaces = workspacesData && workspacesData.workspaces.length > 1;
