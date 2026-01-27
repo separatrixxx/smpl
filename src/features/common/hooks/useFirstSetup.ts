@@ -13,6 +13,8 @@ export const useFirstSetup = () => {
     }
     
     const { tgUser } = useSetup();
+
+    console.log(tgUser)
     
     const id = tgUser?.id;
 
@@ -24,6 +26,9 @@ export const useFirstSetup = () => {
     );
 
     useEffect(() => {
+        console.log(userData)
+        console.log(error)
+
         const setupUser = async () => {
             if (error && tgUser) {
                 const userData = await createUser({
@@ -32,6 +37,8 @@ export const useFirstSetup = () => {
                     username: tgUser.username || null,
                     photo_url: tgUser.photo_url || null,
                 });
+
+                console.log(userData)
 
                 saveToStorage(USER_ID_KEY, String(userData.id));
             } else if (userData) {
