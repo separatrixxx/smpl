@@ -57,8 +57,6 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
         tgUser?.id,
     );
     
-    console.log(currWorkspaceId)
-
     const isUserWorkspaces = workspacesData && workspacesData.workspaces.length > 1;
     const currWorkspace = workspacesData?.workspaces.find(w => w.id === currWorkspaceId);
 
