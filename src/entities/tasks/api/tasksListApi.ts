@@ -2,8 +2,8 @@ import { getData } from "@/shared/api/apiClient";
 import { TasksDataInterface } from "../interfaces/tasks.interface";
 
 
-export const fetchTasksList = async (workspaceId: number, userId: number, projectId?: number): Promise<TasksDataInterface> => {
-    const url = process.env.NEXT_PUBLIC_DOMAIN;
+export const fetchTasksList = async (workspaceId: number, projectId?: number): Promise<TasksDataInterface> => {
+    const projectParam = projectId !== undefined ? `&project=${projectId}` : '';
 
-    return getData<TasksDataInterface>(url + `/tasks?project=${projectId}&workspace=${workspaceId}&userId=${userId}`);
+    return getData<TasksDataInterface>(`/api/task?workspace=${workspaceId}${projectParam}`);
 };

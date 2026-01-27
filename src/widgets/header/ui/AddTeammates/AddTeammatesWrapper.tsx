@@ -1,5 +1,5 @@
 'use client';
-import { fetchTeammatesMock } from '@/entities/teammates/mocks/teammatesMock';
+import { fetchTeammates } from '@/entities/teammates/api/teammatesApi';
 import { useSetup } from '@/shared/hooks/useSetup';
 import { useSWRData } from '@/shared/lib/useSWRData';
 import { TeammatesInterface } from '@/entities/teammates/interfaces/teammates.interface';
@@ -10,10 +10,10 @@ export const AddTeammatesWrapper = () => {
     const { workspace } = useSetup();
 
     const { data: teammatesData, isLoading: isTeammatesLoading } = useSWRData<TeammatesInterface>(
-        fetchTeammatesMock,
+        fetchTeammates,
         'Failed to fetch teammates',
-        `/teammates/${workspace}?userId=${1}`,
-        (workspace || 1), 1
+        `/api/teammate/${workspace}`,
+        workspace || 1
     );
 
     const visibleTeammates = teammatesData?.teammates.slice(0, 3) || [];

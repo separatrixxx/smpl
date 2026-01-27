@@ -1,9 +1,11 @@
-import { getData } from "@/shared/api/apiClient";
-import { UserInterface } from "../interfaces/user.interface";
+import { getData, postData } from "@/shared/api/apiClient";
+import { UserInterface, UserDataInterface } from "../interfaces/user.interface";
 
 
 export const fetchUser = async (id: number): Promise<UserInterface> => {
-    const url = process.env.NEXT_PUBLIC_DOMAIN;
+    return getData<UserInterface>(`/api/user/${id}`);
+};
 
-    return getData<UserInterface>(url + `/user/${id}`);
+export const createUser = async (data: UserDataInterface): Promise<UserInterface> => {
+    return postData<UserInterface>('/api/user', data);
 };

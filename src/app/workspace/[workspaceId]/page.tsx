@@ -1,4 +1,4 @@
-import { fetchWorkspaceMock } from "@/entities/workspace/mocks/workspaceMock";
+import { fetchWorkspace } from "@/entities/workspace/api/workspaceApi";
 import { WorkspaceInterface } from "@/entities/workspace/interfaces/workspace.interface";
 import { Metadata } from "next";
 import { WorkspacePageInterface } from "./interfaces/workspace-page.interface";
@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: WorkspacePageInterface): Prom
     const workspaceId = resolvedParams.workspaceId;
 
     try {
-        const workspaceData: WorkspaceInterface = await fetchWorkspaceMock(+workspaceId, 1);
+        const workspaceData: WorkspaceInterface = await fetchWorkspace(+workspaceId);
 
         return {
             title: '.smpl - ' + workspaceData.title,
@@ -32,8 +32,8 @@ export default async function Workspace({ params }: WorkspacePageInterface) {
     const resolvedParams = await params;
     const workspaceId = resolvedParams.workspaceId;
 
-    const workspaceData: WorkspaceInterface = await fetchWorkspaceMock(+workspaceId, 1);
-    
+    const workspaceData: WorkspaceInterface = await fetchWorkspace(+workspaceId);
+
     const WorkspaceOverviewWithPad = withLogoPad(WorkspaceOverview);
 
     const { completed, total } = workspaceData.tasks_info;

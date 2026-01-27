@@ -19,6 +19,7 @@ export const fetchWorkspaceMock = async (workspaceId: number, userId: number): P
             total: 7,
         },
         is_my_workspace: false,
+        owner: 1,
         teammates: [],
     };
 
@@ -31,6 +32,7 @@ export const fetchWorkspaceMock = async (workspaceId: number, userId: number): P
             total: 23,
         },
         is_my_workspace: false,
+        owner: 1,
         teammates: [],
     };
 

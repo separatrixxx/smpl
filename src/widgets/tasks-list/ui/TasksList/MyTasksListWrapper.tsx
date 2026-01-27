@@ -2,14 +2,14 @@
 import { useSWRData } from '@/shared/lib/useSWRData';
 import { TasksList } from '../..';
 import { MyTasksDataInterface } from '@/entities/tasks/interfaces/tasks.interface';
-import { fetchMyTasksListMock } from '@/entities/tasks/mocks/myTasksListMock';
+import { fetchMyTasksList } from '@/entities/tasks/api/myTasksListApi';
 
 
 export const MyTasksListWrapper = () => {
     const { data: tasksListData, isLoading: isTasksListLoading } = useSWRData<MyTasksDataInterface>(
-        fetchMyTasksListMock,
+        fetchMyTasksList,
         'Failed to fetch tasks list',
-        `/tasks?project=my&userId=${1}`,
+        `/api/task?project=my&userId=${1}`,
         1
     );
 

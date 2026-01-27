@@ -7,7 +7,7 @@ import { getLocaleText } from '@/shared/utils/locale/locale';
 import { useSetup } from '@/shared/hooks/useSetup';
 import { Icon } from '@/shared/ui/Icon/Icon';
 import { useSWRData } from '@/shared/lib/useSWRData';
-import { fetchUserWorkspacesMock } from '@/entities/user/mocks/userWorkspacesMock';
+import { fetchUserWorkspaces } from '@/entities/user/api/userWorkspacesApi';
 import { UserWorkspacesInterface } from '@/entities/user/interfaces/user.interface';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 import { WorkspacesList } from '../WorkspacesList/WorkspacesList';
@@ -51,28 +51,33 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
     }, []);
 
     const { data: workspacesData, isLoading: isWorkspacesLoading } = useSWRData<UserWorkspacesInterface>(
-        fetchUserWorkspacesMock,
+        fetchUserWorkspaces,
         'Failed to fetch user workspaces',
-        `/user/workspaces/${1}`,
+        `/api/workspace?userId=${1}`,
         1,
     );
 
+
+    const isUserWorkspaces = workspacesData && workspacesData.workspaces.length > 1;
     const currWorkspace = workspacesData?.workspaces.find(w => w.id === currWorkspaceId);
 
     return (
         <div className={styles.switchWorkspace} ref={switchWorkspaceRef}>
             <div className={styles.currentWorkspace} onClick={() => {
-                if (!isWorkspacesLoading) {
+                if (isUserWorkspaces && !isWorkspacesLoading) {
                     setIsListVisible(!isListVisible);
                 }
             }}>
-                <Icon
-                    type='chevron_down'
-                    size='s'
-                    className={cn(styles.chevronIcon, {
-                        [styles.rotateChevron]: isListVisible,
-                    })}
-                />
+                {
+                    isUserWorkspaces && 
+                        <Icon
+                            type='chevron_down'
+                            size='s'
+                            className={cn(styles.chevronIcon, {
+                                [styles.rotateChevron]: isListVisible,
+                            })}
+                        />
+                }
                 <Skeleton width={100} height={20} isReady={!isWorkspacesLoading}>
                     <Htag tag='m'>
                         {currWorkspace?.is_my_workspace
@@ -82,7 +87,7 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
                 </Skeleton>
             </div>
             {
-                isListVisible && !isWorkspacesLoading && 
+                isUserWorkspaces && isListVisible && !isWorkspacesLoading && 
                     <WorkspacesList currWorkspaceId={workspace}
                         workspaces={workspacesData?.workspaces || []} />
             }

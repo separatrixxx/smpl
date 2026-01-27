@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { PageWrapper } from "@/shared/ui/PageWrapper/PageWrapper";
 import { Header } from "@/widgets/header";
 import { ProjectPageInterface } from "./interfaces/project-page.interface";
-import { fetchProjectMock } from "@/entities/projects/mocks/projectMock";
+import { fetchProject } from "@/entities/projects/api/projectApi";
 import { ProjectInterface } from "@/entities/projects/interfaces/projects.interface";
 import { BackButton } from "@/shared/ui/BackButton/BackButton";
 import { withPad } from "@/shared/ui/Pad/hocs/withPad";
@@ -14,10 +14,9 @@ import { TasksListWrapper } from "@/widgets/tasks-list";
 export async function generateMetadata({ params }: ProjectPageInterface): Promise<Metadata> {
     const resolvedParams = await params;
     const projectId = resolvedParams.projectId;
-    const workspaceId = resolvedParams.workspaceId;
 
     try {
-        const projectData: ProjectInterface = await fetchProjectMock(+projectId, +workspaceId, 1);
+        const projectData: ProjectInterface = await fetchProject(+projectId);
 
         return {
             title: '.smpl - ' + projectData.title,
@@ -33,9 +32,8 @@ export async function generateMetadata({ params }: ProjectPageInterface): Promis
 export default async function Project({ params }: ProjectPageInterface) {
     const resolvedParams = await params;
     const projectId = resolvedParams.projectId;
-    const workspaceId = resolvedParams.workspaceId;
 
-    const projectData: ProjectInterface = await fetchProjectMock(+projectId, +workspaceId, 1);
+    const projectData: ProjectInterface = await fetchProject(+projectId);
 
     const ProjectItemWithPad = withPad(ProjectItem);
 

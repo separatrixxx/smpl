@@ -1,8 +1,11 @@
 import { WorkspaceInterface } from "@/entities/workspace/interfaces/workspace.interface";
 
 
-export interface UserInterface {
+export interface UserInterface extends UserDataInterface {
     id: number,
+}
+
+export interface UserDataInterface {
     first_name: string,
     last_name: string | null,
     username: string | null,

@@ -1,0 +1,70 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../src/generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum TaskStatus {
+    todo
+    progress
+    review
+    done
+}
+
+model User {
+    id              Int             @id @default(autoincrement())
+    first_name      String
+    last_name       String?
+    username        String?
+    photo_url       String?
+    owned_workspaces Workspace[]    @relation("WorkspaceOwner")
+    workspaces      UserWorkspace[]
+}
+
+model Workspace {
+    id              Int             @id @default(autoincrement())
+    title           String
+    description     String?
+    is_my_workspace Boolean         @default(false)
+    owner_id        Int
+    owner           User            @relation("WorkspaceOwner", fields: [owner_id], references: [id])
+    projects        Project[]
+    tasks           Task[]
+    teammates       UserWorkspace[]
+}
+
+model UserWorkspace {
+    id           Int       @id @default(autoincrement())
+    user_id      Int
+    workspace_id Int
+    user         User      @relation(fields: [user_id], references: [id])
+    workspace    Workspace @relation(fields: [workspace_id], references: [id])
+
+    @@unique([user_id, workspace_id])
+}
+
+model Project {
+    id           Int       @id @default(autoincrement())
+    workspace_id Int
+    title        String
+    description  String?
+    is_starred   Boolean   @default(false)
+    workspace    Workspace @relation(fields: [workspace_id], references: [id])
+    tasks        Task[]
+}
+
+model Task {
+    id           Int        @id @default(autoincrement())
+    workspace_id Int
+    project_id   Int?
+    title        String
+    is_starred   Boolean    @default(false)
+    priority     Int        @default(1)
+    date         DateTime   @default(now())
+    status       TaskStatus @default(todo)
+    workspace    Workspace  @relation(fields: [workspace_id], references: [id])
+    project      Project?   @relation(fields: [project_id], references: [id])
+}

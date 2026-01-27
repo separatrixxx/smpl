@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { PageWrapper } from "@/shared/ui/PageWrapper/PageWrapper";
 import { Header } from "@/widgets/header";
 import { MyProjectPageInterface } from "./interfaces/project-page.interface";
-import { fetchProjectMock } from "@/entities/projects/mocks/projectMock";
+import { fetchProject } from "@/entities/projects/api/projectApi";
 import { ProjectInterface } from "@/entities/projects/interfaces/projects.interface";
 import { BackButton } from "@/shared/ui/BackButton/BackButton";
 import { withPad } from "@/shared/ui/Pad/hocs/withPad";
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: MyProjectPageInterface): Prom
     const projectId = resolvedParams.projectId;
 
     try {
-        const projectData: ProjectInterface = await fetchProjectMock(+projectId, 0, 1);
+        const projectData: ProjectInterface = await fetchProject(+projectId);
 
         return {
             title: '.smpl - ' + projectData.title,
@@ -33,7 +33,7 @@ export default async function MyProject({ params }: MyProjectPageInterface) {
     const resolvedParams = await params;
     const projectId = resolvedParams.projectId;
 
-    const projectData: ProjectInterface = await fetchProjectMock(+projectId, 0, 1);
+    const projectData: ProjectInterface = await fetchProject(+projectId);
 
     const ProjectItemWithPad = withPad(ProjectItem);
 

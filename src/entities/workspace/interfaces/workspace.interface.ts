@@ -7,6 +7,7 @@ export interface WorkspaceInterface {
         total: number,
     },
     is_my_workspace: boolean,
+    owner: number;
     teammates: number[],
 }
 

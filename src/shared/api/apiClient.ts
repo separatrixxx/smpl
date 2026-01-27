@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 
 const apiClient: AxiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_DOMAIN,
+    baseURL: process.env.NEXT_PUBLIC_DOMAIN || '',
     headers: {
         'Content-Type': 'application/json',
     },
