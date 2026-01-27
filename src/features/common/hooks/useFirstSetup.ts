@@ -8,26 +8,28 @@ import { USER_ID_KEY } from '@/shared/constants';
 
 
 export const useFirstSetup = () => {
-    const [isSetupComplete, setIsSetupComplete] = useState(() => !!getFromStorage(USER_ID_KEY));
+    if (getFromStorage(USER_ID_KEY)) {
+        return;
+    }
+
     const { tgUser } = useSetup();
 
+    console.log(tgUser)
+
     const telegramId = tgUser?.id;
-    const shouldFetch = !isSetupComplete && telegramId !== undefined;
 
     const { data: userData, error } = useSWRData<UserInterface>(
         fetchUserByTelegramId,
         'Failed to fetch user',
-        shouldFetch ? `/api/user/telegram/${telegramId}` : null,
+        `/api/user/telegram/${telegramId}`,
         telegramId,
     );
 
     useEffect(() => {
-        if (isSetupComplete || !tgUser) {
-            return;
-        }
+        console.log(userData)
 
         const setupUser = async () => {
-            if (error && error.response?.status === 404) {
+            if (error && tgUser) {
                 try {
                     const newUser = await createUser({
                         telegram_id: tgUser.id,
@@ -37,17 +39,17 @@ export const useFirstSetup = () => {
                         photo_url: tgUser.photo_url || null,
                     });
 
+                    console.log(newUser)
+
                     saveToStorage(USER_ID_KEY, String(newUser.id));
-                    setIsSetupComplete(true);
                 } catch (createError) {
                     console.error('Failed to create user:', createError);
                 }
             } else if (userData) {
                 saveToStorage(USER_ID_KEY, String(userData.id));
-                setIsSetupComplete(true);
             }
         };
 
         setupUser();
-    }, [userData, error, tgUser, isSetupComplete]);
+    }, [userData, error, tgUser]);
 };
