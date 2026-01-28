@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { TelegramProvider } from './providers/TelegramProvider';
 import { Montserrat, Roboto } from 'next/font/google';
+import { Analytics } from "@vercel/analytics/next"
 import './globals.scss';
 
 
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     return (
         <html lang='en' className={ `${montserrat.variable} ${roboto.variable}` }>
             <body>
+                <Analytics />
                 <TelegramProvider>
                     { children }
                 </TelegramProvider>
