@@ -2,6 +2,7 @@ export const ru = {
     $: "",
     my_workspace: "Мой воркспейс",
     workspace_overview_text: "Привет, {user}, осталось {completed}/{total} задач на сегодня",
+    workspace_overview_no_tasks_text: "Привет {user}, у вас нет задач на сегодня",
     guest: "гость",
     new_project: "New project",
     add_task: "Add task",

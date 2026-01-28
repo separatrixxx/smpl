@@ -1,11 +1,10 @@
 'use client'
-import { useFirstSetup } from "@/features/common/hooks/useFirstSetup";
 import { useWorkspaceRedirect } from "@/features/workspace/hooks/useWorkspaceRedirect";
+import LoadingPage from "@/shared/ui/LoadingPage/LoadingPage";
 
 
 export default function Home() {
-    useFirstSetup();
     useWorkspaceRedirect();
 
-    return <div>Loading...</div>;
+    return <LoadingPage />;
 }

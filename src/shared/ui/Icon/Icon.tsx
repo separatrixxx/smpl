@@ -31,7 +31,7 @@ export const Icon = ({ type, size, color, className, onClick }: IconProps): Reac
             <>
                 {
                     type !== 'logo'
-                        ? <Skeleton width={20} height={20} isReady={Boolean(IconComponent)}  />
+                        ? <Skeleton width={ 20 } height={ 20 } isReady={ Boolean(IconComponent) }  />
                         : null
                 }
             </>
@@ -39,10 +39,10 @@ export const Icon = ({ type, size, color, className, onClick }: IconProps): Reac
     }
 
     return (
-        <IconComponent className={cn(styles.icon, className, {
+        <IconComponent className={ cn(styles.icon, className, {
             [styles.iconL]: size === 'l',
             [styles.iconM]: size === 'm',
             [styles.iconS]: size === 's',
-        })} style={ color && { fill: `var(--${color})` }} onClick={onClick} />
+        }) } style={ color && { fill: `var(--${color})` } } onClick={ onClick } />
     );
 };

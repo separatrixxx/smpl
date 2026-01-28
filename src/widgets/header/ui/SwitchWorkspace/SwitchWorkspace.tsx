@@ -11,11 +11,13 @@ import { fetchUserWorkspaces } from '@/entities/user/api/userWorkspacesApi';
 import { UserWorkspacesInterface } from '@/entities/user/interfaces/user.interface';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 import { WorkspacesList } from '../WorkspacesList/WorkspacesList';
+import { useUser } from '@/shared/hooks/useUser';
 import cn from 'classnames';
 
 
 export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): ReactElement => {
-    const { tgUser, workspace, setWorkspace } = useSetup();
+    const { workspace, setWorkspace } = useSetup();
+    const { tgUser } = useUser();
     const [isListVisible, setIsListVisible] = useState<boolean>(false);
     const switchWorkspaceRef = useRef<HTMLDivElement>(null);
 
@@ -61,34 +63,34 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
     const currWorkspace = workspacesData?.workspaces.find(w => w.id === currWorkspaceId);
 
     return (
-        <div className={styles.switchWorkspace} ref={switchWorkspaceRef}>
-            <div className={styles.currentWorkspace} onClick={() => {
+        <div className={ styles.switchWorkspace } ref={ switchWorkspaceRef }>
+            <div className={ styles.currentWorkspace } onClick={ () => {
                 if (isUserWorkspaces && !isWorkspacesLoading) {
                     setIsListVisible(!isListVisible);
                 }
-            }}>
+            } }>
                 {
                     isUserWorkspaces && 
                         <Icon
                             type='chevron_down'
                             size='s'
-                            className={cn(styles.chevronIcon, {
+                            className={ cn(styles.chevronIcon, {
                                 [styles.rotateChevron]: isListVisible,
-                            })}
+                            }) }
                         />
                 }
-                <Skeleton width={100} height={20} isReady={!isWorkspacesLoading}>
+                <Skeleton width={ 100 } height={ 20 } isReady={ Boolean(currWorkspace?.title) }>
                     <Htag tag='m'>
-                        {currWorkspace?.is_my_workspace
+                        { currWorkspace?.is_my_workspace
                             ? getLocaleText(tgUser?.language_code, 'my_workspace')
-                            : currWorkspace?.title}
+                            : currWorkspace?.title }
                     </Htag>
                 </Skeleton>
             </div>
             {
                 isUserWorkspaces && isListVisible && !isWorkspacesLoading && 
-                    <WorkspacesList currWorkspaceId={workspace}
-                        workspaces={workspacesData?.workspaces || []} />
+                    <WorkspacesList currWorkspaceId={ workspace }
+                        workspaces={ workspacesData?.workspaces || [] } />
             }
         </div>
     );

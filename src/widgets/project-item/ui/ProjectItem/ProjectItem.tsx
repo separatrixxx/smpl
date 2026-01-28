@@ -8,10 +8,10 @@ import { ProjectTitleBlock } from '../ProjectTitleBlock/ProjectTitleBlock';
 
 export const ProjectItem = ({ title, isStarred, tasksCount, progress }: ProjectItemProps): ReactElement => {   
     return (
-        <div className={styles.projectItem}>
-            <ProjectTitleBlock title={title} isStarred={isStarred} />
-            <ProjectTaskToDoText tasksCount={tasksCount} />
-            <ProgressBar progress={progress} />
+        <div className={ styles.projectItem }>
+            <ProjectTitleBlock title={ title } isStarred={ isStarred } />
+            <ProjectTaskToDoText tasksCount={ tasksCount } />
+            <ProgressBar progress={ progress } />
         </div>
     );
 }

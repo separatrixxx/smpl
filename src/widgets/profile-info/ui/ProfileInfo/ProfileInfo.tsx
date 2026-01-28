@@ -6,7 +6,7 @@ import { ChangeInfoBlock } from '../ChangeInfoBlock/ChangeInfoBlock';
 
 export const ProfileInfo = (): ReactElement => {
     return (
-        <section className={styles.profileInfo}>
+        <section className={ styles.profileInfo }>
             <ProfileAvatar />
             <ChangeInfoBlock />
         </section>

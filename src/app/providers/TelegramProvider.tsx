@@ -46,8 +46,8 @@ export const TelegramProvider = ({ children }: { children: React.ReactNode }) =>
   }, [webApp]);
 
   return (
-    <TelegramContext.Provider value={value}>
-      {children}
+    <TelegramContext.Provider value={ value }>
+      { children }
     </TelegramContext.Provider>
   );
 };

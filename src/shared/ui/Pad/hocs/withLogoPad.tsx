@@ -6,9 +6,9 @@ import { MouseEvent } from 'react';
 
 export const withLogoPad = <P extends object>(Component: React.ComponentType<P>, onClick?: (e: MouseEvent<HTMLElement>) => void) => {
     const WithLogoPad = ({ className, ...props }: P & { className?: string }) => (
-        <Pad className={className} onClick={onClick}>
-            <Component {...props as P} />
-            <Icon type='logo' color='primary' className={styles.padLogo} />
+        <Pad className={ className } onClick={ onClick }>
+            <Component { ...props as P } />
+            <Icon type='logo' color='primary' className={ styles.padLogo } />
         </Pad>
     );
 

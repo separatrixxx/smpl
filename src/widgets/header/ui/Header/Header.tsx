@@ -8,8 +8,8 @@ import { AddTeammatesWrapper } from '../AddTeammates/AddTeammatesWrapper';
 
 export const Header = ({ currWorkspaceId, isAvatar }: HeaderProps): ReactElement => { 
     return (
-        <header className={styles.header}>
-            <SwitchWorkspace currWorkspaceId={currWorkspaceId} />
+        <header className={ styles.header }>
+            <SwitchWorkspace currWorkspaceId={ currWorkspaceId } />
             {
                 isAvatar ? 
                     <Avatar />

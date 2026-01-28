@@ -6,12 +6,12 @@ import { Htag } from '@/shared/ui/Htag/Htag';
 
 export const ProgressBar = ({ progress }: ProgressBarProps): ReactElement => {
     return (
-        <div className={styles.progressBarWrapper}>
+        <div className={ styles.progressBarWrapper }>
             <Htag tag='s'>
-                {progress + '%'}
+                { progress + '%' }
             </Htag>
-            <div className={styles.progressBar}>
-                <div style={{ width: `${progress}%` }} />
+            <div className={ styles.progressBar }>
+                <div style={ { width: `${progress}%` } } />
             </div>
         </div>
     );

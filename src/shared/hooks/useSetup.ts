@@ -7,7 +7,7 @@ import { useTaskTypeStore } from "@/entities/tasks/store/taskStore";
 
 export const useSetup = () => {
     const router = useRouter();
-    const { webApp, tgUser } = useTelegram();
+    const { webApp } = useTelegram();
 
     const { user, setUser, clearUser } = useUserStore();
     const { workspace, setWorkspace } = useWorkspaceStore();
@@ -16,7 +16,6 @@ export const useSetup = () => {
     return {
         router,
         webApp,
-        tgUser,
         user,
         setUser,
         clearUser,

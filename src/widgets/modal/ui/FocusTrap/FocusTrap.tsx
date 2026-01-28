@@ -9,8 +9,8 @@ export const FocusTrap = ({ children }: FocusTrapProps): ReactElement => {
     useFocusTrap(trapRef);
 
     return (
-        <div ref={trapRef}>
-            {children}
+        <div ref={ trapRef }>
+            { children }
         </div>
     );
 };

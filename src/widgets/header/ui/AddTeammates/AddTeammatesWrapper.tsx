@@ -18,5 +18,5 @@ export const AddTeammatesWrapper = () => {
 
     const visibleTeammates = teammatesData?.teammates.slice(0, 3) || [];
 
-    return <AddTeammates visibleTeammates={visibleTeammates} isTeammatesLoading={isTeammatesLoading} />;
+    return <AddTeammates visibleTeammates={ visibleTeammates } isTeammatesLoading={ isTeammatesLoading } />;
 };

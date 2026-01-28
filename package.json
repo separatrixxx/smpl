@@ -7,10 +7,11 @@
     "build": "prisma generate && next build --webpack",
     "migrate:deploy": "prisma migrate deploy",
     "start": "next start --webpack",
-    "lint": "next lint",
+    "lint": "eslint src",
     "stylelint": "stylelint \"**/*.scss\" --fix",
-    "check": "stylelint \"**/*.scss\" --fix && next lint && next build",
-    "migrate": "npx prisma migrate dev && npx prisma generate"
+    "check": "stylelint \"**/*.scss\" --fix && eslint src && next build --webpack",
+    "migrate": "npx prisma migrate dev && npx prisma generate",
+    "prepare": "husky"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",
@@ -22,6 +23,8 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
     "@eslint/eslintrc": "^3",
     "@svgr/webpack": "^8.1.0",
     "@types/classnames": "^2.3.4",
@@ -33,6 +36,7 @@
     "date-fns": "^4.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "husky": "^9.1.7",
     "postcss": "^8.5.3",
     "postcss-scss": "^4.0.9",
     "sass": "^1.85.1",

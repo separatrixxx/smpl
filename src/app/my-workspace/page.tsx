@@ -11,10 +11,12 @@ import { useSWRData } from "@/shared/lib/useSWRData";
 import { fetchMyWorkspace } from "@/entities/workspace/api/workspaceApi";
 import { WorkspaceInterface } from "@/entities/workspace/interfaces/workspace.interface";
 import { useSetup } from "@/shared/hooks/useSetup";
+import { useUser } from '@/shared/hooks/useUser';
 
 
 export default function MyWorkspace() {
-    const { tgUser, setWorkspace } = useSetup();
+    const { setWorkspace } = useSetup();
+    const { tgUser } = useUser();
 
     const { data: workspaceData } = useSWRData<WorkspaceInterface>(
         fetchMyWorkspace,
@@ -36,8 +38,8 @@ export default function MyWorkspace() {
 
     return (
         <PageWrapper>
-            <Header currWorkspaceId={workspaceData?.id ?? 0} isAvatar={true} />
-            <WorkspaceOverviewWithPad completed={completed} total={total} />
+            <Header currWorkspaceId={ workspaceData?.id ?? 0 } isAvatar={ true } />
+            <WorkspaceOverviewWithPad completed={ completed } total={ total } />
             <ButtonsBar />
             <ProjectsListWrapper />
             <MyTasksListWrapper />

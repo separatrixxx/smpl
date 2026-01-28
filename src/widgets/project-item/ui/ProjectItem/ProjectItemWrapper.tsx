@@ -14,8 +14,8 @@ export const ProjectItemWrapper = ({ workspaceId, projectId, ...rest }: ProjectI
         : `/my-workspace/project/${projectId}`
 
     return (
-        <Link href={projectLink} className={styles.projectItemWrapper}>
-            <ProjectItemWithPad {...rest} />
+        <Link href={ projectLink } className={ styles.projectItemWrapper }>
+            <ProjectItemWithPad { ...rest } />
         </Link>
     );
 };

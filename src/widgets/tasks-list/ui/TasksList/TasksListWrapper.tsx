@@ -21,7 +21,7 @@ export const TasksListWrapper = ({ projectId }: TasksListWrapperProps) => {
     return (
         <>
             <SwitchTaskTypeBlock />
-            <TasksList tasksList={(tasksListData && tasksListData[taskType]) || []} isTasksListLoading={isTasksListLoading} />
+            <TasksList tasksList={ (tasksListData && tasksListData[taskType]) || [] } isTasksListLoading={ isTasksListLoading } />
         </>
     );
 };

@@ -33,10 +33,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
     return (
-        <html lang='en' className={`${montserrat.variable} ${roboto.variable}`}>
+        <html lang='en' className={ `${montserrat.variable} ${roboto.variable}` }>
             <body>
                 <TelegramProvider>
-                    {children}
+                    { children }
                 </TelegramProvider>
             </body>
         </html>

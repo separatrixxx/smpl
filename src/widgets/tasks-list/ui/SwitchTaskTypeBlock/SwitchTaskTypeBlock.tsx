@@ -12,11 +12,11 @@ export const SwitchTaskTypeBlock = (): ReactElement => {
     const taskTypes: TaskType[] = ['todo', 'progress', 'review', 'done'];
     
     return (
-        <div className={styles.switchTaskTypeBlock}>
-            {taskTypes.map(t => (
-                <SwitchTaskTypeButton key={t} type={t} taskType={taskType}
-                    switchTaskType={() => setTaskType(t)} />
-            ))}
+        <div className={ styles.switchTaskTypeBlock }>
+            { taskTypes.map(t => (
+                <SwitchTaskTypeButton key={ t } type={ t } taskType={ taskType }
+                    switchTaskType={ () => setTaskType(t) } />
+            )) }
         </div>
     );
 }

@@ -16,16 +16,16 @@ export const AddTeammates = ({ visibleTeammates, isTeammatesLoading }: AddTeamma
 
     return (
         <>
-            <Skeleton width={92} height={32} isReady={!isTeammatesLoading} isRound={true}>
-                <div className={styles.addTeammates} onClick={handleOpenSheet}>
-                    <div className={styles.addTemmateButton}>
+            <Skeleton width={ 92 } height={ 32 } isReady={ !isTeammatesLoading } isRound={ true }>
+                <div className={ styles.addTeammates } onClick={ handleOpenSheet }>
+                    <div className={ styles.addTemmateButton }>
                         <Icon type='plus' size='m' color='bg' />
                     </div>
-                    <TeammatesList className={styles.teammateImage}
-                        visibleTeammates={visibleTeammates} />
+                    <TeammatesList className={ styles.teammateImage }
+                        visibleTeammates={ visibleTeammates } />
                 </div>
             </Skeleton>
-            <Modal title='Добавить и/или удалить тиммейтов и не только, а ещё можно чай попить' isOpen={isSheetOpen} onClose={handleCloseSheet}>
+            <Modal title='Добавить и/или удалить тиммейтов и не только, а ещё можно чай попить' isOpen={ isSheetOpen } onClose={ handleCloseSheet }>
                 <div>
                     <p>Контент для выбора/добавления тиммейтов.</p>
                 </div>

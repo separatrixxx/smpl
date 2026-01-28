@@ -6,12 +6,12 @@ import { ProjectItemWrapper } from "@/widgets/project-item/ui/ProjectItem/Projec
 
 export const ProjectsList = ({ projectsList, isProjectsListLoading }: ProjectsListProps): ReactElement => {
     return (
-        <Skeleton width='100%' height={112} isReady={!isProjectsListLoading}>
+        <Skeleton width='100%' height={ 112 } isReady={ !isProjectsListLoading }>
             {
                 projectsList?.map(pl => (
-                    <ProjectItemWrapper key={pl.id} workspaceId={pl.workspace_id}
-                        projectId={pl.id} title={pl.title} isStarred={pl.is_starred}
-                        tasksCount={pl.tasks_count} progress={pl.progress} />
+                    <ProjectItemWrapper key={ pl.id } workspaceId={ pl.workspace_id }
+                        projectId={ pl.id } title={ pl.title } isStarred={ pl.is_starred }
+                        tasksCount={ pl.tasks_count } progress={ pl.progress } />
                 ))
             }
         </Skeleton>

@@ -11,15 +11,15 @@ export const TaskInfoBlock = ({ title, priority, type }: TaskInfoBlockProps): Re
     const [checked, setChecked] = useState<boolean>(false);
 
     return (
-        <div className={styles.taskInfoBlock}>
-            <div className={styles.priorityBlock}>
-                <PriorityBlock priority={priority} />
+        <div className={ styles.taskInfoBlock }>
+            <div className={ styles.priorityBlock }>
+                <PriorityBlock priority={ priority } />
                 <Htag tag='xl'>
-                    {title}
+                    { title }
                 </Htag>
             </div>
             {
-                type !== 'done' && <Checkbox isChecked={checked} onChange={() => setChecked(!checked)} />
+                type !== 'done' && <Checkbox isChecked={ checked } onChange={ () => setChecked(!checked) } />
             }
         </div>
     );

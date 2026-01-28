@@ -3,11 +3,11 @@ import { useSWRData } from '@/shared/lib/useSWRData';
 import { TasksList } from '../..';
 import { MyTasksDataInterface } from '@/entities/tasks/interfaces/tasks.interface';
 import { fetchMyTasksList } from '@/entities/tasks/api/myTasksListApi';
-import { useSetup } from '@/shared/hooks/useSetup';
+import { useUser } from '@/shared/hooks/useUser';
 
 
 export const MyTasksListWrapper = () => {
-    const { tgUser } = useSetup();
+    const { tgUser } = useUser();
 
     const { data: tasksListData, isLoading: isTasksListLoading } = useSWRData<MyTasksDataInterface>(
         fetchMyTasksList,
@@ -16,5 +16,5 @@ export const MyTasksListWrapper = () => {
         tgUser?.id
     );
 
-    return <TasksList tasksList={tasksListData?.review || []} isTasksListLoading={isTasksListLoading} />
+    return <TasksList tasksList={ tasksListData?.review || [] } isTasksListLoading={ isTasksListLoading } />
 };

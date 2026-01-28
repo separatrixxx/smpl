@@ -6,10 +6,10 @@ import cn from 'classnames';
 
 export const Pad = ({ isSmall, children, className, onClick }: PadProps): ReactElement => {
     return (
-        <section className={cn(styles.pad, className, {
+        <section className={ cn(styles.pad, className, {
             [styles.smallPad]: isSmall,
-        })} onClick={onClick}>
-            {children}
+        }) } onClick={ onClick }>
+            { children }
         </section>
     );
 }

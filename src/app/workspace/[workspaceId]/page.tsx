@@ -62,11 +62,11 @@ export default async function Workspace({ params }: WorkspacePageInterface) {
     const { completed, total } = workspaceData.tasks_info;
 
     return (
-         <PageWrapper>
-             <Header currWorkspaceId={workspaceData.id} />
-             <WorkspaceOverviewWithPad completed={completed} total={total} />
-             <ButtonsBar />
-             <ProjectsListWrapper />
-         </PageWrapper>
+        <PageWrapper>
+            <Header currWorkspaceId={ workspaceData.id } />
+            <WorkspaceOverviewWithPad completed={ completed } total={ total } />
+            <ButtonsBar />
+            <ProjectsListWrapper />
+        </PageWrapper>
     );
 }

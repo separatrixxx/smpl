@@ -16,5 +16,5 @@ export const ProjectsListWrapper = () => {
         workspace
     );
 
-    return <ProjectsList projectsList={projectsListData || []} isProjectsListLoading={isProjectsListLoading} />;
+    return <ProjectsList projectsList={ projectsListData || [] } isProjectsListLoading={ isProjectsListLoading } />;
 };

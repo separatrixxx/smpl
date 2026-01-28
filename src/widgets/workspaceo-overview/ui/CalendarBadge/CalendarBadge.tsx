@@ -2,25 +2,25 @@
 import styles from './CalendarBadge.module.scss';
 import { ReactElement } from "react";
 import { Htag } from '@/shared/ui/Htag/Htag';
-import { useSetup } from '@/shared/hooks/useSetup';
 import { Icon } from '@/shared/ui/Icon/Icon';
 import { formatDate } from '../../utils/formatDate';
+import { useUser } from '@/shared/hooks/useUser';
 
 
 export const CalendarBadge = (): ReactElement => {
-    const { tgUser } = useSetup();
+    const { tgUser } = useUser();
 
     const [formattedDate, formattedDay] = formatDate(tgUser?.language_code || 'en');
 
     return (
-        <div className={styles.calendarBadge}>
+        <div className={ styles.calendarBadge }>
             <Icon type='calendar' size='l' />
             <div>
                 <Htag tag='m'>
-                    {formattedDate}
+                    { formattedDate }
                 </Htag>
                 <Htag tag='s'>
-                    {formattedDay}
+                    { formattedDay }
                 </Htag>
             </div>
         </div>

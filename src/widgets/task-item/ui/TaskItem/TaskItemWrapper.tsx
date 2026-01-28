@@ -23,17 +23,17 @@ export const TaskItemWrapper = ({ ...rest }: TaskItemProps): ReactElement => {
     const TaskItemComponent = getTaskItemComponent(rest.date);
 
     return (
-        <div className={cn(styles.taskItemWrapper, {
+        <div className={ cn(styles.taskItemWrapper, {
             [styles.primaryTaskItemWrapper]: isThresholdReached,
-        })}>
-            <ClientHtag tag='s' text={nextType || ''} />
-            <div className={cn(styles.dragWrapper, {
+        }) }>
+            <ClientHtag tag='s' text={ nextType || '' } />
+            <div className={ cn(styles.dragWrapper, {
                 [styles.dragCursor]: nextType,
-            })} {...dragHandlers} style={{
+            }) } { ...dragHandlers } style={ {
                 transform: `translateX(${position}px)`,
                 transition: isDragging ? 'none' : 'transform 0.3s ease',
-            }}>
-                <TaskItemComponent className={styles.taskItemPad} {...rest} />
+            } }>
+                <TaskItemComponent className={ styles.taskItemPad } { ...rest } />
             </div>
         </div>
     );

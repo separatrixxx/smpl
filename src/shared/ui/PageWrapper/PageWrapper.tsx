@@ -6,10 +6,10 @@ import cn from 'classnames';
 
 export const PageWrapper = ({ isMoreGap, children }: PageWrapperProps): ReactElement => {
     return (
-        <main className={cn(styles.pageWrapper, {
+        <main className={ cn(styles.pageWrapper, {
             [styles.moreGap]: isMoreGap,
-        })}>
-            {children}
+        }) }>
+            { children }
         </main>
     );
 }

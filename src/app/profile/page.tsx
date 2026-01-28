@@ -6,7 +6,7 @@ import { ProfileInfo } from "@/widgets/profile-info";
 
 export default function Profile() {
     return (
-        <PageWrapper isMoreGap={true}>
+        <PageWrapper isMoreGap={ true }>
             <BackButton redirectPath='/my-workspace' />
             <ClientHtag tag='xl' text='my_profile' />
             <ProfileInfo />
