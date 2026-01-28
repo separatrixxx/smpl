@@ -3,7 +3,6 @@ import { SwitchWorkspaceProps } from './SwitchWorkspace.props';
 import styles from './SwitchWorkspace.module.scss';
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { Htag } from '@/shared/ui/Htag/Htag';
-import { getLocaleText } from '@/shared/utils/locale/locale';
 import { useSetup } from '@/shared/hooks/useSetup';
 import { Icon } from '@/shared/ui/Icon/Icon';
 import { useSWRData } from '@/shared/lib/useSWRData';
@@ -12,6 +11,7 @@ import { UserWorkspacesInterface } from '@/entities/user/interfaces/user.interfa
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 import { WorkspacesList } from '../WorkspacesList/WorkspacesList';
 import { useUser } from '@/shared/hooks/useUser';
+import { getWorkspaceTitle } from '@/shared/utils/common';
 import cn from 'classnames';
 
 
@@ -81,9 +81,7 @@ export const SwitchWorkspace = ({ currWorkspaceId }: SwitchWorkspaceProps): Reac
                 }
                 <Skeleton width={ 100 } height={ 20 } isReady={ Boolean(currWorkspace?.title) }>
                     <Htag tag='m'>
-                        { currWorkspace?.is_my_workspace
-                            ? getLocaleText(tgUser?.language_code, 'my_workspace')
-                            : currWorkspace?.title }
+                        { getWorkspaceTitle(tgUser.language_code, currWorkspace?.title, currWorkspace?.is_my_workspace) }
                     </Htag>
                 </Skeleton>
             </div>

@@ -1,6 +1,7 @@
 export const en = {
     $: "",
     my_workspace: "My workspace",
+    workspace: "Workspace",
     workspace_overview_text: "Hi, {user}, {completed}/{total} tasks left for today",
     workspace_overview_no_tasks_text: "Hi, {user}, you have no tasks for today",
     guest: "guest",
