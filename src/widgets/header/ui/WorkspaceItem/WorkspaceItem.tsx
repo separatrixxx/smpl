@@ -12,7 +12,7 @@ export const WorkspaceItem = ({ workspaceId, title, isMyWorkspace }: WorkspacesI
     const link = isMyWorkspace ? '/my-workspace' :  `/workspace/${workspaceId}`;
 
     const handleLinkClick = () => {
-        saveToStorage(WORKSPACE_KEY, String(workspaceId));
+        saveToStorage(WORKSPACE_KEY, isMyWorkspace ? '0' : String(workspaceId));
     }
     
     return (
