@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
-import withRspack from "next-rspack";
 
 
 const nextConfig: NextConfig = {
-	serverExternalPackages: ['pg', '@prisma/adapter-pg', '@prisma/client'],
+	serverExternalPackages: ['pg'],
 	images: {
 		remotePatterns: [
 			{
@@ -11,6 +10,14 @@ const nextConfig: NextConfig = {
 				hostname: 'sun*-*.userapi.com',
 			},
 		],
+	},
+	turbopack: {
+		rules: {
+			'*.svg': {
+				loaders: ['@svgr/webpack'],
+				as: '*.js',
+			},
+		},
 	},
 	webpack(config) {
 		config.module.rules.push({
@@ -44,4 +51,4 @@ const nextConfig: NextConfig = {
 	},
 };
 
-export default withRspack(nextConfig);
+export default nextConfig;
