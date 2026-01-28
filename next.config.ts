@@ -3,6 +3,7 @@ import withRspack from "next-rspack";
 
 
 const nextConfig: NextConfig = {
+	serverExternalPackages: ['pg', '@prisma/adapter-pg', '@prisma/client'],
 	images: {
 		remotePatterns: [
 			{
