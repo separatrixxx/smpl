@@ -28,3 +28,13 @@ export interface TaskStateInterface {
     taskType: TaskType,
     setTaskType: (taskType: TaskType) => void,
 }
+
+export interface CreateTaskInterface {
+    workspace_id: number,
+    project_id?: number,
+    title: string,
+    is_starred?: boolean,
+    priority?: PriorityType,
+    date: string,
+    status?: TaskType,
+}

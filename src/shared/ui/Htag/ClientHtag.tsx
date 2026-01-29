@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { ClientHtagProps } from './Htag.props';
 import { ReactNode } from "react";
 import { Htag } from './Htag';

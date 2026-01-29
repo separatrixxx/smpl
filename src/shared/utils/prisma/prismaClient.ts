@@ -210,7 +210,7 @@ export const db = {
             title: string;
             is_starred?: boolean;
             priority?: number;
-            date?: Date;
+            date: Date;
             status?: TaskStatus;
         }) => {
             return prisma.task.create({ data });

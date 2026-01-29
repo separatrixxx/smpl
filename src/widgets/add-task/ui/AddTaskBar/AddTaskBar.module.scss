@@ -1,0 +1,6 @@
+.addTaskBar {
+    display: grid;
+    width: 100%;
+    height: fit-content;
+    grid-template-columns: 1fr 71px;
+}

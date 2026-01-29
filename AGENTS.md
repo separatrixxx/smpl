@@ -33,7 +33,7 @@
 - `Workspace` - воркспейс (id, title, description, is_my_workspace, owner_id)
 - `UserWorkspace` - связь пользователя и воркспейса (для teammates)
 - `Project` - проект (id, workspace_id, title, description, is_starred)
-- `Task` - задача (id, workspace_id, project_id, title, is_starred, priority, date, status)
+- `Task` - задача (id, workspace_id, project_id, title, is_starred, priority, date, created_at, status). `date` - дедлайн задачи (обязательное), `created_at` - дата создания (автоматическое)
 
 Статусы задач (`TaskStatus`): `todo`, `progress`, `review`, `done`
 
@@ -47,10 +47,28 @@
 - `/api/workspace/[id]` - GET, PUT, DELETE
 - `/api/project` - GET (список, с `?workspace` для фильтрации), POST (создание)
 - `/api/project/[id]` - GET, PUT, DELETE
-- `/api/task` - GET (список, с `?workspace`, `?project`, `?userId`), POST (создание)
+- `/api/task` - GET (список, с `?workspace`, `?project`, `?userId`), POST (создание, требует workspace_id, title, date)
 - `/api/task/[id]` - GET, PUT, DELETE
 - `/api/teammate` - POST (добавление), DELETE (удаление)
 - `/api/teammate/[workspaceId]` - GET (список тиммейтов воркспейса)
+
+### SWR и обновление данных:
+
+- `useSWRData` возвращает `{ data, error, isLoading, mutate }` - `mutate` используется для инвалидации кэша
+- Для глобальной инвалидации используется `useSWRConfig()` из `swr`
+- Ключи кэша SWR совпадают с URL запросов:
+  - Личные задачи: `/api/task?project=my&userId=${tgUser?.id}`
+  - Задачи воркспейса: `/api/task?workspace=${workspaceId}`
+  - Проекты воркспейса: `/api/project?workspace=${workspaceId}`
+- После создания/изменения сущности нужно вызвать `mutate(ключ)` для обновления списка
+
+### Создание задач:
+
+- Виджет `add-task` (`src/widgets/add-task/`) отвечает за создание задач
+- `workspace` id берётся из Zustand через `useSetup()` хук
+- Для личного воркспейса задачи создаются со статусом `review` (они сразу попадают в "My tasks")
+- Для проектов задачи создаются со статусом `todo`
+- Сортировка задач выполняется на клиенте в `TasksList`: сначала по `date` (asc), затем по `id` (desc - новые первее)
 
 ### Стиль кода:
 
@@ -60,3 +78,4 @@
 - В импортах сначала идут пропсы, потом стили, в самом конце `classnames`
 - Пробелы внутри фигурных скобок: `{ value }` вместо `{value}`
 - Поля интерфейсов отделяем запятыми
+- В конце `'use client'` должна быть точка с запятой: `'use client';`

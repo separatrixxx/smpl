@@ -21,13 +21,20 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        if (!body.date || typeof body.date !== 'string') {
+            return NextResponse.json(
+                { error: "date is required and must be a string" },
+                { status: 400 }
+            );
+        }
+
         const task = await db.task.create({
             workspace_id: body.workspace_id,
             project_id: body.project_id ?? null,
             title: body.title,
             is_starred: body.is_starred ?? false,
             priority: body.priority ?? 1,
-            date: body.date ? new Date(body.date) : new Date(),
+            date: new Date(body.date),
             status: body.status ?? 'todo',
         });
 

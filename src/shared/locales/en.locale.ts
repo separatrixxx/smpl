@@ -20,4 +20,7 @@ export const en = {
     progress: "In progress",
     review: "In review",
     done: "Done",
+    no_projects: "No projects",
+    task_name: "Task name",
+    priority: "Priority",
 }

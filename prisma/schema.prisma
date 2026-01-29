@@ -64,7 +64,8 @@ model Task {
     title        String
     is_starred   Boolean    @default(false)
     priority     Int        @default(1)
-    date         DateTime   @default(now())
+    date         DateTime
+    created_at   DateTime   @default(now())
     status       TaskStatus @default(todo)
     workspace    Workspace  @relation(fields: [workspace_id], references: [id])
     project      Project?   @relation(fields: [project_id], references: [id])

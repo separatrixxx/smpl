@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { withLogoPad } from "@/shared/ui/Pad/hocs/withLogoPad";
 import { PageWrapper } from "@/shared/ui/PageWrapper/PageWrapper";
 import { Header } from "@/widgets/header";
@@ -12,6 +12,7 @@ import { fetchMyWorkspace } from "@/entities/workspace/api/workspaceApi";
 import { WorkspaceInterface } from "@/entities/workspace/interfaces/workspace.interface";
 import { useSetup } from "@/shared/hooks/useSetup";
 import { useUser } from '@/shared/hooks/useUser';
+import { AddTask } from '@/widgets/add-task';
 
 
 export default function MyWorkspace() {
@@ -36,13 +37,16 @@ export default function MyWorkspace() {
     const completed = workspaceData?.tasks_info?.completed ?? 0;
     const total = workspaceData?.tasks_info?.total ?? 0;
 
+    const [isSheetOpen, setSheetOpen] = useState<boolean>(false);
+
     return (
         <PageWrapper>
             <Header currWorkspaceId={ workspaceData?.id ?? 0 } isAvatar={ true } />
             <WorkspaceOverviewWithPad completed={ completed } total={ total } />
-            <ButtonsBar />
+            <ButtonsBar setSheetOpen={ setSheetOpen } />
             <ProjectsListWrapper />
             <MyTasksListWrapper />
+            <AddTask isSheetOpen={ isSheetOpen } setSheetOpen={ setSheetOpen } />
         </PageWrapper>
     );
 }
