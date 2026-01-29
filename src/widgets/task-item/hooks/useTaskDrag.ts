@@ -128,6 +128,7 @@ export const useTaskDrag = (type: TaskType) => {
 
     const onTouchEnd = useCallback(() => {
         const result = handleEnd();
+        setIsThresholdReached(false);
 
         if (result && nextType) {
             alert(`Перенесено в ${nextType}`);

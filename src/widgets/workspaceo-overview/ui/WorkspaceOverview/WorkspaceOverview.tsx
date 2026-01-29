@@ -14,7 +14,7 @@ export const WorkspaceOverview = ({ completed, total }: WorkspaceOverviewProps):
 
     const text = getLocaleText(tgUser?.language_code, 'workspace_overview_text')
         .replace("{user}", tgUser?.first_name || getLocaleText(tgUser?.language_code, 'guest'))
-        .replace("{completed}", String(completed))
+        .replace("{completed}", String((total || 0) - (completed || 0)))
         .replace("{total}", String(total));
 
     const noTasksText = getLocaleText(tgUser?.language_code, 'workspace_overview_no_tasks_text')
