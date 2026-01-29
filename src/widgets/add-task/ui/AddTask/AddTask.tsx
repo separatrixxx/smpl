@@ -35,6 +35,7 @@ export const AddTask = ({ isSheetOpen, setSheetOpen }: AddTaskProps): ReactEleme
     const handleMutate = () => {
         mutate(`/api/task?project=my&userId=${tgUser?.id}`);
         mutate(`/api/task?workspace=${workspace}`);
+        mutate(`/api/workspace/my?userId=${tgUser?.id}`);
     };
 
     const handleAddTask = () => addTask({
