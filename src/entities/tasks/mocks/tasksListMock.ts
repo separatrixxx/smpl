@@ -1,3 +1,4 @@
+import { getCurrentDate } from "@/shared/utils/date/date";
 import { TasksDataInterface, TaskInterface } from "../interfaces/tasks.interface";
 
 
@@ -14,7 +15,7 @@ export const fetchTasksListMock = async (workspaceId: number, userId: number, pr
         throw new Error("Project not found");
     }
 
-    const currentDate = new Date();
+    const currentDate = getCurrentDate();
 
     const taskTodo1MockData: TaskInterface = {
         id: 1,

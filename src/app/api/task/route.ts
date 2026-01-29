@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/shared/utils/prisma/prismaClient";
-import { TaskStatus } from "@/generated/prisma";
+import { TaskType } from "@/generated/prisma";
 
 
 export async function POST(req: NextRequest) {
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
             is_starred: body.is_starred ?? false,
             priority: body.priority ?? 1,
             date: new Date(body.date),
-            status: body.status ?? 'todo',
+            type: body.type ?? 'todo',
         });
 
         return NextResponse.json(task, { status: 201 });
@@ -66,18 +66,54 @@ export async function GET(req: NextRequest) {
                 );
             }
 
-            const tasks = await db.task.findByUser(user.id, TaskStatus.review);
+            const myWorkspace = await db.workspace.findMyWorkspace(user.id);
 
-            const formattedTasks = tasks.map((task) => ({
-                id: task.id,
-                title: task.title,
-                is_starred: task.is_starred,
-                priority: task.priority,
-                date: task.date.toISOString(),
-                type: task.status,
-            }));
+            if (!myWorkspace) {
+                return NextResponse.json(
+                    { error: "My workspace not found" },
+                    { status: 404 }
+                );
+            }
 
-            return NextResponse.json({ review: formattedTasks });
+            const tasks = await db.task.findByUser(user.id);
+
+            type FormattedTask = {
+                id: number;
+                title: string;
+                is_starred: boolean;
+                priority: number;
+                date: string;
+                type: TaskType;
+            };
+
+            const groupedTasks: {
+                workspace_id: number;
+                todo: FormattedTask[];
+                progress: FormattedTask[];
+                review: FormattedTask[];
+                done: FormattedTask[];
+            } = {
+                workspace_id: myWorkspace.id,
+                todo: [],
+                progress: [],
+                review: [],
+                done: [],
+            };
+
+            tasks.forEach((task) => {
+                const formatted: FormattedTask = {
+                    id: task.id,
+                    title: task.title,
+                    is_starred: task.is_starred,
+                    priority: task.priority,
+                    date: task.date.toISOString(),
+                    type: task.type,
+                };
+
+                groupedTasks[task.type].push(formatted);
+            });
+
+            return NextResponse.json(groupedTasks);
         }
 
         if (workspaceId) {
@@ -92,7 +128,7 @@ export async function GET(req: NextRequest) {
                 is_starred: boolean;
                 priority: number;
                 date: string;
-                type: TaskStatus;
+                type: TaskType;
             };
 
             const groupedTasks: {
@@ -118,10 +154,10 @@ export async function GET(req: NextRequest) {
                     is_starred: task.is_starred,
                     priority: task.priority,
                     date: task.date.toISOString(),
-                    type: task.status,
+                    type: task.type,
                 };
 
-                groupedTasks[task.status].push(formatted);
+                groupedTasks[task.type].push(formatted);
             });
 
             return NextResponse.json(groupedTasks);

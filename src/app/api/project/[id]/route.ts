@@ -25,7 +25,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
         }
 
         const totalTasks = project.tasks.length;
-        const completedTasks = project.tasks.filter((t) => t.status === 'done').length;
+        const completedTasks = project.tasks.filter((t) => t.type === 'done').length;
 
         const formattedProject = {
             id: project.id,

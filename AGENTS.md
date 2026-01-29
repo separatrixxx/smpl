@@ -24,7 +24,7 @@
 
 ### Основная информация:
 
-В основе менеджера лежат воркспейсы. Глобально они делятся на личный "My workspace" и все остальные - командные. Личный воркспейс создаётся автоматически при создании пользователя. Личный воркспейс отличается от командных тем, что прямо в нём можно создавать задачи. У каждого воркспейса имеются проекты - сборники задач. Каждый проект привязан к конкретному воркспейсу. Внутри проекта лежит самая маленькая единица - задача, у которой есть статус. Статус можно менять.
+В основе менеджера лежат воркспейсы. Глобально они делятся на личный "My workspace" и все остальные - командные. Личный воркспейс создаётся автоматически при создании пользователя. Личный воркспейс отличается от командных тем, что прямо в нём можно создавать задачи. У каждого воркспейса имеются проекты - сборники задач. Каждый проект привязан к конкретному воркспейсу. Внутри проекта лежит самая маленькая единица - задача, у которой есть тип (статус). Тип можно менять.
 
 ### База данных (Prisma):
 
@@ -33,9 +33,9 @@
 - `Workspace` - воркспейс (id, title, description, is_my_workspace, owner_id)
 - `UserWorkspace` - связь пользователя и воркспейса (для teammates)
 - `Project` - проект (id, workspace_id, title, description, is_starred)
-- `Task` - задача (id, workspace_id, project_id, title, is_starred, priority, date, created_at, status). `date` - дедлайн задачи (обязательное), `created_at` - дата создания (автоматическое)
+- `Task` - задача (id, workspace_id, project_id, title, is_starred, priority, date, created_at, type). `date` - дедлайн задачи (обязательное), `created_at` - дата создания (автоматическое)
 
-Статусы задач (`TaskStatus`): `todo`, `progress`, `review`, `done`
+Типы задач (`TaskType`): `todo`, `progress`, `review`, `done`
 
 ### API роуты:
 
@@ -47,8 +47,8 @@
 - `/api/workspace/[id]` - GET, PUT, DELETE
 - `/api/project` - GET (список, с `?workspace` для фильтрации), POST (создание)
 - `/api/project/[id]` - GET, PUT, DELETE
-- `/api/task` - GET (список, с `?workspace`, `?project`, `?userId`), POST (создание, требует workspace_id, title, date)
-- `/api/task/[id]` - GET, PUT, DELETE
+- `/api/task` - GET (список, с `?workspace`, `?project`, `?userId`), POST (создание, требует workspace_id, title, date, type)
+- `/api/task/[id]` - GET, PUT (частичное обновление: title, type), DELETE
 - `/api/teammate` - POST (добавление), DELETE (удаление)
 - `/api/teammate/[workspaceId]` - GET (список тиммейтов воркспейса)
 
@@ -62,13 +62,22 @@
   - Проекты воркспейса: `/api/project?workspace=${workspaceId}`
 - После создания/изменения сущности нужно вызвать `mutate(ключ)` для обновления списка
 
-### Создание задач:
+### Создание и изменение задач:
 
 - Виджет `add-task` (`src/widgets/add-task/`) отвечает за создание задач
 - `workspace` id берётся из Zustand через `useSetup()` хук
-- Для личного воркспейса задачи создаются со статусом `review` (они сразу попадают в "My tasks")
-- Для проектов задачи создаются со статусом `todo`
+- Для личного воркспейса задачи создаются с типом `review` (они сразу попадают в "My tasks")
+- Для проектов задачи создаются с типом `todo`
 - Сортировка задач выполняется на клиенте в `TasksList`: сначала по `date` (asc), затем по `id` (desc - новые первее)
+- Изменение типа задачи: `changeTask()` в `src/widgets/task-item/utils/changeTaskType.ts`
+- Последовательность типов: `todo` -> `progress` -> `review` -> `done` (см. `getNextTaskType`)
+
+### Хранение задач:
+
+- Задачи хранятся в Zustand store (`useTasksStore`) в формате `TasksDataInterface`
+- Формат: `{ workspace_id, todo: [], progress: [], review: [], done: [] }`
+- Данные загружаются через SWR и синхронизируются с Zustand через `useEffect` в `page.tsx`
+- Компоненты берут задачи из Zustand через `useSetup()` хук
 
 ### Стиль кода:
 
@@ -79,3 +88,62 @@
 - Пробелы внутри фигурных скобок: `{ value }` вместо `{value}`
 - Поля интерфейсов отделяем запятыми
 - В конце `'use client'` должна быть точка с запятой: `'use client';`
+
+---
+
+## Неочевидные вещи (для будущих агентов):
+
+### SWR + Zustand синхронизация
+
+Данные загружаются через SWR, но хранятся в Zustand. После `mutate()` SWR перезагружает данные, но нужен `useEffect` с зависимостью от `data` чтобы обновить Zustand store:
+
+```tsx
+const { data: tasksListData } = useSWRData<TasksDataInterface>(...);
+const { setTasks } = useSetup();
+
+useEffect(() => {
+    if (tasksListData) {
+        setTasks(tasksListData);
+    }
+}, [tasksListData, setTasks]);
+```
+
+### Замыкания в useCallback
+
+При использовании `useCallback` с зависимостями от state, функция замыкает значение state на момент создания. Если state часто меняется (например `isThresholdReached` при драге), функция может иметь устаревшее значение.
+
+**Проблема:** `handleEnd` зависит от `isThresholdReached`, но к моменту вызова значение может измениться.
+
+**Решение:** Убедиться что все зависимости в массиве `useCallback` актуальны, либо использовать `useRef` для хранения актуального значения.
+
+### Порядок вызовов при драге
+
+В `onTouchEnd`/`onMouseUp` важен порядок:
+1. Сначала вызвать `handleEnd()` и сохранить результат
+2. Потом сбросить `setIsThresholdReached(false)`
+3. Потом использовать сохранённый результат
+
+Если сбросить threshold до вызова `handleEnd()`, результат будет неверным.
+
+### Интерфейсы vs БД
+
+На клиенте и в БД поля могут называться по-разному. В этом проекте везде используется `type`, но если вдруг нужен маппинг - делать его в API функциях (`src/entities/*/api/`), а не в компонентах.
+
+### PUT для частичного обновления
+
+API ручка `/api/task/[id]` принимает частичные данные. Можно отправить только `{ type: 'done' }` без остальных полей - обновится только type. Prisma игнорирует `undefined` значения при update.
+
+### Типы задач в Prisma
+
+Enum `TaskType` в Prisma генерирует TypeScript тип в `@/generated/prisma`. При изменении enum нужно:
+1. Изменить `schema.prisma`
+2. Выполнить SQL миграцию (ALTER TYPE, ALTER TABLE)
+3. Запустить `npx prisma generate`
+
+### Отладка драга
+
+Если драг не работает но чекбокс работает - проверь:
+1. Выводится ли `taskId` в консоль
+2. Какое значение `result` возвращает `handleEnd()`
+3. Идут ли PUT запросы в Network tab
+4. Правильно ли передаются данные в API (смотри payload в DevTools)

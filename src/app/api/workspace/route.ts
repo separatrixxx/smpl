@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
                 owner: ws.owner_id,
                 teammates: ws.teammates.map((t) => t.user_id),
                 tasks_info: {
-                    completed: ws.tasks.filter((t) => t.status === 'done').length,
+                    completed: ws.tasks.filter((t) => t.type === 'done').length,
                     total: ws.tasks.length,
                 },
             }));

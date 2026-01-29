@@ -1,8 +1,13 @@
 import { create } from 'zustand'
-import { TaskStateInterface } from '../interfaces/tasks.interface';
+import { TasksStateInterface, TaskTypeStateInterface } from '../interfaces/tasks.interface';
 
 
-export const useTaskTypeStore = create<TaskStateInterface>((set) => ({
+export const useTaskTypeStore = create<TaskTypeStateInterface>((set) => ({
     taskType: 'todo',
     setTaskType: (taskType) => set({ taskType }),
+}));
+
+export const useTasksStore = create<TasksStateInterface>((set) => ({
+    tasks: null,
+    setTasks: (tasks) => set({ tasks }),
 }));

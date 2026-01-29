@@ -1,17 +1,22 @@
-'use client'
+'use client';
 import { useResizeW } from '@/shared/hooks/useResize';
 import { TaskType } from '@/shared/types/task-type';
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useSWRConfig } from 'swr';
 import { getNextTaskType } from '../utils/getNextTaskType';
 import { useSetup } from '@/shared/hooks/useSetup';
 import { loggerError } from '@/shared/utils/logger/logger';
+import { changeTask } from '../utils/changeTaskType';
+import { useUser } from '@/shared/hooks/useUser';
 
 
 const DRAG_THRESHOLD_PERCENT = 0.25;
 const MAX_INITIAL_ANGLE = 10;
 
-export const useTaskDrag = (type: TaskType) => {
-    const { webApp } = useSetup();
+export const useTaskDrag = (taskId: number, type: TaskType) => {
+    const { webApp, workspace } = useSetup();
+    const { tgUser } = useUser();
+    const { mutate } = useSWRConfig();
 
     const screenWidth = useResizeW();
     const [position, setPosition] = useState<number>(0);
@@ -22,6 +27,11 @@ export const useTaskDrag = (type: TaskType) => {
     const hasValidDragStartedRef = useRef(false); 
 
     const nextType = getNextTaskType(type);
+
+    const handleMutate = useCallback(() => {
+        mutate(`/api/task?project=my&userId=${tgUser?.id}`);
+        mutate(`/api/task?workspace=${workspace}`);
+    }, [mutate, tgUser?.id, workspace]);
 
     const triggerLightVibration = useCallback(() => {
         if (!webApp?.HapticFeedback?.notificationOccurred) return;
@@ -101,11 +111,17 @@ export const useTaskDrag = (type: TaskType) => {
         if (!isDragging) return;
 
         const onMouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY);
-        const onMouseUp = () => {
+        const onMouseUp = async () => {
+            setIsThresholdReached(false);
+
             const result = handleEnd();
 
             if (result && nextType) {
-                alert(`Перенесено в ${nextType}`);
+                await changeTask({
+                    id: taskId,
+                    data: { type: nextType },
+                    onSuccess: handleMutate,
+                });
             }
         };
 
@@ -116,7 +132,7 @@ export const useTaskDrag = (type: TaskType) => {
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('mouseup', onMouseUp);
         };
-    }, [isDragging, handleMove, handleEnd, nextType]);
+    }, [isDragging, handleMove, handleEnd, nextType, taskId, handleMutate]);
 
     const onTouchStart = useCallback((e: React.TouchEvent) => 
         handleStart(e.touches[0].clientX, e.touches[0].clientY), 
@@ -126,14 +142,18 @@ export const useTaskDrag = (type: TaskType) => {
         handleMove(e.touches[0].clientX, e.touches[0].clientY), 
     [handleMove]);
 
-    const onTouchEnd = useCallback(() => {
+    const onTouchEnd = useCallback(async () => {
         const result = handleEnd();
         setIsThresholdReached(false);
 
         if (result && nextType) {
-            alert(`Перенесено в ${nextType}`);
+            await changeTask({
+                id: taskId,
+                data: { type: nextType },
+                onSuccess: handleMutate,
+            });
         }
-    }, [handleEnd, nextType]);
+    }, [handleEnd, nextType, taskId, handleMutate]);
 
     return {
         position,

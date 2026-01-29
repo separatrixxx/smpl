@@ -25,7 +25,7 @@ async function getWorkspace(workspaceId: number) {
         owner: workspace.owner_id,
         teammates: workspace.teammates.map((t) => t.user_id),
         tasks_info: {
-            completed: workspace.tasks.filter((t) => t.status === 'done').length,
+            completed: workspace.tasks.filter((t) => t.type === 'done').length,
             total: workspace.tasks.length,
         },
     };

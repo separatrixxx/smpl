@@ -30,7 +30,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
             is_starred: task.is_starred,
             priority: task.priority,
             date: task.date.toISOString(),
-            type: task.status,
+            type: task.type,
         };
 
         return NextResponse.json(formattedTask);
@@ -60,7 +60,7 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
             is_starred: body.is_starred,
             priority: body.priority,
             date: body.date ? new Date(body.date) : undefined,
-            status: body.status,
+            type: body.type,
         });
 
         return NextResponse.json(task);

@@ -24,7 +24,7 @@ export const TasksList = ({ tasksList, isTasksListLoading }: TasksListProps): Re
         <Skeleton width='100%' height={ 112 } isReady={ !isTasksListLoading }>
             {
                 sortedTasks.map(tl => (
-                    <TaskItemWrapper key={ tl.id } title={ tl.title } isStarred={ tl.is_starred }
+                    <TaskItemWrapper key={ tl.id } taskId={ tl.id } title={ tl.title } isStarred={ tl.is_starred }
                         priority={ tl.priority } date={ tl.date } type={ tl.type } />
                 ))
             }

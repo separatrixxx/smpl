@@ -1,5 +1,5 @@
-import { getData, postData } from "@/shared/api/apiClient";
-import { CreateTaskInterface, TaskInterface, TasksDataInterface } from "../interfaces/tasks.interface";
+import { getData, postData, putData } from "@/shared/api/apiClient";
+import { CreateTaskInterface, TaskInterface, TasksDataInterface, UpdateTaskInterface } from "../interfaces/tasks.interface";
 
 
 export const fetchTasksList = async (workspaceId: number, projectId?: number): Promise<TasksDataInterface> => {
@@ -10,4 +10,8 @@ export const fetchTasksList = async (workspaceId: number, projectId?: number): P
 
 export const createTask = async (data: CreateTaskInterface): Promise<TaskInterface> => {
     return postData<TaskInterface>(`/api/task`, data);
+};
+
+export const updateTask = async (id: number, data: UpdateTaskInterface): Promise<TaskInterface> => {
+    return putData<TaskInterface>(`/api/task/${id}`, data);
 };

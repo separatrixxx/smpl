@@ -1,5 +1,5 @@
 import { prisma } from '@/shared/utils/prisma/prisma';
-import { TaskStatus } from '@/generated/prisma';
+import { TaskType } from '@/generated/prisma';
 
 
 export const db = {
@@ -190,7 +190,7 @@ export const db = {
             });
         },
 
-        findByUser: async (userId: number, status?: TaskStatus) => {
+        findByUser: async (userId: number, type?: TaskType) => {
             return prisma.task.findMany({
                 where: {
                     workspace: {
@@ -199,7 +199,7 @@ export const db = {
                             { teammates: { some: { user_id: userId } } },
                         ],
                     },
-                    ...(status && { status }),
+                    ...(type && { type }),
                 },
             });
         },
@@ -211,7 +211,7 @@ export const db = {
             is_starred?: boolean;
             priority?: number;
             date: Date;
-            status?: TaskStatus;
+            type?: TaskType;
         }) => {
             return prisma.task.create({ data });
         },
@@ -221,7 +221,7 @@ export const db = {
             is_starred?: boolean;
             priority?: number;
             date?: Date;
-            status?: TaskStatus;
+            type?: TaskType;
         }) => {
             return prisma.task.update({ where: { id }, data });
         },

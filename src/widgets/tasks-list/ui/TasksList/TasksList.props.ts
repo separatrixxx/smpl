@@ -14,3 +14,7 @@ export interface TaskListItemProps {
 export interface TasksListWrapperProps {
     projectId?: number,
 }
+
+export interface MyTasksListWrapperProps {
+    isTasksListLoading: boolean,
+}

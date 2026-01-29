@@ -1,20 +1,11 @@
-'use client'
-import { useSWRData } from '@/shared/lib/useSWRData';
+'use client';
+import { MyTasksListWrapperProps } from './TasksList.props';
 import { TasksList } from '../..';
-import { MyTasksDataInterface } from '@/entities/tasks/interfaces/tasks.interface';
-import { fetchMyTasksList } from '@/entities/tasks/api/myTasksListApi';
-import { useUser } from '@/shared/hooks/useUser';
+import { useSetup } from '@/shared/hooks/useSetup';
 
 
-export const MyTasksListWrapper = () => {
-    const { tgUser } = useUser();
-
-    const { data: tasksListData, isLoading: isTasksListLoading } = useSWRData<MyTasksDataInterface>(
-        fetchMyTasksList,
-        'Failed to fetch tasks list',
-        `/api/task?project=my&userId=${tgUser?.id}`,
-        tgUser?.id
-    );
-
-    return <TasksList tasksList={ tasksListData?.review || [] } isTasksListLoading={ isTasksListLoading } />
+export const MyTasksListWrapper = ({ isTasksListLoading }: MyTasksListWrapperProps) => {
+    const { tasks } = useSetup();
+    
+    return <TasksList tasksList={ tasks?.review || [] } isTasksListLoading={ isTasksListLoading } />
 };

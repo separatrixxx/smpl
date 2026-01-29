@@ -11,10 +11,6 @@ export interface TasksDataInterface {
     done: TaskInterface[],
 }
 
-export interface MyTasksDataInterface {
-    review: TaskInterface[],
-}
-
 export interface TaskInterface {
     id: number,
     title: string,
@@ -24,9 +20,14 @@ export interface TaskInterface {
     type: TaskType,
 }
 
-export interface TaskStateInterface {
+export interface TaskTypeStateInterface {
     taskType: TaskType,
     setTaskType: (taskType: TaskType) => void,
+}
+
+export interface TasksStateInterface {
+    tasks: TasksDataInterface | null,
+    setTasks: (tasks: TasksDataInterface) => void,
 }
 
 export interface CreateTaskInterface {
@@ -36,5 +37,10 @@ export interface CreateTaskInterface {
     is_starred?: boolean,
     priority?: PriorityType,
     date: string,
-    status?: TaskType,
+    type?: TaskType,
+}
+
+export interface UpdateTaskInterface {
+    title?: string,
+    type?: TaskType,
 }

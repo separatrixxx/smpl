@@ -18,7 +18,7 @@ const getTaskItemComponent = (date: string) => {
 };
 
 export const TaskItemWrapper = ({ ...rest }: TaskItemProps): ReactElement => {
-    const { position, isDragging, isThresholdReached, dragHandlers, nextType } = useTaskDrag(rest.type);
+    const { position, isDragging, isThresholdReached, dragHandlers, nextType } = useTaskDrag(rest.taskId, rest.type);
 
     const TaskItemComponent = getTaskItemComponent(rest.date);
 

@@ -13,10 +13,13 @@ import { WorkspaceInterface } from "@/entities/workspace/interfaces/workspace.in
 import { useSetup } from "@/shared/hooks/useSetup";
 import { useUser } from '@/shared/hooks/useUser';
 import { AddTask } from '@/widgets/add-task';
+import { fetchMyTasksList } from '@/entities/tasks/api/myTasksListApi';
+import { TasksDataInterface } from '@/entities/tasks/interfaces/tasks.interface';
+import { getTodayTasksStats } from '@/shared/utils/common';
 
 
 export default function MyWorkspace() {
-    const { setWorkspace } = useSetup();
+    const { setWorkspace, setTasks } = useSetup();
     const { tgUser } = useUser();
 
     const { data: workspaceData } = useSWRData<WorkspaceInterface>(
@@ -26,16 +29,26 @@ export default function MyWorkspace() {
         tgUser?.id
     );
 
+    const { data: tasksListData, isLoading: isTasksListLoading } = useSWRData<TasksDataInterface>(
+        fetchMyTasksList,
+        'Failed to fetch tasks list',
+        `/api/task?project=my&userId=${tgUser?.id}`,
+        tgUser?.id
+    );
+
     useEffect(() => {
         if (workspaceData?.id) {
             setWorkspace(workspaceData.id);
         }
-    }, [workspaceData, setWorkspace]);
+
+        if (tasksListData) {
+            setTasks(tasksListData);
+        }
+    }, [workspaceData, setWorkspace, tasksListData, setTasks]);
 
     const WorkspaceOverviewWithPad = withLogoPad(WorkspaceOverview);
 
-    const completed = workspaceData?.tasks_info?.completed ?? 0;
-    const total = workspaceData?.tasks_info?.total ?? 0;
+    const { completed, total } = getTodayTasksStats(tasksListData);
 
     const [isSheetOpen, setSheetOpen] = useState<boolean>(false);
 
@@ -45,7 +58,7 @@ export default function MyWorkspace() {
             <WorkspaceOverviewWithPad completed={ completed } total={ total } />
             <ButtonsBar setSheetOpen={ setSheetOpen } />
             <ProjectsListWrapper />
-            <MyTasksListWrapper />
+            <MyTasksListWrapper isTasksListLoading={ isTasksListLoading } />
             <AddTask isSheetOpen={ isSheetOpen } setSheetOpen={ setSheetOpen } />
         </PageWrapper>
     );

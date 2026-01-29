@@ -19,7 +19,7 @@ async function getProject(projectId: number) {
     }
 
     const totalTasks = project.tasks.length;
-    const completedTasks = project.tasks.filter((t) => t.status === 'done').length;
+    const completedTasks = project.tasks.filter((t) => t.type === 'done').length;
 
     return {
         id: project.id,

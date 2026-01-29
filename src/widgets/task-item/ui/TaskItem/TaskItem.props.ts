@@ -4,6 +4,7 @@ import { TaskType } from '@/shared/types/task-type';
 
 
 export interface TaskItemProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+    taskId: number,
     title: string,
     isStarred: boolean,
     priority: PriorityType,

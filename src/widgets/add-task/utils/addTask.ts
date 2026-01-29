@@ -1,6 +1,7 @@
 import { createTask } from "@/entities/tasks/api/tasksListApi";
 import { CreateTaskInterface } from "@/entities/tasks/interfaces/tasks.interface";
 import { PriorityType } from "@/shared/types/priority";
+import { getCurrentDate } from "@/shared/utils/date/date";
 
 
 interface AddTaskInterface {
@@ -29,8 +30,8 @@ export function addTask(props: AddTaskInterface) {
         title: taskName,
         is_starred: false,
         priority,
-        date: new Date().toISOString(),
-        status: 'review',
+        date: getCurrentDate().toISOString(),
+        type: 'review',
     };
 
     setIsLoading(true);

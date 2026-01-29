@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "TaskStatus" AS ENUM ('todo', 'progress', 'review', 'done');
+CREATE TYPE "TaskType" AS ENUM ('todo', 'progress', 'review', 'done');
 
 -- CreateTable
 CREATE TABLE "Workspace" (
@@ -41,7 +41,7 @@ CREATE TABLE "Task" (
     "is_starred" BOOLEAN NOT NULL DEFAULT false,
     "priority" INTEGER NOT NULL DEFAULT 1,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "status" "TaskStatus" NOT NULL DEFAULT 'todo',
+    "type" "TaskType" NOT NULL DEFAULT 'todo',
 
     CONSTRAINT "Task_pkey" PRIMARY KEY ("id")
 );

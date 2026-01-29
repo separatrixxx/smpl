@@ -1,12 +1,13 @@
-import { MyTasksDataInterface, TaskInterface } from "../interfaces/tasks.interface";
+import { getCurrentDate } from "@/shared/utils/date/date";
+import { TaskInterface, TasksDataInterface } from "../interfaces/tasks.interface";
 
 
-export const fetchMyTasksListMock = async (userId: number): Promise<MyTasksDataInterface> => {
+export const fetchMyTasksListMock = async (userId: number): Promise<TasksDataInterface> => {
     if (userId !== 1) {
         throw new Error("User not found");
     }
 
-    const currentDate = new Date();
+    const currentDate = getCurrentDate();
 
     const myTask1MockData: TaskInterface = {
         id: 1,
@@ -26,8 +27,12 @@ export const fetchMyTasksListMock = async (userId: number): Promise<MyTasksDataI
         type: 'review',
     };
 
-    const tasksMockData: MyTasksDataInterface = {
+    const tasksMockData: TasksDataInterface = {
+        workspace_id: 1,
+        todo: [],
+        progress: [],
         review: [myTask1MockData, myTask2MockData],
+        done: [],
     };
 
     return new Promise((resolve) => {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/shared/utils/prisma/prismaClient";
-import { TaskStatus } from "@/generated/prisma";
+import { TaskType } from "@/generated/prisma";
 
 
 export async function GET(req: NextRequest) {
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
 
         const totalTasks = workspace.tasks.length;
         const completedTasks = workspace.tasks.filter(
-            (task) => task.status === TaskStatus.done
+            (task) => task.type === TaskType.done
         ).length;
 
         return NextResponse.json({

@@ -7,7 +7,7 @@ datasource db {
     provider = "postgresql"
 }
 
-enum TaskStatus {
+enum TaskType {
     todo
     progress
     review
@@ -66,7 +66,7 @@ model Task {
     priority     Int        @default(1)
     date         DateTime
     created_at   DateTime   @default(now())
-    status       TaskStatus @default(todo)
+    type         TaskType   @default(todo)
     workspace    Workspace  @relation(fields: [workspace_id], references: [id])
     project      Project?   @relation(fields: [project_id], references: [id])
 }
