@@ -24,6 +24,7 @@ export const fetchTasksListMock = async (workspaceId: number, userId: number, pr
         priority: 1,
         date: currentDate.toISOString(),
         type: 'todo',
+        serial: 'PROJ-1',
     };
 
     const tasksTodo2MockData: TaskInterface = {
@@ -33,6 +34,7 @@ export const fetchTasksListMock = async (workspaceId: number, userId: number, pr
         priority: 4,
         date: '2025-02-15T12:00:00Z',
         type: 'todo',
+        serial: 'PROJ-2',
     };
 
     const tasksProgress1MockData: TaskInterface = {
@@ -42,16 +44,17 @@ export const fetchTasksListMock = async (workspaceId: number, userId: number, pr
         priority: 4,
         date: '2025-03-15T12:00:00Z',
         type: 'progress',
+        serial: 'PROJ-3',
     };
 
-
     const tasksDone1MockData: TaskInterface = {
-        id: 3,
+        id: 4,
         title: 'Прочитать статью на хабре',
         is_starred: false,
         priority: 2,
         date: '2025-02-01T12:00:00Z',
         type: 'done',
+        serial: 'PROJ-4',
     };
 
     const tasksMockData: TasksDataInterface = {

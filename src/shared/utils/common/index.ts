@@ -1,6 +1,5 @@
 import { TasksDataInterface } from "@/entities/tasks/interfaces/tasks.interface";
 import { getLocaleText } from "../locale/locale";
-import { isToday } from 'date-fns';
 
 
 export function getWorkspaceTitle(lang?: string, title?: string, isMyWorkspace?: boolean): string {
@@ -19,12 +18,34 @@ export function getTodayTasksStats(data?: TasksDataInterface) {
 
     const { todo, progress, review, done } = data;
 
+    const today = new Date();
+    const todayDateString = today.toISOString().split('T')[0];
+
+    const isTaskToday = (task: any) => {
+        const taskDate = new Date(task.date).toISOString().split('T')[0];
+        return taskDate === todayDateString;
+    };
+
     const allTasks = [...todo, ...progress, ...review, ...done];
-    const todayTasks = allTasks.filter(task => isToday(new Date(task.date)));
-    const todayDone = done.filter(task => isToday(new Date(task.date)));
+    const todayTasks = allTasks.filter(isTaskToday);
+    const todayDone = done.filter(isTaskToday);
 
     return {
         completed: todayDone.length,
         total: todayTasks.length,
     };
+}
+
+export type WorkspaceOverviewTextType = 'no_tasks' | 'all_done' | 'remaining';
+
+export function getWorkspaceOverviewTextType(completed?: number, total?: number): WorkspaceOverviewTextType {
+    if (completed === undefined || total === undefined) {
+        return 'no_tasks';
+    }
+
+    if (total - completed === 0) {
+        return 'all_done';
+    }
+
+    return 'remaining';
 }

@@ -6,4 +6,5 @@ export interface ProjectInterface {
     is_starred: boolean,
     tasks_count: number,
     progress: number,
+    alias: string,
 }

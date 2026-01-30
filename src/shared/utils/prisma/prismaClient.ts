@@ -155,6 +155,7 @@ export const db = {
             title: string;
             description?: string | null;
             is_starred?: boolean;
+            alias: string;
         }) => {
             return prisma.project.create({ data });
         },
@@ -163,8 +164,15 @@ export const db = {
             title?: string;
             description?: string | null;
             is_starred?: boolean;
+            alias?: string;
         }) => {
             return prisma.project.update({ where: { id }, data });
+        },
+
+        countTasks: async (projectId: number) => {
+            return prisma.task.count({
+                where: { project_id: projectId },
+            });
         },
 
         delete: async (id: number) => {
@@ -212,8 +220,26 @@ export const db = {
             priority?: number;
             date: Date;
             type?: TaskType;
+            serial: string;
         }) => {
             return prisma.task.create({ data });
+        },
+
+        countByMyWorkspace: async (userId: number) => {
+            return prisma.task.count({
+                where: {
+                    workspace: {
+                        owner_id: userId,
+                        is_my_workspace: true,
+                    },
+                },
+            });
+        },
+
+        countByProject: async (projectId: number) => {
+            return prisma.task.count({
+                where: { project_id: projectId },
+            });
         },
 
         update: async (id: number, data: {

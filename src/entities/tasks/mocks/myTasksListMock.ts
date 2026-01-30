@@ -16,6 +16,7 @@ export const fetchMyTasksListMock = async (userId: number): Promise<TasksDataInt
         priority: 1,
         date: currentDate.toISOString(),
         type: 'review',
+        serial: 'user-1',
     };
 
     const myTask2MockData: TaskInterface = {
@@ -25,6 +26,7 @@ export const fetchMyTasksListMock = async (userId: number): Promise<TasksDataInt
         priority: 4,
         date: '2025-02-15T12:00:00Z',
         type: 'review',
+        serial: 'user-2',
     };
 
     const tasksMockData: TasksDataInterface = {

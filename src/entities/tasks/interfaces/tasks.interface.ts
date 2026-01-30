@@ -18,6 +18,7 @@ export interface TaskInterface {
     priority: PriorityType,
     date: string,
     type: TaskType,
+    serial: string,
 }
 
 export interface TaskTypeStateInterface {
@@ -33,6 +34,7 @@ export interface TasksStateInterface {
 export interface CreateTaskInterface {
     workspace_id: number,
     project_id?: number,
+    telegram_id?: string | number,
     title: string,
     is_starred?: boolean,
     priority?: PriorityType,

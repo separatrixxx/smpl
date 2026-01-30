@@ -40,6 +40,7 @@ export const AddTask = ({ isSheetOpen, setSheetOpen }: AddTaskProps): ReactEleme
 
     const handleAddTask = () => addTask({
         workspaceId: workspace,
+        telegramId: tgUser?.id,
         taskName: taskName.trim(),
         priority,
         setTaskNameError,

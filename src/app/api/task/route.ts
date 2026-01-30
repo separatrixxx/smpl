@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/shared/utils/prisma/prismaClient";
 import { TaskType } from "@/generated/prisma";
+import {
+    generateMyWorkspaceSerial,
+    generateProjectSerial,
+} from "@/entities/tasks/utils/generateTaskSerial";
 
 
 export async function POST(req: NextRequest) {
@@ -28,6 +32,50 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        let serial: string;
+
+        if (body.project_id) {
+            const project = await db.project.findUnique(body.project_id);
+
+            if (!project) {
+                return NextResponse.json(
+                    { error: "Project not found" },
+                    { status: 404 }
+                );
+            }
+
+            const taskCount = await db.task.countByProject(body.project_id);
+
+            serial = generateProjectSerial({
+                projectAlias: project.alias,
+                taskNumber: taskCount + 1,
+            });
+        } else {
+            if (!body.telegram_id) {
+                return NextResponse.json(
+                    { error: "telegram_id is required for my workspace tasks" },
+                    { status: 400 }
+                );
+            }
+
+            const user = await db.user.findByTelegramId(BigInt(body.telegram_id));
+
+            if (!user) {
+                return NextResponse.json(
+                    { error: "User not found" },
+                    { status: 404 }
+                );
+            }
+
+            const taskCount = await db.task.countByMyWorkspace(user.id);
+
+            serial = generateMyWorkspaceSerial({
+                username: user.username,
+                telegramId: body.telegram_id,
+                taskNumber: taskCount + 1,
+            });
+        }
+
         const task = await db.task.create({
             workspace_id: body.workspace_id,
             project_id: body.project_id ?? null,
@@ -36,6 +84,7 @@ export async function POST(req: NextRequest) {
             priority: body.priority ?? 1,
             date: new Date(body.date),
             type: body.type ?? 'todo',
+            serial,
         });
 
         return NextResponse.json(task, { status: 201 });
@@ -84,6 +133,7 @@ export async function GET(req: NextRequest) {
                 priority: number;
                 date: string;
                 type: TaskType;
+                serial: string;
             };
 
             const groupedTasks: {
@@ -108,6 +158,7 @@ export async function GET(req: NextRequest) {
                     priority: task.priority,
                     date: task.date.toISOString(),
                     type: task.type,
+                    serial: task.serial,
                 };
 
                 groupedTasks[task.type].push(formatted);
@@ -129,6 +180,7 @@ export async function GET(req: NextRequest) {
                 priority: number;
                 date: string;
                 type: TaskType;
+                serial: string;
             };
 
             const groupedTasks: {
@@ -155,6 +207,7 @@ export async function GET(req: NextRequest) {
                     priority: task.priority,
                     date: task.date.toISOString(),
                     type: task.type,
+                    serial: task.serial,
                 };
 
                 groupedTasks[task.type].push(formatted);

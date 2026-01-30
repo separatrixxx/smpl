@@ -22,6 +22,7 @@ export const fetchProjectMock = async (projectId: number, workspaceId: number, u
         is_starred: true,
         tasks_count: 13,
         progress: 89,
+        alias: 'LAND',
     };
 
     const project2MockData: ProjectInterface = {
@@ -32,6 +33,7 @@ export const fetchProjectMock = async (projectId: number, workspaceId: number, u
         is_starred: false,
         tasks_count: 0,
         progress: 13,
+        alias: 'MOB',
     };
 
     return new Promise((resolve) => {

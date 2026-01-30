@@ -4,6 +4,7 @@ export const ru = {
     workspace: "Воркспейс",
     workspace_overview_text: "Привет, {user}, осталось {completed}/{total} задач на сегодня",
     workspace_overview_no_tasks_text: "Привет, {user}, у вас нет задач на сегодня",
+    workspace_overview_completed_tasks_text: "Привет, {user}, вы выполнили все задания на сегодня!",
     guest: "гость",
     new_project: "Новый проект",
     add_task: "Создать задачу",

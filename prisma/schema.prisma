@@ -53,6 +53,7 @@ model Project {
     title        String
     description  String?
     is_starred   Boolean   @default(false)
+    alias        String
     workspace    Workspace @relation(fields: [workspace_id], references: [id])
     tasks        Task[]
 }
@@ -67,6 +68,7 @@ model Task {
     date         DateTime
     created_at   DateTime   @default(now())
     type         TaskType   @default(todo)
+    serial       String
     workspace    Workspace  @relation(fields: [workspace_id], references: [id])
     project      Project?   @relation(fields: [project_id], references: [id])
 }
