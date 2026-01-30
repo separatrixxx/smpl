@@ -20,11 +20,19 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        if (!body.alias || typeof body.alias !== 'string') {
+            return NextResponse.json(
+                { error: "alias is required and must be a string" },
+                { status: 400 }
+            );
+        }
+
         const project = await db.project.create({
             workspace_id: body.workspace_id,
             title: body.title,
             description: body.description ?? null,
             is_starred: body.is_starred ?? false,
+            alias: body.alias,
         });
 
         return NextResponse.json(project, { status: 201 });
@@ -58,6 +66,7 @@ export async function GET(req: NextRequest) {
                     is_starred: project.is_starred,
                     tasks_count: totalTasks,
                     progress: totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0,
+                    alias: project.alias,
                 };
             });
 

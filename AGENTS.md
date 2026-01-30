@@ -1,5 +1,7 @@
 # Это проект .smpl - таск-менеджер, интегрированный с Телеграммом.
 
+**ВАЖНО:** дополняй этот файл, если встретишь что-то неочевидное 
+
 ### Структура проекта:
 
 `public` - публичные ассеты:
@@ -32,8 +34,8 @@
 - `User` - пользователь (id, telegram_id, first_name, last_name, username, photo_url). `telegram_id` - уникальный идентификатор из Telegram (BigInt)
 - `Workspace` - воркспейс (id, title, description, is_my_workspace, owner_id)
 - `UserWorkspace` - связь пользователя и воркспейса (для teammates)
-- `Project` - проект (id, workspace_id, title, description, is_starred)
-- `Task` - задача (id, workspace_id, project_id, title, is_starred, priority, date, created_at, type). `date` - дедлайн задачи (обязательное), `created_at` - дата создания (автоматическое)
+- `Project` - проект (id, workspace_id, title, description, is_starred, alias). `alias` - короткий идентификатор проекта для serial задач (например, `PROJ`)
+- `Task` - задача (id, workspace_id, project_id, title, is_starred, priority, date, created_at, type, serial). `date` - дедлайн задачи (обязательное), `created_at` - дата создания (автоматическое), `serial` - уникальный идентификатор для отображения (например, `username-1` или `PROJ-42`)
 
 Типы задач (`TaskType`): `todo`, `progress`, `review`, `done`
 
@@ -45,9 +47,9 @@
 - `/api/workspace` - GET (список, с `?userId` для фильтрации), POST (создание)
 - `/api/workspace/my` - GET (личный воркспейс пользователя, с `?userId`)
 - `/api/workspace/[id]` - GET, PUT, DELETE
-- `/api/project` - GET (список, с `?workspace` для фильтрации), POST (создание)
+- `/api/project` - GET (список, с `?workspace` для фильтрации), POST (создание, требует alias)
 - `/api/project/[id]` - GET, PUT, DELETE
-- `/api/task` - GET (список, с `?workspace`, `?project`, `?userId`), POST (создание, требует workspace_id, title, date, type)
+- `/api/task` - GET (список, с `?workspace`, `?project`, `?userId`), POST (создание, требует workspace_id, title, date; для my workspace требует telegram_id, для проекта - project_id)
 - `/api/task/[id]` - GET, PUT (частичное обновление: title, type), DELETE
 - `/api/teammate` - POST (добавление), DELETE (удаление)
 - `/api/teammate/[workspaceId]` - GET (список тиммейтов воркспейса)
@@ -148,3 +150,48 @@ Enum `TaskType` в Prisma генерирует TypeScript тип в `@/generated
 
 Ветки нужно называть в соответствии с паттерном: `smpl-[name]-[num - опционально]`, где `name` - это короткое осмысленное название ветки, отражающее суть изменений.
 Все коммиты должны называться в соответствии с [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+### Мок пользователя при разработке
+
+При разработке вне Telegram (в браузере) используется мок пользователя из `src/shared/constants/index.ts`:
+
+```ts
+export const USER_ID_MOCK = '8623816671';
+export const USER_PHOTO_MOCK = '...';
+export const USERNAME_MOCK = '.smpl user';
+```
+
+Хук `useUser()` возвращает `tgUser` из Telegram, а если он недоступен - возвращает мок. Чтобы тестировать под конкретным пользователем, нужно изменить `USER_ID_MOCK` на нужный `telegram_id` из БД.
+
+### Serial задачи и alias проекта
+
+У каждой задачи есть `serial` - уникальный идентификатор для отображения (например, `separatrix-1` или `PROJ-42`).
+
+**Логика генерации serial:**
+- Для my workspace: `username || telegram_id + '-' + номер задачи у этого юзера в my workspace`
+- Для проекта: `project.alias + '-' + номер задачи в этом проекте`
+
+**Важно:** При создании задачи в my workspace нужно передавать `telegram_id` в теле запроса. Без него API вернёт 400.
+
+```ts
+// Пример создания задачи в my workspace
+const data = {
+    workspace_id: workspaceId,
+    telegram_id: tgUser?.id,  // Обязательно для my workspace!
+    title: 'Task name',
+    date: new Date().toISOString(),
+    type: 'review',
+};
+```
+
+У проекта есть `alias` (например, `PROJ`, `SMPL`) - он задаётся вручную при создании проекта и используется для генерации serial задач в этом проекте.
+
+### BigInt для telegram_id
+
+В БД `telegram_id` хранится как `BigInt`. При поиске пользователя нужно конвертировать:
+
+```ts
+const user = await db.user.findByTelegramId(BigInt(telegramId));
+```
+
+На клиенте `tgUser?.id` приходит как number/string, в API он конвертируется в BigInt для запроса к БД.

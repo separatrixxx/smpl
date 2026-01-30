@@ -6,6 +6,8 @@ import { getCurrentDate } from "@/shared/utils/date/date";
 
 interface AddTaskInterface {
     workspaceId: number,
+    telegramId?: string | number,
+    projectId?: number,
     taskName: string,
     priority: PriorityType,
     setTaskNameError: (e: boolean) => void,
@@ -15,7 +17,7 @@ interface AddTaskInterface {
 }
 
 export function addTask(props: AddTaskInterface) {
-    const { workspaceId, taskName, priority, setTaskNameError, handleCloseSheet, setIsLoading, onSuccess } = props;
+    const { workspaceId, telegramId, projectId, taskName, priority, setTaskNameError, handleCloseSheet, setIsLoading, onSuccess } = props;
 
     setTaskNameError(false);
 
@@ -27,11 +29,13 @@ export function addTask(props: AddTaskInterface) {
 
     const data: CreateTaskInterface = {
         workspace_id: workspaceId,
+        project_id: projectId,
+        telegram_id: telegramId,
         title: taskName,
         is_starred: false,
         priority,
         date: getCurrentDate().toISOString(),
-        type: 'review',
+        type: projectId ? 'todo' : 'review',
     };
 
     setIsLoading(true);
