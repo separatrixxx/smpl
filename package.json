@@ -16,8 +16,8 @@
     "test": "vitest run",
     "migrate:deploy": "prisma migrate deploy",
     "lint": "eslint src",
-    "stylelint": "stylelint \"**/*.scss\" --fix",
-    "check": "stylelint \"**/*.scss\" --fix && eslint src",
+    "stylelint": "stylelint \"**/*.scss\"",
+    "check": "pnpm run stylelint && pnpm run lint --fix",
     "migrate": "pnpm prisma migrate dev && pnpm prisma generate",
     "prepare": "husky"
   },
