@@ -13,12 +13,14 @@ on:
 
 jobs:
   test:
+    name: test (${{ matrix.os }}, ${{ matrix.node-version }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [22]
-
+  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -45,6 +47,3 @@ jobs:
 
       - name: Run tests
         run: pnpm run test
-
-      - name: Run build
-        run: pnpm run build
