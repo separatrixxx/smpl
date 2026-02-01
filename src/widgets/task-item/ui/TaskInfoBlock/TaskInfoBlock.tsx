@@ -16,6 +16,10 @@ export const TaskInfoBlock = ({ taskId, title, priority, type }: TaskInfoBlockPr
     const [checked, setChecked] = useState<boolean>(false);
 
     const handleChangeTaskType = () => {
+        if (taskId < 0) {
+            return;
+        }
+
         const nextType = getNextTaskType(type);
 
         if (nextType) {
@@ -23,7 +27,7 @@ export const TaskInfoBlock = ({ taskId, title, priority, type }: TaskInfoBlockPr
 
             setTimeout(() => {
                 moveTask(taskId, type, nextType);
-            }, 300);
+            }, 200);
 
             changeTask({
                 id: taskId,

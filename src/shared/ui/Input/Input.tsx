@@ -4,7 +4,7 @@ import { ReactElement } from "react";
 import cn from 'classnames';
 
 
-export const Input = ({ placeholder, value, type, name, ariaLabel, isError, handleChange }: InputProps): ReactElement => {
+export const Input = ({ placeholder, value, type, name, ariaLabel, isError, handleChange, onKeyDown }: InputProps): ReactElement => {
     return (
         <input className={ cn(styles.input, {
             [styles.error]: isError,
@@ -12,6 +12,7 @@ export const Input = ({ placeholder, value, type, name, ariaLabel, isError, hand
             placeholder={ placeholder }
             value={ value }
             onChange={ handleChange }
+            onKeyDown={ onKeyDown }
             type={ type || 'text' }
             name={ name }
             aria-label={ ariaLabel }

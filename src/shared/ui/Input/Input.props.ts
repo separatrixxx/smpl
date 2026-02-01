@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, HTMLAttributes, ChangeEvent } from "react";
+import { DetailedHTMLProps, HTMLAttributes, ChangeEvent, KeyboardEvent } from "react";
 
 
 export interface InputProps extends DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement> {
@@ -9,4 +9,5 @@ export interface InputProps extends DetailedHTMLProps<HTMLAttributes<HTMLInputEl
     ariaLabel: string,
     isError?: boolean,
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void,
+    onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void,
 }

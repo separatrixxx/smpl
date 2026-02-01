@@ -1,8 +1,10 @@
 import { createTask } from "@/entities/tasks/api/tasksListApi";
-import { CreateTaskInterface } from "@/entities/tasks/interfaces/tasks.interface";
+import { CreateTaskInterface, TaskInterface } from "@/entities/tasks/interfaces/tasks.interface";
 import { PriorityType } from "@/shared/types/priority";
 import { getCurrentDate } from "@/shared/utils/date/date";
 
+
+let tempIdCounter = -1;
 
 interface AddTaskInterface {
     workspaceId: number,
@@ -12,12 +14,12 @@ interface AddTaskInterface {
     priority: PriorityType,
     setTaskNameError: (e: boolean) => void,
     handleCloseSheet: () => void,
-    setIsLoading: (e: boolean) => void,
-    onSuccess?: () => void,
+    addTaskToStore: (task: TaskInterface) => void,
+    replaceTaskInStore: (tempId: number, realTask: TaskInterface) => void,
 }
 
 export function addTask(props: AddTaskInterface) {
-    const { workspaceId, telegramId, projectId, taskName, priority, setTaskNameError, handleCloseSheet, setIsLoading, onSuccess } = props;
+    const { workspaceId, telegramId, projectId, taskName, priority, setTaskNameError, handleCloseSheet, addTaskToStore, replaceTaskInStore } = props;
 
     setTaskNameError(false);
 
@@ -27,6 +29,23 @@ export function addTask(props: AddTaskInterface) {
         return;
     }
 
+    const date = getCurrentDate().toISOString();
+    const type = projectId ? 'todo' : 'review';
+    const tempId = tempIdCounter--;
+
+    const optimisticTask: TaskInterface = {
+        id: tempId,
+        title: taskName,
+        is_starred: false,
+        priority,
+        date,
+        type,
+        serial: '',
+    };
+
+    addTaskToStore(optimisticTask);
+    handleCloseSheet();
+
     const data: CreateTaskInterface = {
         workspace_id: workspaceId,
         project_id: projectId,
@@ -34,18 +53,11 @@ export function addTask(props: AddTaskInterface) {
         title: taskName,
         is_starred: false,
         priority,
-        date: getCurrentDate().toISOString(),
-        type: projectId ? 'todo' : 'review',
+        date,
+        type,
     };
 
-    setIsLoading(true);
-
-    createTask(data)
-        .then(() => {
-            onSuccess?.();
-        })
-        .finally(() => {
-            setIsLoading(false);
-            handleCloseSheet();
-        });
+    createTask(data).then((realTask) => {
+        replaceTaskInStore(tempId, realTask);
+    });
 }

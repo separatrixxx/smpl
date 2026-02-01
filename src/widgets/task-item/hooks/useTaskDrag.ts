@@ -9,7 +9,7 @@ import { changeTask } from '../utils/changeTaskType';
 
 
 const DRAG_THRESHOLD_PERCENT = 0.25;
-const MAX_INITIAL_ANGLE = 10;
+const MAX_INITIAL_ANGLE = 30;
 
 export const useTaskDrag = (taskId: number, type: TaskType) => {
     const { webApp, moveTask } = useSetup();
@@ -119,7 +119,7 @@ export const useTaskDrag = (taskId: number, type: TaskType) => {
 
             const result = handleEnd();
 
-            if (result && nextType) {
+            if (result && nextType && taskId >= 0) {
                 setTimeout(() => {
                     moveTask(taskId, type, nextType);
                 }, 200);
@@ -152,7 +152,7 @@ export const useTaskDrag = (taskId: number, type: TaskType) => {
         const result = handleEnd();
         setIsThresholdReached(false);
 
-        if (result && nextType) {
+        if (result && nextType && taskId >= 0) {
             setTimeout(() => {
                 moveTask(taskId, type, nextType);
             }, 200);

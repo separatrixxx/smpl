@@ -12,7 +12,7 @@ export const useSetup = () => {
     const { user, setUser, clearUser } = useUserStore();
     const { workspace, setWorkspace } = useWorkspaceStore();
     const { taskType, setTaskType } = useTaskTypeStore();
-    const { tasks, setTasks, moveTask } = useTasksStore();
+    const { tasks, setTasks, moveTask, addTask, replaceTask } = useTasksStore();
 
     return {
         router,
@@ -27,5 +27,7 @@ export const useSetup = () => {
         tasks,
         setTasks,
         moveTask,
+        addTask,
+        replaceTask,
     };
 };
