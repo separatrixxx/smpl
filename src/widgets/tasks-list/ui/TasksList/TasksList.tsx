@@ -6,7 +6,7 @@ import { TaskItemWrapper } from '@/widgets/task-item/ui/TaskItem/TaskItemWrapper
 
 export const TasksList = ({ tasksList, isTasksListLoading }: TasksListProps): ReactElement => {
     const sortedTasks = useMemo(() => {
-        if (!tasksList) return [];
+        if (!tasksList) {return [];}
 
         return [...tasksList].sort((a, b) => {
             const dateA = new Date(a.date).getTime();

@@ -12,9 +12,11 @@ export const ProjectsListWrapper = () => {
     const { data: projectsListData, isLoading: isProjectsListLoading } = useSWRData<ProjectInterface[]>(
         fetchProjectsList,
         'Failed to fetch projects list',
-        `/api/project?workspace=${workspace}`,
+        workspace ? `/api/project?workspace=${workspace}` : null,
         workspace
     );
 
-    return <ProjectsList projectsList={ projectsListData || [] } isProjectsListLoading={ isProjectsListLoading } />;
+    const isLoading = !workspace || isProjectsListLoading;
+
+    return <ProjectsList projectsList={ projectsListData || [] } isProjectsListLoading={ isLoading } />;
 };

@@ -2,38 +2,33 @@
 import { TaskInfoBlockProps } from './TaskInfoBlock.props';
 import styles from './TaskInfoBlock.module.scss';
 import { ReactElement, useState } from "react";
-import { useSWRConfig } from 'swr';
 import { PriorityBlock } from '../PriorityBlock/PriorityBlock';
 import { Htag } from '@/shared/ui/Htag/Htag';
 import { Checkbox } from '@/shared/ui/Checkbox/Checkbox';
 import { changeTask } from '../../utils/changeTaskType';
 import { getNextTaskType } from '../../utils/getNextTaskType';
-import { useUser } from '@/shared/hooks/useUser';
 import { useSetup } from '@/shared/hooks/useSetup';
 
 
 export const TaskInfoBlock = ({ taskId, title, priority, type }: TaskInfoBlockProps): ReactElement => {
-    const { tgUser } = useUser();
-    const { workspace } = useSetup();
-    const { mutate } = useSWRConfig();
+    const { moveTask } = useSetup();
 
     const [checked, setChecked] = useState<boolean>(false);
 
-    const handleMutate = () => {
-        mutate(`/api/task?project=my&userId=${tgUser?.id}`);
-        mutate(`/api/task?workspace=${workspace}`);
-    };
-
-    const handleChangeTaskType = async () => {
+    const handleChangeTaskType = () => {
         const nextType = getNextTaskType(type);
 
         if (nextType) {
-            await changeTask({
+            setChecked(true);
+
+            setTimeout(() => {
+                moveTask(taskId, type, nextType);
+            }, 300);
+
+            changeTask({
                 id: taskId,
                 data: { type: nextType },
-                onSuccess: handleMutate,
             });
-            setChecked(!checked);
         }
     };
 

@@ -39,11 +39,11 @@ export const useModal = (isOpen: boolean, onClose: () => void) => {
     };
 
     const handlePointerMove = (e: React.PointerEvent) => {
-        if (!isDragging || startY.current === null) return;
+        if (!isDragging || startY.current === null) {return;}
 
         const delta = e.clientY - startY.current;
 
-        if (delta > 0) setDragY(delta);
+        if (delta > 0) {setDragY(delta);}
     };
 
     const handlePointerUp = () => {

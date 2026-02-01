@@ -6,7 +6,6 @@ import { Icon } from '@/shared/ui/Icon/Icon';
 import { Htag } from '@/shared/ui/Htag/Htag';
 
 
-
 export const ButtonIcon = ({ type, text, onClick }: ButtonIconProps): ReactElement => {
     return (
         <Pad isSmall={ true } className={ styles.buttonIconPad } onClick={ onClick }>

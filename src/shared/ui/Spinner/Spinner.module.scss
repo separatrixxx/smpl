@@ -1,0 +1,21 @@
+$border: 4px;
+
+.spinnerWrapper {
+    display: grid;
+    grid-template-columns: auto;
+    place-items: center center;
+
+    .spinner {
+        margin: 4.5px 0;
+        border: $border solid var(--second-bg);
+        animation: spin 1s linear infinite;
+        border-top: $border solid var(--primary);
+        border-radius: 50%;
+        box-sizing: border-box;
+    }
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
