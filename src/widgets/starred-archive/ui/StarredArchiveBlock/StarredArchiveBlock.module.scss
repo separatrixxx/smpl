@@ -5,11 +5,13 @@
     gap: inherit;
     grid-template-columns: auto auto;
     justify-items: end;
+    pointer-events: auto;
 
     .icon {
         cursor: pointer;
+        pointer-events: auto;
 
         @include shared.transition(filter);
-		@include shared.brightness;
+        @include shared.brightness;
     }
 }

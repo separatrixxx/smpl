@@ -19,7 +19,7 @@ import { getTodayTasksStats } from '@/shared/utils/common';
 
 
 export default function MyWorkspace() {
-    const { setWorkspace, setTasks } = useSetup();
+    const { setWorkspace, setTasks, tasks } = useSetup();
     const { tgUser, isUserLoading } = useUser();
 
     const { data: workspaceData } = useSWRData<WorkspaceInterface>(
@@ -48,7 +48,7 @@ export default function MyWorkspace() {
 
     const WorkspaceOverviewWithPad = withLogoPad(WorkspaceOverview);
 
-    const { completed, total } = getTodayTasksStats(tasksListData);
+    const { completed, total } = getTodayTasksStats(tasks);
 
     const [isSheetOpen, setSheetOpen] = useState<boolean>(false);
 

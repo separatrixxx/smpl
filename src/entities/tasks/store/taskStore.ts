@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { TasksStateInterface, TaskTypeStateInterface } from '../interfaces/tasks.interface';
+import { TaskInterface, TasksStateInterface, TaskTypeStateInterface } from '../interfaces/tasks.interface';
 import { TaskType } from '@/shared/types/task-type';
 
 
@@ -29,6 +29,39 @@ export const useTasksStore = create<TasksStateInterface>((set, get) => ({
                 ...tasks,
                 [fromType]: tasks[fromType].filter(t => t.id !== taskId),
                 [toType]: [...tasks[toType], { ...task, type: toType }],
+            },
+        });
+    },
+    addTask: (task: TaskInterface) => {
+        const { tasks } = get();
+
+        if (!tasks) {
+            return;
+        }
+
+        set({
+            tasks: {
+                ...tasks,
+                [task.type]: [task, ...tasks[task.type]],
+            },
+        });
+    },
+    replaceTask: (tempId: number, realTask: TaskInterface) => {
+        const { tasks } = get();
+
+        if (!tasks) {
+            return;
+        }
+
+        const taskType = realTask.type;
+        const updatedList = tasks[taskType].map(t => 
+            t.id === tempId ? realTask : t
+        );
+
+        set({
+            tasks: {
+                ...tasks,
+                [taskType]: updatedList,
             },
         });
     },

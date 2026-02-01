@@ -1,7 +1,6 @@
 'use client';
 import { AddTaskProps } from './AddTask.props';
-import { ReactElement, useState } from 'react';
-import { useSWRConfig } from 'swr';
+import { ReactElement, useState, KeyboardEvent } from 'react';
 import { useUser } from '@/shared/hooks/useUser';
 import { getLocaleText } from '@/shared/utils/locale/locale';
 import { Modal } from '@/widgets/modal';
@@ -14,12 +13,10 @@ import { useSetup } from '@/shared/hooks/useSetup';
 
 export const AddTask = ({ isSheetOpen, setSheetOpen }: AddTaskProps): ReactElement => {
     const { tgUser } = useUser();
-    const { workspace } = useSetup();
-    const { mutate } = useSWRConfig();
+    const { workspace, addTask: addTaskToStore, replaceTask } = useSetup();
 
     const [taskName, setTaskName] = useState<string>('');
     const [priority, setPriority] = useState<PriorityType>(1);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [taskNameError, setTaskNameError] = useState<boolean>(false);
 
@@ -30,12 +27,6 @@ export const AddTask = ({ isSheetOpen, setSheetOpen }: AddTaskProps): ReactEleme
         setSheetOpen(false);
     };
 
-    const handleMutate = () => {
-        mutate(`/api/task?project=my&userId=${tgUser?.id}`);
-        mutate(`/api/task?workspace=${workspace}`);
-        mutate(`/api/workspace/my?userId=${tgUser?.id}`);
-    };
-
     const handleAddTask = () => addTask({
         workspaceId: workspace,
         telegramId: tgUser?.id,
@@ -43,16 +34,23 @@ export const AddTask = ({ isSheetOpen, setSheetOpen }: AddTaskProps): ReactEleme
         priority,
         setTaskNameError,
         handleCloseSheet,
-        setIsLoading,
-        onSuccess: handleMutate,
+        addTaskToStore,
+        replaceTaskInStore: replaceTask,
     });
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleAddTask();
+        }
+    };
 
     return (
         <>
             <Modal title={ getLocaleText(tgUser.language_code, 'add_task') } isOpen={ isSheetOpen } onClose={ handleCloseSheet }>
                 <Input placeholder={ getLocaleText(tgUser?.language_code, 'task_name') } value={ taskName }
-                    name='task name' ariaLabel='task name' isError={ taskNameError } handleChange={ (e) => setTaskName(e.target.value) } />
-                <AddTaskBar taskName={ taskName.trim() } isLoading={ isLoading } handleAddTask={ handleAddTask } />
+                    name='task name' ariaLabel='task name' isError={ taskNameError }
+                    handleChange={ (e) => setTaskName(e.target.value) } onKeyDown={ handleKeyDown } />
+                <AddTaskBar taskName={ taskName.trim() } handleAddTask={ handleAddTask } />
             </Modal>
         </>
     );

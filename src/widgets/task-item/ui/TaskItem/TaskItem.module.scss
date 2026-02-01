@@ -35,7 +35,23 @@ $radius: 12px;
     .dragWrapper {
         position: relative;
         left: 0;
+        width: 100%;
         z-index: 1;
+        user-select: none;
+        touch-action: pan-y;
+        -webkit-user-drag: none;
+        -webkit-touch-callout: none;
+
+        * {
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-touch-callout: none;
+            pointer-events: none;
+        }
+
+        input[type="checkbox"] {
+            pointer-events: auto;
+        }
 
         &.dragCursor {
             cursor: grab;

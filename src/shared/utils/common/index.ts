@@ -8,7 +8,7 @@ export function getWorkspaceTitle(lang?: string, title?: string, isMyWorkspace?:
     return isMyWorkspace ? getLocaleText(lang, 'my_workspace') : correctTitle;
 }
 
-export function getTodayTasksStats(data?: TasksDataInterface) {
+export function getTodayTasksStats(data?: TasksDataInterface | null) {
     if (!data) {
         return {
             completed: 0,
