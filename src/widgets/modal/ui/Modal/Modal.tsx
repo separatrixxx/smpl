@@ -11,7 +11,7 @@ export const Modal = ({ title, isOpen, onClose, children }: ModalProps): ReactEl
     const { sheetRef, dragY, isDragging, handleBackdropClick, handlePointerDown,
         handlePointerMove, handlePointerUp } = useModal(isOpen, onClose);
 
-    if (!isOpen) return <></>;
+    if (!isOpen) {return <></>;}
 
     return createPortal(
         <div className={ styles.backdrop } role='dialog' aria-modal='true' aria-label={ title }

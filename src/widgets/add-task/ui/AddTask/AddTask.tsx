@@ -21,8 +21,6 @@ export const AddTask = ({ isSheetOpen, setSheetOpen }: AddTaskProps): ReactEleme
     const [priority, setPriority] = useState<PriorityType>(1);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    console.log(isLoading)
-
     const [taskNameError, setTaskNameError] = useState<boolean>(false);
 
     const handleCloseSheet = () => {
@@ -54,7 +52,7 @@ export const AddTask = ({ isSheetOpen, setSheetOpen }: AddTaskProps): ReactEleme
             <Modal title={ getLocaleText(tgUser.language_code, 'add_task') } isOpen={ isSheetOpen } onClose={ handleCloseSheet }>
                 <Input placeholder={ getLocaleText(tgUser?.language_code, 'task_name') } value={ taskName }
                     name='task name' ariaLabel='task name' isError={ taskNameError } handleChange={ (e) => setTaskName(e.target.value) } />
-                <AddTaskBar taskName={ taskName.trim() } handleAddTask={ handleAddTask } />
+                <AddTaskBar taskName={ taskName.trim() } isLoading={ isLoading } handleAddTask={ handleAddTask } />
             </Modal>
         </>
     );

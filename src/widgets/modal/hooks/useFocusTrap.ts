@@ -18,14 +18,14 @@ export const useFocusTrap = (trapRef: RefObject<HTMLDivElement | null>) => {
 
         const trap = trapRef.current;
 
-        if (!trap) return;
+        if (!trap) {return;}
 
         const focusableElements = trap.querySelectorAll<HTMLElement>(focusableSelectors.join(','));
         const first = focusableElements[0];
         const last = focusableElements[focusableElements.length - 1];
 
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key !== 'Tab') return;
+            if (e.key !== 'Tab') {return;}
 
             if (focusableElements.length === 0) {
                 e.preventDefault();

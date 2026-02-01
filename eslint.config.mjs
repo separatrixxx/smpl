@@ -30,6 +30,8 @@ const eslintConfig = [
                 { "blankLine": "always", "prev": "import", "next": "*" },
                 { "blankLine": "any", "prev": "import", "next": "import" }
             ],
+            // Фигурные скобки обязательны для всех управляющих конструкций
+            "curly": ["error", "all"],
         },
     },
 ];

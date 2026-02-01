@@ -29,6 +29,7 @@ export interface TaskTypeStateInterface {
 export interface TasksStateInterface {
     tasks: TasksDataInterface | null,
     setTasks: (tasks: TasksDataInterface) => void,
+    moveTask: (taskId: number, fromType: TaskType, toType: TaskType) => void,
 }
 
 export interface CreateTaskInterface {

@@ -20,19 +20,19 @@ import { getTodayTasksStats } from '@/shared/utils/common';
 
 export default function MyWorkspace() {
     const { setWorkspace, setTasks } = useSetup();
-    const { tgUser } = useUser();
+    const { tgUser, isUserLoading } = useUser();
 
     const { data: workspaceData } = useSWRData<WorkspaceInterface>(
         fetchMyWorkspace,
         'Failed to fetch my workspace',
-        `/api/workspace/my?userId=${tgUser?.id}`,
+        !isUserLoading ? `/api/workspace/my?userId=${tgUser?.id}` : null,
         tgUser?.id
     );
 
     const { data: tasksListData, isLoading: isTasksListLoading } = useSWRData<TasksDataInterface>(
         fetchMyTasksList,
         'Failed to fetch tasks list',
-        `/api/task?project=my&userId=${tgUser?.id}`,
+        !isUserLoading ? `/api/task?project=my&userId=${tgUser?.id}` : null,
         tgUser?.id
     );
 
@@ -58,7 +58,7 @@ export default function MyWorkspace() {
             <WorkspaceOverviewWithPad completed={ completed } total={ total } />
             <ButtonsBar setSheetOpen={ setSheetOpen } />
             <ProjectsListWrapper />
-            <MyTasksListWrapper isTasksListLoading={ isTasksListLoading } />
+            <MyTasksListWrapper isTasksListLoading={ isTasksListLoading || isUserLoading } />
             <AddTask isSheetOpen={ isSheetOpen } setSheetOpen={ setSheetOpen } />
         </PageWrapper>
     );

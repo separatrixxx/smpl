@@ -90,6 +90,8 @@
 - Пробелы внутри фигурных скобок: `{ value }` вместо `{value}`
 - Поля интерфейсов отделяем запятыми
 - В конце `'use client'` должна быть точка с запятой: `'use client';`
+- Фигурные скобки обязательны для всех управляющих конструкций: `if () { return; }` вместо `if () return;`
+- **Комментарии в коде не нужны** — код должен быть самодокументируемым. Исключение: действительно неочевидная логика, которую невозможно понять из контекста
 
 ---
 
@@ -195,3 +197,50 @@ const user = await db.user.findByTelegramId(BigInt(telegramId));
 ```
 
 На клиенте `tgUser?.id` приходит как number/string, в API он конвертируется в BigInt для запроса к БД.
+
+### Загрузка Telegram скрипта и isUserLoading
+
+`TelegramProvider` загружает скрипт асинхронно. До загрузки `webApp` равен `undefined`, после — объект.
+
+`useUser()` возвращает:
+- `tgUser` — пользователь (реальный из Telegram или мок)
+- `isUserLoading` — `true` пока скрипт не загружен
+
+```ts
+const { webApp, tgUser } = useTelegram();
+const isUserLoading = webApp === undefined;
+```
+
+**Важно:** Не начинать SWR запросы пока `isUserLoading === true`, иначе будет двойная загрузка (сначала с mock ID, потом с реальным ID).
+
+### SWR ключи и мерцание скелетонов
+
+Если SWR ключ меняется (например, `workspace` меняется с `0` на реальный ID), SWR считает это новым запросом и показывает `isLoading: true` снова → скелетон мерцает.
+
+**Решение:** Передавать `null` как URL пока данные не готовы:
+
+```ts
+const url = workspace ? `/api/project?workspace=${workspace}` : null;
+const { data, isLoading } = useSWRData(fetcher, errorMsg, url, workspace);
+
+// Показывать loading пока workspace не готов
+const showLoading = !workspace || isLoading;
+```
+
+### Оптимистичные обновления задач
+
+При изменении типа задачи используется оптимистичный подход:
+1. Сразу обновить UI (галочка, перемещение в store)
+2. Запрос в фоне (без await)
+
+```ts
+setChecked(true);
+
+setTimeout(() => {
+    moveTask(taskId, type, nextType);
+}, 200); // Задержка для анимации
+
+changeTask({ id: taskId, data: { type: nextType } });
+```
+
+`moveTask` в `useTasksStore` перемещает задачу между списками в Zustand без ожидания API.
