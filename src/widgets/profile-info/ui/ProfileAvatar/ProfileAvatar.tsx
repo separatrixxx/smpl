@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import styles from './ProfileAvatar.module.scss';
 import { ReactElement } from "react";
 import { avatarPlaceholder } from '@/shared/utils/placeholder/placeholder';

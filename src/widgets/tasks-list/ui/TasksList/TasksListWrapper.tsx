@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { TasksListWrapperProps } from './TasksList.props';
 import { useSetup } from '@/shared/hooks/useSetup';
 import { useSWRData } from '@/shared/lib/useSWRData';

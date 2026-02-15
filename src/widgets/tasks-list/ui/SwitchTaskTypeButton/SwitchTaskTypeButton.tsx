@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { SwitchTaskTypeButtonProps } from './SwitchTaskTypeButton.props';
 import styles from './SwitchTaskTypeButton.module.scss';
 import { ReactElement } from "react";

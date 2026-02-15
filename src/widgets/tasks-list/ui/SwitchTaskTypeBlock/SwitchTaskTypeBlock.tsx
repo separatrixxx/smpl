@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import styles from './SwitchTaskTypeBlock.module.scss';
 import { ReactElement } from "react";
 import { TaskType } from '@/shared/types/task-type';

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import styles from './ChangeInfoBlock.module.scss';
 import { ReactElement, useState } from "react";
 import { Input } from '@/shared/ui/Input/Input';
