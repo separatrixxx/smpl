@@ -45,7 +45,7 @@ export const db = {
             return prisma.workspace.findUnique({
                 where: { id },
                 include: {
-                    tasks: true,
+                    tasks: { select: { type: true } },
                     teammates: { select: { user_id: true } },
                 },
             });
@@ -54,7 +54,7 @@ export const db = {
         findMany: async () => {
             return prisma.workspace.findMany({
                 include: {
-                    tasks: true,
+                    tasks: { select: { type: true } },
                     teammates: { select: { user_id: true } },
                 },
             });
@@ -69,7 +69,7 @@ export const db = {
                     ],
                 },
                 include: {
-                    tasks: true,
+                    tasks: { select: { type: true } },
                     teammates: { select: { user_id: true } },
                 },
             });
@@ -82,9 +82,19 @@ export const db = {
                     is_my_workspace: true,
                 },
                 include: {
-                    tasks: true,
+                    tasks: { select: { type: true } },
                     teammates: { select: { user_id: true } },
                 },
+            });
+        },
+
+        findMyWorkspaceId: async (userId: number) => {
+            return prisma.workspace.findFirst({
+                where: {
+                    owner_id: userId,
+                    is_my_workspace: true,
+                },
+                select: { id: true },
             });
         },
 
@@ -133,20 +143,20 @@ export const db = {
         findUnique: async (id: number) => {
             return prisma.project.findUnique({
                 where: { id },
-                include: { tasks: true },
+                include: { tasks: { select: { type: true } } },
             });
         },
 
         findMany: async () => {
             return prisma.project.findMany({
-                include: { tasks: true },
+                include: { tasks: { select: { type: true } } },
             });
         },
 
         findByWorkspace: async (workspaceId: number) => {
             return prisma.project.findMany({
                 where: { workspace_id: workspaceId },
-                include: { tasks: true },
+                include: { tasks: { select: { type: true } } },
             });
         },
 

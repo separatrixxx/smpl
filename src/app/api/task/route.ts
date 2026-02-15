@@ -130,8 +130,8 @@ export const GET = withLogging(async (req: NextRequest) => {
                 );
             }
 
-            const myWorkspace = await withDbTiming('workspace.findMyWorkspace', () =>
-                db.workspace.findMyWorkspace(user.id)
+            const myWorkspace = await withDbTiming('workspace.findMyWorkspaceId', () =>
+                db.workspace.findMyWorkspaceId(user.id)
             );
 
             if (!myWorkspace) {

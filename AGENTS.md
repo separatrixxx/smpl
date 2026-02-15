@@ -147,7 +147,19 @@ Enum `TaskType` в Prisma генерирует TypeScript тип в `@/generated
 
 ### Тесты
 
-Для каждой функции (кроме совсем тривиальных) должны быть написаны unit-тесты. Они пишутся ишутся на vitest. Файлы тестов рядом с кодом, название *.spec.ts. Названия тестов всегда на английском, комментарии не нужны кроме неочевидных случаев. Для каждой функции свой describe, внутри несколько it с различными тесткейсами. Они должны тестировать разные вещи: не пиши несколько повторяющихся тестов.
+**Unit-тесты** — для каждой функции (кроме совсем тривиальных) должны быть написаны unit-тесты. Они пишутся на vitest. Файлы тестов рядом с кодом, название *.spec.ts. Названия тестов всегда на английском, комментарии не нужны кроме неочевидных случаев. Для каждой функции свой describe, внутри несколько it с различными тесткейсами. Они должны тестировать разные вещи: не пиши несколько повторяющихся тестов.
+
+**E2E-тесты** — написаны на Playwright, лежат в `e2e/`. Покрывают:
+- `pages.spec.ts` — загрузка страниц, отсутствие console errors
+- `api.spec.ts` — формат ответов API (tasks_info, tasks_count, progress и тд)
+- `performance.spec.ts` — таймауты API (< 3s), время загрузки страниц (< 5s), CLS (< 0.25)
+
+Запуск:
+- `pnpm test:e2e` — против локального сервера (нужен запущенный `pnpm dev`)
+- `BASE_URL=https://preview.vercel.app pnpm test:e2e` — против Vercel preview deployment
+- `pnpm test:e2e:ui` — с визуальным интерфейсом Playwright
+
+`MOCK_TELEGRAM_ID` в тестах должен совпадать с `USER_ID_MOCK` из `src/shared/constants/index.ts`.
 
 ### Работа с git
 
@@ -293,3 +305,13 @@ const user = await withDbTiming('user.findByTelegramId', () =>
 **Instrumentation** (`src/instrumentation.ts`) — серверный мониторинг. Функция `register()` выполняется при старте сервера, `onRequestError()` ловит необработанные ошибки рендеринга и роутинга.
 
 **Важно:** `@vercel/analytics`, `@vercel/speed-insights` и `web-vitals` должны быть в `dependencies` (не `devDependencies`), иначе они не попадут в production build.
+
+### Оптимизация производительности БД
+
+**DB connection warmup** — в `instrumentation.ts` при старте сервера выполняется `SELECT 1`, чтобы прогреть TCP-соединение с БД. Без этого первый запрос пользователя тратит ~1000ms на установление соединения.
+
+**Индексы на FK** — в `schema.prisma` добавлены `@@index` на все foreign key поля (`owner_id`, `workspace_id`, `project_id`, `type`). PostgreSQL не создаёт индексы на FK автоматически. После изменения индексов нужно запустить `pnpm migrate`.
+
+**Лёгкие запросы к воркспейсам** — методы `findUnique`, `findMany`, `findByUser`, `findMyWorkspace` в `prismaClient.ts` загружают только `{ type: true }` из задач вместо полных объектов. Этого достаточно для подсчёта completed/total. Если нужны полные задачи — использовать `db.task.findByWorkspace` или `db.task.findByUser`.
+
+**`findMyWorkspaceId`** — лёгкий метод, возвращающий только `{ id }` воркспейса. Используется в `/api/task?project=my`, где нужен только ID воркспейса, а не все его задачи и тиммейты.
