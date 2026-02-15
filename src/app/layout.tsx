@@ -2,7 +2,9 @@ import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { TelegramProvider } from './providers/TelegramProvider';
 import { Montserrat, Roboto } from 'next/font/google';
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import WebVitalsReporter from '@/shared/components/web-vitals-reporter/WebVitalsReporter';
 import './globals.scss';
 
 
@@ -37,6 +39,8 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <html lang='en' className={ `${montserrat.variable} ${roboto.variable}` }>
             <body>
                 <Analytics />
+                <SpeedInsights />
+                <WebVitalsReporter />
                 <TelegramProvider>
                     { children }
                 </TelegramProvider>

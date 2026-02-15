@@ -1,25 +1,30 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/shared/utils/prisma/prismaClient";
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/shared/utils/prisma/prismaClient';
+import { loggerError } from '@/shared/utils/logger/logger';
+import { withLogging } from '@/shared/utils/logger/withLogging';
+import { withDbTiming } from '@/shared/utils/logger/withDbTiming';
 
 
 interface RouteParams {
     params: Promise<{ id: string }>;
 }
 
-export async function GET(req: NextRequest, { params }: RouteParams) {
+export const GET = withLogging(async (req: NextRequest, { params }: RouteParams) => {
     const { id: idParam } = await params;
     const id = Number(idParam);
 
     if (isNaN(id)) {
-        return NextResponse.json({ error: "Invalid id" }, { status: 400 });
+        return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
     }
 
     try {
-        const task = await db.task.findUnique(id);
+        const task = await withDbTiming('task.findUnique', () =>
+            db.task.findUnique(id)
+        );
 
         if (!task) {
             return NextResponse.json(
-                { error: "Task not found" },
+                { error: 'Task not found' },
                 { status: 404 }
             );
         }
@@ -35,63 +40,67 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
 
         return NextResponse.json(formattedTask);
     } catch (error) {
-        console.error("Database error:", error);
+        loggerError('Database error:', error);
 
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: 'Internal server error' },
             { status: 500 }
         );
     }
-}
+});
 
-export async function PUT(req: NextRequest, { params }: RouteParams) {
+export const PUT = withLogging(async (req: NextRequest, { params }: RouteParams) => {
     const { id: idParam } = await params;
     const id = Number(idParam);
 
     if (isNaN(id)) {
-        return NextResponse.json({ error: "Invalid id" }, { status: 400 });
+        return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
     }
 
     try {
         const body = await req.json();
 
-        const task = await db.task.update(id, {
-            title: body.title,
-            is_starred: body.is_starred,
-            priority: body.priority,
-            date: body.date ? new Date(body.date) : undefined,
-            type: body.type,
-        });
+        const task = await withDbTiming('task.update', () =>
+            db.task.update(id, {
+                title: body.title,
+                is_starred: body.is_starred,
+                priority: body.priority,
+                date: body.date ? new Date(body.date) : undefined,
+                type: body.type,
+            })
+        );
 
         return NextResponse.json(task);
     } catch (error) {
-        console.error("Database error:", error);
+        loggerError('Database error:', error);
 
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: 'Internal server error' },
             { status: 500 }
         );
     }
-}
+});
 
-export async function DELETE(req: NextRequest, { params }: RouteParams) {
+export const DELETE = withLogging(async (req: NextRequest, { params }: RouteParams) => {
     const { id: idParam } = await params;
     const id = Number(idParam);
 
     if (isNaN(id)) {
-        return NextResponse.json({ error: "Invalid id" }, { status: 400 });
+        return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
     }
 
     try {
-        await db.task.delete(id);
+        await withDbTiming('task.delete', () =>
+            db.task.delete(id)
+        );
 
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error("Database error:", error);
+        loggerError('Database error:', error);
 
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: 'Internal server error' },
             { status: 500 }
         );
     }
-}
+});

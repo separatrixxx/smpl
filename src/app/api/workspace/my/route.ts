@@ -1,34 +1,41 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/shared/utils/prisma/prismaClient";
-import { TaskType } from "@/generated/prisma";
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/shared/utils/prisma/prismaClient';
+import { TaskType } from '@/generated/prisma';
+import { loggerError } from '@/shared/utils/logger/logger';
+import { withLogging } from '@/shared/utils/logger/withLogging';
+import { withDbTiming } from '@/shared/utils/logger/withDbTiming';
 
 
-export async function GET(req: NextRequest) {
+export const GET = withLogging(async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
     const telegramId = searchParams.get('userId');
 
     if (!telegramId) {
         return NextResponse.json(
-            { error: "userId (telegramId) is required" },
+            { error: 'userId (telegramId) is required' },
             { status: 400 }
         );
     }
 
     try {
-        const user = await db.user.findByTelegramId(BigInt(telegramId));
+        const user = await withDbTiming('user.findByTelegramId', () =>
+            db.user.findByTelegramId(BigInt(telegramId))
+        );
 
         if (!user) {
             return NextResponse.json(
-                { error: "User not found" },
+                { error: 'User not found' },
                 { status: 404 }
             );
         }
 
-        const workspace = await db.workspace.findMyWorkspace(user.id);
+        const workspace = await withDbTiming('workspace.findMyWorkspace', () =>
+            db.workspace.findMyWorkspace(user.id)
+        );
 
         if (!workspace) {
             return NextResponse.json(
-                { error: "My workspace not found" },
+                { error: 'My workspace not found' },
                 { status: 404 }
             );
         }
@@ -50,10 +57,11 @@ export async function GET(req: NextRequest) {
             teammates: workspace.teammates.map((t) => t.user_id),
         });
     } catch (error) {
-        console.error("Database error:", error);
+        loggerError('Database error:', error);
+
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: 'Internal server error' },
             { status: 500 }
         );
     }
-}
+});

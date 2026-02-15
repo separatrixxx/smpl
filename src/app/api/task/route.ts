@@ -1,33 +1,36 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/shared/utils/prisma/prismaClient";
-import { TaskType } from "@/generated/prisma";
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/shared/utils/prisma/prismaClient';
+import { TaskType } from '@/generated/prisma';
 import {
     generateMyWorkspaceSerial,
     generateProjectSerial,
-} from "@/entities/tasks/utils/generateTaskSerial";
+} from '@/entities/tasks/utils/generateTaskSerial';
+import { loggerError } from '@/shared/utils/logger/logger';
+import { withLogging } from '@/shared/utils/logger/withLogging';
+import { withDbTiming } from '@/shared/utils/logger/withDbTiming';
 
 
-export async function POST(req: NextRequest) {
+export const POST = withLogging(async (req: NextRequest) => {
     try {
         const body = await req.json();
 
         if (!body.title || typeof body.title !== 'string') {
             return NextResponse.json(
-                { error: "title is required and must be a string" },
+                { error: 'title is required and must be a string' },
                 { status: 400 }
             );
         }
 
         if (!body.workspace_id || typeof body.workspace_id !== 'number') {
             return NextResponse.json(
-                { error: "workspace_id is required and must be a number" },
+                { error: 'workspace_id is required and must be a number' },
                 { status: 400 }
             );
         }
 
         if (!body.date || typeof body.date !== 'string') {
             return NextResponse.json(
-                { error: "date is required and must be a string" },
+                { error: 'date is required and must be a string' },
                 { status: 400 }
             );
         }
@@ -35,16 +38,20 @@ export async function POST(req: NextRequest) {
         let serial: string;
 
         if (body.project_id) {
-            const project = await db.project.findUnique(body.project_id);
+            const project = await withDbTiming('project.findUnique', () =>
+                db.project.findUnique(body.project_id)
+            );
 
             if (!project) {
                 return NextResponse.json(
-                    { error: "Project not found" },
+                    { error: 'Project not found' },
                     { status: 404 }
                 );
             }
 
-            const taskCount = await db.task.countByProject(body.project_id);
+            const taskCount = await withDbTiming('task.countByProject', () =>
+                db.task.countByProject(body.project_id)
+            );
 
             serial = generateProjectSerial({
                 projectAlias: project.alias,
@@ -53,21 +60,25 @@ export async function POST(req: NextRequest) {
         } else {
             if (!body.telegram_id) {
                 return NextResponse.json(
-                    { error: "telegram_id is required for my workspace tasks" },
+                    { error: 'telegram_id is required for my workspace tasks' },
                     { status: 400 }
                 );
             }
 
-            const user = await db.user.findByTelegramId(BigInt(body.telegram_id));
+            const user = await withDbTiming('user.findByTelegramId', () =>
+                db.user.findByTelegramId(BigInt(body.telegram_id))
+            );
 
             if (!user) {
                 return NextResponse.json(
-                    { error: "User not found" },
+                    { error: 'User not found' },
                     { status: 404 }
                 );
             }
 
-            const taskCount = await db.task.countByMyWorkspace(user.id);
+            const taskCount = await withDbTiming('task.countByMyWorkspace', () =>
+                db.task.countByMyWorkspace(user.id)
+            );
 
             serial = generateMyWorkspaceSerial({
                 username: user.username,
@@ -76,29 +87,31 @@ export async function POST(req: NextRequest) {
             });
         }
 
-        const task = await db.task.create({
-            workspace_id: body.workspace_id,
-            project_id: body.project_id ?? null,
-            title: body.title,
-            is_starred: body.is_starred ?? false,
-            priority: body.priority ?? 1,
-            date: new Date(body.date),
-            type: body.type ?? 'todo',
-            serial,
-        });
+        const task = await withDbTiming('task.create', () =>
+            db.task.create({
+                workspace_id: body.workspace_id,
+                project_id: body.project_id ?? null,
+                title: body.title,
+                is_starred: body.is_starred ?? false,
+                priority: body.priority ?? 1,
+                date: new Date(body.date),
+                type: body.type ?? 'todo',
+                serial,
+            })
+        );
 
         return NextResponse.json(task, { status: 201 });
     } catch (error) {
-        console.error("Database error:", error);
+        loggerError('Database error:', error);
 
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: 'Internal server error' },
             { status: 500 }
         );
     }
-}
+});
 
-export async function GET(req: NextRequest) {
+export const GET = withLogging(async (req: NextRequest) => {
     try {
         const { searchParams } = new URL(req.url);
         const workspaceId = searchParams.get('workspace');
@@ -106,25 +119,31 @@ export async function GET(req: NextRequest) {
         const telegramId = searchParams.get('userId');
 
         if (projectId === 'my' && telegramId) {
-            const user = await db.user.findByTelegramId(BigInt(telegramId));
+            const user = await withDbTiming('user.findByTelegramId', () =>
+                db.user.findByTelegramId(BigInt(telegramId))
+            );
 
             if (!user) {
                 return NextResponse.json(
-                    { error: "User not found" },
+                    { error: 'User not found' },
                     { status: 404 }
                 );
             }
 
-            const myWorkspace = await db.workspace.findMyWorkspace(user.id);
+            const myWorkspace = await withDbTiming('workspace.findMyWorkspace', () =>
+                db.workspace.findMyWorkspace(user.id)
+            );
 
             if (!myWorkspace) {
                 return NextResponse.json(
-                    { error: "My workspace not found" },
+                    { error: 'My workspace not found' },
                     { status: 404 }
                 );
             }
 
-            const tasks = await db.task.findByUser(user.id);
+            const tasks = await withDbTiming('task.findByUser', () =>
+                db.task.findByUser(user.id)
+            );
 
             type FormattedTask = {
                 id: number;
@@ -168,9 +187,11 @@ export async function GET(req: NextRequest) {
         }
 
         if (workspaceId) {
-            const tasks = await db.task.findByWorkspace(
-                Number(workspaceId),
-                projectId ? Number(projectId) : undefined
+            const tasks = await withDbTiming('task.findByWorkspace', () =>
+                db.task.findByWorkspace(
+                    Number(workspaceId),
+                    projectId ? Number(projectId) : undefined
+                )
             );
 
             type FormattedTask = {
@@ -216,15 +237,17 @@ export async function GET(req: NextRequest) {
             return NextResponse.json(groupedTasks);
         }
 
-        const tasks = await db.task.findMany();
+        const tasks = await withDbTiming('task.findMany', () =>
+            db.task.findMany()
+        );
 
         return NextResponse.json(tasks);
     } catch (error) {
-        console.error("Database error:", error);
+        loggerError('Database error:', error);
 
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: 'Internal server error' },
             { status: 500 }
         );
     }
-}
+});
