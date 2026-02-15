@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useWorkspaceRedirect } from "@/features/workspace/hooks/useWorkspaceRedirect";
 import LoadingPage from "@/shared/ui/LoadingPage/LoadingPage";
 

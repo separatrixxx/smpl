@@ -51,6 +51,10 @@ export default async function Workspace({ params }: WorkspacePageInterface) {
     const resolvedParams = await params;
     const workspaceId = resolvedParams.workspaceId;
 
+    if (!(+workspaceId)) {
+        notFound();
+    }
+
     const workspaceData = await getWorkspace(+workspaceId);
 
     if (!workspaceData) {

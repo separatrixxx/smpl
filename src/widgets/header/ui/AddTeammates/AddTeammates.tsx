@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { AddTeammatesProps } from './AddTeammates.props';
 import styles from './AddTeammates.module.scss';
 import { ReactElement, useState } from 'react';

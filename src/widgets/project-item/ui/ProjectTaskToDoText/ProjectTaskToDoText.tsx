@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { ProjectTaskToDoTextProps } from './ProjectTaskToDoText.props';
 import { ReactElement } from "react";
 import { Htag } from '@/shared/ui/Htag/Htag';

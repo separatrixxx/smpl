@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import styles from './CalendarBadge.module.scss';
 import { ReactElement } from "react";
 import { Htag } from '@/shared/ui/Htag/Htag';
