@@ -1,0 +1,15 @@
+---
+description: E2E test conventions with Playwright
+globs: e2e/**/*.ts
+alwaysApply: false
+---
+
+# E2E Tests (Playwright)
+
+- Tests run against `BASE_URL` env var or `http://localhost:3000`
+- `MOCK_TELEGRAM_ID` must match `USER_ID_MOCK` from `src/shared/constants/index.ts`
+- API tests use `request` fixture (no browser), page tests use `page` fixture
+- Always check `response.status()` before calling `.json()`
+- Vercel preview deployments require `x-vercel-protection-bypass` header (configured in `playwright.config.ts` via `VERCEL_AUTOMATION_BYPASS_SECRET`)
+- Performance tests: API timeout < 3s, page load < 5s, CLS < 0.25
+- `vitest.config.ts` excludes `e2e/` to avoid conflicts

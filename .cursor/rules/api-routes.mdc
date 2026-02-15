@@ -1,0 +1,25 @@
+---
+description: API route patterns - logging, DB timing, error handling
+globs: src/app/api/**/*.ts
+alwaysApply: false
+---
+
+# API Route Patterns
+
+All API handlers must be wrapped with `withLogging`. All DB calls must be wrapped with `withDbTiming`.
+
+```typescript
+import { withLogging } from '@/shared/utils/logger/withLogging';
+import { withDbTiming } from '@/shared/utils/logger/withDbTiming';
+
+export const GET = withLogging(async (req: NextRequest) => {
+    const user = await withDbTiming('user.findByTelegramId', () =>
+        db.user.findByTelegramId(BigInt(telegramId))
+    );
+    // ...
+});
+```
+
+- Use `loggerError` for catch blocks, never `console.log`
+- Never use `include: { tasks: true }` in workspace/project queries - use `{ select: { type: true } }` when only counts are needed
+- Use `db.workspace.findMyWorkspaceId` when only workspace ID is needed (not full workspace with tasks)
