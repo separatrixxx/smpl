@@ -1,37 +1,33 @@
 export async function register() {
     if (process.env.NEXT_RUNTIME === 'nodejs') {
         const { loggerInfoCtx, loggerWarnCtx } = await import('@/shared/utils/logger/logger');
-        const { Pool } = await import('pg');
+        const { pool } = await import('@/shared/utils/prisma/prisma');
 
         loggerInfoCtx(
             { runtime: 'nodejs', node_version: process.version },
             'Instrumentation registered'
         );
 
-        const connectionString = process.env.DATABASE_URL;
+        const start = performance.now();
 
-        if (connectionString) {
-            const start = performance.now();
-            const pool = new Pool({ connectionString });
+        try {
+            const client = await pool.connect();
+            await client.query('SELECT 1');
+            client.release();
 
-            try {
-                await pool.query('SELECT 1');
-                const duration = Math.round(performance.now() - start);
+            const duration = Math.round(performance.now() - start);
 
-                loggerInfoCtx(
-                    { duration_ms: duration },
-                    'DB connection warmup completed'
-                );
-            } catch (error) {
-                const duration = Math.round(performance.now() - start);
+            loggerInfoCtx(
+                { duration_ms: duration },
+                'DB connection warmup completed'
+            );
+        } catch (error) {
+            const duration = Math.round(performance.now() - start);
 
-                loggerWarnCtx(
-                    { duration_ms: duration, error: String(error) },
-                    'DB connection warmup failed'
-                );
-            } finally {
-                await pool.end();
-            }
+            loggerWarnCtx(
+                { duration_ms: duration, error: String(error) },
+                'DB connection warmup failed'
+            );
         }
     }
 }

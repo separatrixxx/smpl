@@ -1,0 +1,14 @@
+---
+description: Prisma query optimization and DB performance rules
+globs: src/shared/utils/prisma/**/*.ts
+alwaysApply: false
+---
+
+# Prisma Performance
+
+- Add `@@index` on all FK fields in `schema.prisma` - PostgreSQL does not auto-index FKs
+- After changing schema indexes, run `pnpm migrate`
+- Use `{ select: { type: true } }` instead of `include: { tasks: true }` when only task counts are needed
+- DB pool is shared via `pool` export from `prisma.ts` - used by both Prisma and connection warmup in `instrumentation.ts`
+- `findMyWorkspaceId` returns only `{ id }` - use for lightweight lookups
+- Wrap all DB calls in API routes with `withDbTiming` for monitoring
