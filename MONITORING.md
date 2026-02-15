@@ -185,6 +185,8 @@ Both are mounted in `src/app/layout.tsx`:
 
 ## Tests
 
+### Unit tests
+
 Logger utilities are covered by unit tests:
 
 | File | Tests | Coverage |
@@ -192,3 +194,24 @@ Logger utilities are covered by unit tests:
 | `src/shared/utils/logger/logger.spec.ts` | 9 | JSON format, log levels, context serialization |
 | `src/shared/utils/logger/withLogging.spec.ts` | 5 | Response passthrough, log levels by status, error handling, context forwarding |
 | `src/shared/utils/logger/withDbTiming.spec.ts` | 5 | Return values, timing measurement, slow query threshold, error propagation |
+
+### E2E tests (Playwright)
+
+Located in `e2e/`. Can run against local dev server or Vercel preview deployments.
+
+| File | Tests | Coverage |
+|------|-------|----------|
+| `e2e/pages.spec.ts` | 5 | Page loading (home, my-workspace, profile, workspace), console errors |
+| `e2e/api.spec.ts` | 7 | API response shapes (workspace tasks_info, project tasks_count/progress, task grouping, teammate list, error handling) |
+| `e2e/performance.spec.ts` | 5 | API response times (<3s), page load time (<5s), CLS (<0.25) |
+
+```bash
+# Run against local server (requires pnpm dev)
+pnpm test:e2e
+
+# Run against Vercel preview deployment
+BASE_URL=https://your-preview.vercel.app pnpm test:e2e
+
+# Interactive UI mode
+pnpm test:e2e:ui
+```
