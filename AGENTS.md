@@ -92,6 +92,7 @@
 - В конце `'use client'` должна быть точка с запятой: `'use client';`
 - Фигурные скобки обязательны для всех управляющих конструкций: `if () { return; }` вместо `if () return;`
 - **Комментарии в коде не нужны** — код должен быть самодокументируемым. Исключение: действительно неочевидная логика, которую невозможно понять из контекста
+- Приоритет отдаётся одиночным кавычкам `'`
 
 ---
 
@@ -244,3 +245,51 @@ changeTask({ id: taskId, data: { type: nextType } });
 ```
 
 `moveTask` в `useTasksStore` перемещает задачу между списками в Zustand без ожидания API.
+
+### Мониторинг и логирование
+
+**Vercel Analytics** (`@vercel/analytics`) — отслеживание посещений и пользовательских событий. Подключён в `src/app/layout.tsx` через `<Analytics />`.
+
+**Vercel Speed Insights** (`@vercel/speed-insights`) — замеры производительности (Web Vitals: LCP, INP, CLS, TTFB, FCP). Подключён в `src/app/layout.tsx` через `<SpeedInsights />`. Данные отображаются в Vercel Dashboard → Speed Insights.
+
+**Структурированный логгер** (`src/shared/utils/logger/logger.ts`) — все логи выводятся в формате JSON с полями `timestamp`, `level`, `message`, `context`. Vercel парсит JSON-логи и позволяет фильтровать по ним в Log Drains / Runtime Logs.
+
+- `loggerLog`, `loggerWarn`, `loggerInfo`, `loggerError` — простое логирование
+- `loggerLogCtx`, `loggerWarnCtx`, `loggerInfoCtx`, `loggerErrorCtx` — логирование с контекстом (первый аргумент — объект контекста)
+
+**withLogging** (`src/shared/utils/logger/withLogging.ts`) — обёртка для API-роутов. Автоматически логирует: метод, путь, query-параметры, статус ответа, время выполнения (ms). Применяется ко всем API-хэндлерам:
+
+```ts
+export const GET = withLogging(async (req: NextRequest) => {
+    // ...
+});
+```
+
+Для хэндлеров с параметрами:
+
+```ts
+export const GET = withLogging(async (req: NextRequest, { params }: RouteParams) => {
+    // ...
+});
+```
+
+**withDbTiming** (`src/shared/utils/logger/withDbTiming.ts`) — обёртка для замера времени отдельных БД-запросов. Запросы дольше 500ms логируются с уровнем `warn` и пометкой "Slow DB query":
+
+```ts
+const user = await withDbTiming('user.findByTelegramId', () =>
+    db.user.findByTelegramId(BigInt(telegramId))
+);
+```
+
+**WebVitalsReporter** (`src/shared/components/web-vitals-reporter/`) — клиентский компонент, собирающий детальные Web Vitals с attribution через `web-vitals` библиотеку и отправляющий их на `/api/vitals`. Для каждой метрики собирается разбивка:
+- LCP: target элемент, url ресурса, TTFB, resourceLoadDelay, resourceLoadDuration, elementRenderDelay
+- INP: target элемент, тип взаимодействия, inputDelay, processingDuration, presentationDelay
+- CLS: target сдвинутого элемента, значение сдвига
+- FCP: TTFB, firstByteToFCP
+- TTFB: dns, connection, request, waiting durations
+
+**API `/api/vitals`** — принимает метрики от WebVitalsReporter и логирует их в структурированном виде. Метрики выше порогов (LCP > 2500ms, FCP > 1800ms, INP > 200ms, CLS > 0.1, TTFB > 800ms) логируются с уровнем `warn`.
+
+**Instrumentation** (`src/instrumentation.ts`) — серверный мониторинг. Функция `register()` выполняется при старте сервера, `onRequestError()` ловит необработанные ошибки рендеринга и роутинга.
+
+**Важно:** `@vercel/analytics`, `@vercel/speed-insights` и `web-vitals` должны быть в `dependencies` (не `devDependencies`), иначе они не попадут в production build.

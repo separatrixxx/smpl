@@ -1,58 +1,65 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/shared/utils/prisma/prismaClient";
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/shared/utils/prisma/prismaClient';
+import { loggerError } from '@/shared/utils/logger/logger';
+import { withLogging } from '@/shared/utils/logger/withLogging';
+import { withDbTiming } from '@/shared/utils/logger/withDbTiming';
 
 
-export async function POST(req: NextRequest) {
+export const POST = withLogging(async (req: NextRequest) => {
     try {
         const body = await req.json();
 
         if (!body.title || typeof body.title !== 'string') {
             return NextResponse.json(
-                { error: "title is required and must be a string" },
+                { error: 'title is required and must be a string' },
                 { status: 400 }
             );
         }
 
         if (!body.workspace_id || typeof body.workspace_id !== 'number') {
             return NextResponse.json(
-                { error: "workspace_id is required and must be a number" },
+                { error: 'workspace_id is required and must be a number' },
                 { status: 400 }
             );
         }
 
         if (!body.alias || typeof body.alias !== 'string') {
             return NextResponse.json(
-                { error: "alias is required and must be a string" },
+                { error: 'alias is required and must be a string' },
                 { status: 400 }
             );
         }
 
-        const project = await db.project.create({
-            workspace_id: body.workspace_id,
-            title: body.title,
-            description: body.description ?? null,
-            is_starred: body.is_starred ?? false,
-            alias: body.alias,
-        });
+        const project = await withDbTiming('project.create', () =>
+            db.project.create({
+                workspace_id: body.workspace_id,
+                title: body.title,
+                description: body.description ?? null,
+                is_starred: body.is_starred ?? false,
+                alias: body.alias,
+            })
+        );
 
         return NextResponse.json(project, { status: 201 });
     } catch (error) {
-        console.error("Database error:", error);
+        loggerError('Database error:', error);
 
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: 'Internal server error' },
             { status: 500 }
         );
     }
-}
+});
 
-export async function GET(req: NextRequest) {
+export const GET = withLogging(async (req: NextRequest) => {
     try {
         const { searchParams } = new URL(req.url);
         const workspaceId = searchParams.get('workspace');
 
         if (workspaceId) {
-            const projects = await db.project.findByWorkspace(Number(workspaceId));
+            const projects = await withDbTiming('project.findByWorkspace', () =>
+                db.project.findByWorkspace(Number(workspaceId))
+            );
 
             const formattedProjects = projects.map((project) => {
                 const totalTasks = project.tasks.length;
@@ -73,15 +80,17 @@ export async function GET(req: NextRequest) {
             return NextResponse.json(formattedProjects);
         }
 
-        const projects = await db.project.findMany();
+        const projects = await withDbTiming('project.findMany', () =>
+            db.project.findMany()
+        );
 
         return NextResponse.json(projects);
     } catch (error) {
-        console.error("Database error:", error);
+        loggerError('Database error:', error);
 
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: 'Internal server error' },
             { status: 500 }
         );
     }
-}
+});
