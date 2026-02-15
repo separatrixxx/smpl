@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { loggerInfoCtx, loggerWarnCtx, loggerErrorCtx } from './logger';
 
 
- 
 type ApiHandler = (req: NextRequest, context: any) => Promise<NextResponse>;
 
 export const withLogging = (handler: ApiHandler): ApiHandler => {
