@@ -1,4 +1,4 @@
-name: E2E Tests
+name: e2e tests
 
 on:
   pull_request:
@@ -8,13 +8,13 @@ on:
   workflow_dispatch:
     inputs:
       base_url:
-        description: 'Base URL for E2E tests (e.g. https://smpl-app.vercel.app)'
+        description: 'Base URL for e2e tests (e.g. https://smpl-app.vercel.app)'
         required: true
         type: string
 
 jobs:
   e2e:
-    name: E2E Tests
+    name: e2e tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -44,7 +44,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           max_timeout: 300
 
-      - name: Run E2E tests
+      - name: Run e2e tests
         run: pnpm test:e2e
         env:
           BASE_URL: ${{ github.event_name == 'pull_request' && steps.vercel.outputs.url || inputs.base_url }}
