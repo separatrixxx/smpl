@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { loggerInfoCtx, loggerWarnCtx, loggerErrorCtx } from './logger';
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 type ApiHandler = (req: NextRequest, context: any) => Promise<NextResponse>;
 
 export const withLogging = (handler: ApiHandler): ApiHandler => {
