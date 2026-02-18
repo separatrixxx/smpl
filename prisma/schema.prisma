@@ -20,7 +20,6 @@ model User {
     first_name      String
     last_name       String?
     username        String?
-    photo_url       String?
     owned_workspaces Workspace[]    @relation("WorkspaceOwner")
     workspaces      UserWorkspace[]
 }

@@ -27,7 +27,6 @@ export const GET = withLogging(async (req: NextRequest, { params }: RouteParams)
             first_name: uw.user.first_name,
             last_name: uw.user.last_name,
             username: uw.user.username,
-            photo_url: uw.user.photo_url,
         }));
 
         return NextResponse.json({

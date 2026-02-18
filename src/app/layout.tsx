@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { TelegramProvider } from './providers/TelegramProvider';
+import { UserCheckProvider } from './providers/UserCheckProvider';
 import { Montserrat, Roboto } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -42,7 +43,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
                 <SpeedInsights />
                 <WebVitalsReporter />
                 <TelegramProvider>
-                    { children }
+                    <UserCheckProvider>
+                        { children }
+                    </UserCheckProvider>
                 </TelegramProvider>
             </body>
         </html>

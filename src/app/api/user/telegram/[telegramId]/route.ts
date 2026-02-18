@@ -37,7 +37,6 @@ export const GET = withLogging(async (req: NextRequest, { params }: RouteParams)
             first_name: user.first_name,
             last_name: user.last_name,
             username: user.username,
-            photo_url: user.photo_url,
         });
     } catch (error) {
         loggerError('Database error:', error);

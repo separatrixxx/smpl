@@ -31,7 +31,7 @@
 ### База данных (Prisma):
 
 Модели:
-- `User` - пользователь (id, telegram_id, first_name, last_name, username, photo_url). `telegram_id` - уникальный идентификатор из Telegram (BigInt)
+- `User` - пользователь (id, telegram_id, first_name, last_name, username). `telegram_id` - уникальный идентификатор из Telegram (BigInt). Фото пользователя не хранится в БД — берётся из Telegram webApp (`tgUser.photo_url`)
 - `Workspace` - воркспейс (id, title, description, is_my_workspace, owner_id)
 - `UserWorkspace` - связь пользователя и воркспейса (для teammates)
 - `Project` - проект (id, workspace_id, title, description, is_starred, alias). `alias` - короткий идентификатор проекта для serial задач (например, `PROJ`)
@@ -315,3 +315,27 @@ const user = await withDbTiming('user.findByTelegramId', () =>
 **Лёгкие запросы к воркспейсам** — методы `findUnique`, `findMany`, `findByUser`, `findMyWorkspace` в `prismaClient.ts` загружают только `{ type: true }` из задач вместо полных объектов. Этого достаточно для подсчёта completed/total. Если нужны полные задачи — использовать `db.task.findByWorkspace` или `db.task.findByUser`.
 
 **`findMyWorkspaceId`** — лёгкий метод, возвращающий только `{ id }` воркспейса. Используется в `/api/task?project=my`, где нужен только ID воркспейса, а не все его задачи и тиммейты.
+
+### Фото пользователя
+
+Фото пользователя **не хранится в БД**. Оно доступно только через Telegram webApp (`tgUser.photo_url` из `ITelegramUser`).
+
+- `useUser()` возвращает `tgUser` с `photo_url` — это Telegram-объект, не БД-сущность
+- Компоненты `Avatar`, `ProfileAvatar` берут фото из `tgUser?.photo_url`
+- Для тиммейтов (данные из БД) фото недоступно — `TeammatesList` отображает placeholder
+- В `UserInterface` / `UserDataInterface` поля `photo_url` нет — это интерфейсы БД-юзера
+- В `ITelegramUser` (`src/shared/types/telegram.d.ts`) поле `photo_url` есть — это интерфейс Telegram
+
+### Миграции и baseline
+
+История миграций построена на едином baseline (`prisma/migrations/0_baseline/migration.sql`), который описывает полную схему БД. Старые инкрементальные миграции были заменены этим baseline из-за рассинхрона между файлами миграций и реальным состоянием БД.
+
+**Если Prisma показывает drift при `migrate dev`:**
+1. Проверить, что БД и `schema.prisma` реально синхронизированы
+2. Если файлы миграций не совпадают с БД — пересоздать baseline:
+   - Привести БД к нужному состоянию вручную (SQL)
+   - Удалить старые папки миграций
+   - Создать новый `0_baseline/migration.sql` с полной схемой
+   - Очистить таблицу: `TRUNCATE "_prisma_migrations";`
+   - Пометить как применённый: `npx prisma migrate resolve --applied 0_baseline`
+3. **Никогда не редактировать уже применённые миграции** — Prisma хранит чексуммы и обнаружит изменения

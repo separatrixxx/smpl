@@ -39,7 +39,6 @@ export const POST = withLogging(async (req: NextRequest) => {
                 first_name: body.first_name,
                 last_name: body.last_name ?? null,
                 username: body.username ?? null,
-                photo_url: body.photo_url ?? null,
             })
         );
 
@@ -58,7 +57,6 @@ export const POST = withLogging(async (req: NextRequest) => {
             first_name: user.first_name,
             last_name: user.last_name,
             username: user.username,
-            photo_url: user.photo_url,
         }, { status: 201 });
     } catch (error) {
         loggerError('Database error:', error);
