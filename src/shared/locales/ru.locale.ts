@@ -25,4 +25,5 @@ export const ru = {
     task_name: "Название задачи",
     priority: "Приоритет",
     add: "Создать",
+    user_not_found: "Пользователь не найден",
 }

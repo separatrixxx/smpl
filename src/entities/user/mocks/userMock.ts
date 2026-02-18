@@ -8,7 +8,6 @@ export const fetchUserMock = async (id: number): Promise<UserInterface> => {
         first_name: 'separatrix',
         last_name: null,
         username: 'separatrix',
-        photo_url: null,
     };
 
     return new Promise((resolve) => {

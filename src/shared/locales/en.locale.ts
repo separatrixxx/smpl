@@ -24,4 +24,5 @@ export const en = {
     no_projects: "No projects",
     task_name: "Task name",
     priority: "Priority",
+    user_not_found: "User not found",
 }

@@ -9,4 +9,5 @@ export interface MyImageProps extends DetailedHTMLProps<HTMLAttributes<HTMLImage
     style?: React.CSSProperties;
     priority?: boolean,
     onClick?: (e: MouseEvent<HTMLElement>) => void,
+    onLoad?: () => void,
 }
